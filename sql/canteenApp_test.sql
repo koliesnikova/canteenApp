@@ -133,7 +133,7 @@ DROP TABLE IF EXISTS `ingredients_available`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ingredients_available` (
-  `ingredient_id` int NOT NULL,
+  `ingredient_id` int NOT NULL UNIQUE,
   `amount` varchar(20) COLLATE utf8_slovak_ci NOT NULL DEFAULT '0',
   KEY `fk_ingredients_available_ingredient1_idx` (`ingredient_id`),
   CONSTRAINT `fk_ingredients_available_ingredient1` FOREIGN KEY (`ingredient_id`) REFERENCES `ingredient` (`id`)
