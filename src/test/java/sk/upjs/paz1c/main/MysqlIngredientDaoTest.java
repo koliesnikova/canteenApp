@@ -9,6 +9,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class MysqlIngredientDaoTest {
+	private IngredientDao ingredientDao;
+	
+	public MysqlIngredientDaoTest() {
+		DaoFactory.INSTANCE.testing();
+		ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
+	}
+	
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -27,8 +34,24 @@ class MysqlIngredientDaoTest {
 	}
 
 	@Test
-	void test() {
+	void testGetAll() {
 		fail("Not yet implemented");
 	}
+	
+	@Test
+	void testSave() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	void testDelete() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	void testGetById() {
+		fail("Not yet implemented");
+	}
+	
 
 }
