@@ -9,4 +9,6 @@ public interface IngredientDao {
 	Ingredient save(Ingredient ingredient);
 	
 	Ingredient delete(long idIgredient);
+	
+	Ingredient getById(long idIngredient);
 }
