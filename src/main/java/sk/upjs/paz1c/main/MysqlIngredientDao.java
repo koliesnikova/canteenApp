@@ -6,13 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
-public class MysqlIngredientDao implements IngredientDao {
+public class MysqlIngredientDao implements IngredientDao{
 
-	JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplate;
 
 	public MysqlIngredientDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
@@ -36,7 +37,7 @@ public class MysqlIngredientDao implements IngredientDao {
 	}
 
 	@Override
-	public Ingredient save(Ingredient ingredient) {
+	public Ingredient save(Ingredient ingredient) throws EntityNotFoundException {
 		if (ingredient.getId() == null) { // insert
 			SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 			insert.withTableName("ingredient");
@@ -64,6 +65,29 @@ public class MysqlIngredientDao implements IngredientDao {
 	public Ingredient delete(long idIgredient) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Ingredient getById(long idIngredient) { 
+		String sql = "SELECT name, price, amount, amount_availiable FROM ingredient WHERE id = ?";
+		try {
+			return jdbcTemplate.queryForObject(sql, new IngredientRowMapper(), idIngredient);
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("Ingredient with id " 
+					+ idIngredient + " not found in DB!", e);
+		}
+	}
+	
+	private class IngredientRowMapper implements RowMapper<Ingredient> {
+		@Override
+		public Ingredient mapRow(ResultSet rs, int rowNum) throws SQLException {
+			long id = rs.getLong("id");
+			String name = rs.getString("name");
+			float price = rs.getFloat("price");
+			String amount = rs.getString("amount");
+			String amountAvailiable = rs.getString("amount_availiable");
+			return new Ingredient(id, name, price, amount, amountAvailiable);
+		}
 	}
 
 }
