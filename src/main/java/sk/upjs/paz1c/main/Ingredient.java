@@ -5,13 +5,15 @@ public class Ingredient {
 	private String name;
 	private double price;
 	private String amount; //extract number + unit
+	private String amountAvailiable;
 	
 	
-	public Ingredient(Long id, String name, double price, String amount) {
+	public Ingredient(Long id, String name, double price, String amount, String amountAvailiable) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.amount = amount;
+		this.amountAvailiable = amountAvailiable;
 	}
 
 	public Ingredient(String name, double price, String amount) {
@@ -50,6 +52,14 @@ public class Ingredient {
 
 	public void setAmount(String amount) {
 		this.amount = amount;
+	}
+	
+	public String getAmountAvailiable() {
+		return amountAvailiable;
+	}
+
+	public void setAmountAvailiable(String amount) {
+		this.amountAvailiable = amountAvailiable;
 	}
 	
 
