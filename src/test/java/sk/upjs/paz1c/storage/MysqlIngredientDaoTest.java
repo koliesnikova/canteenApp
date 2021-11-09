@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.main;
+package sk.upjs.paz1c.storage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,6 +7,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import sk.upjs.paz1c.storage.DaoFactory;
+import sk.upjs.paz1c.storage.Ingredient;
+import sk.upjs.paz1c.storage.IngredientDao;
 
 class MysqlIngredientDaoTest {
 	private IngredientDao ingredientDao;
@@ -40,6 +44,7 @@ class MysqlIngredientDaoTest {
 	
 	@Test
 	void testSave() {
+		Ingredient i = new Ingredient("testing", 0.01, "100 g");
 		fail("Not yet implemented");
 	}
 	
