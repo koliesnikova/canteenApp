@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.main;
+package sk.upjs.paz1c.storage;
 
 public class Ingredient {
 	private Long id;
@@ -15,11 +15,13 @@ public class Ingredient {
 		this.amount = amount;
 		this.amountAvailiable = amountAvailiable;
 	}
+	
 
 	public Ingredient(String name, double price, String amount) {
 		this.name = name;
 		this.price = price;
 		this.amount = amount;
+		this.amountAvailiable = "0";
 	}
 	
 	public Long getId() {
@@ -58,9 +60,16 @@ public class Ingredient {
 		return amountAvailiable;
 	}
 
-	public void setAmountAvailiable(String amount) {
+	public void setAmountAvailiable(String amountAvailiable) {
 		this.amountAvailiable = amountAvailiable;
 	}
-	
 
+
+	@Override
+	public String toString() {
+		return "Ingredient [id=" + id + ", name=" + name + ", price=" + price + ", amount=" + amount
+				+ ", amountAvailiable=" + amountAvailiable + "]";
+	}
+	
+	
 }
