@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.main;
+package sk.upjs.paz1c.storage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -48,6 +49,7 @@ public class MysqlIngredientDao implements IngredientDao{
 			values.put("name", ingredient.getName());
 			values.put("price", ingredient.getPrice());
 			values.put("amount", ingredient.getAmount());
+			values.put("amount_availiable", ingredient.getAmountAvailiable());
 			return new Ingredient(insert.executeAndReturnKey(values).longValue(), ingredient.getName(),
 					ingredient.getPrice(), ingredient.getAmount(), ingredient.getAmountAvailiable());
 		} else { // update
@@ -62,14 +64,20 @@ public class MysqlIngredientDao implements IngredientDao{
 	}
 
 	@Override
-	public Ingredient delete(long idIgredient) {
-		// TODO Auto-generated method stub
-		return null;
+	public Ingredient delete(long idIngredient) throws EntityUndeletableException {
+		Ingredient ingr = getById(idIngredient);
+		try {
+			jdbcTemplate.update("DELETE FROM ingredient WHERE id = ?" );
+		} catch (DataIntegrityViolationException e) {
+			throw new EntityUndeletableException(
+					"Ingredient is needed for some food: can not be deleted", e);
+		}
+		return ingr;
 	}
 
 	@Override
-	public Ingredient getById(long idIngredient) { 
-		String sql = "SELECT name, price, amount, amount_availiable FROM ingredient WHERE id = ?";
+	public Ingredient getById(long idIngredient) throws EntityNotFoundException { 
+		String sql = "SELECT name, price, amount, amount_availiable FROM ingredient WHERE id = ? ";
 		try {
 			return jdbcTemplate.queryForObject(sql, new IngredientRowMapper(), idIngredient);
 		} catch (EmptyResultDataAccessException e) {

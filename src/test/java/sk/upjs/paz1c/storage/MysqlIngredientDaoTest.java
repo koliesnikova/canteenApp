@@ -2,6 +2,8 @@ package sk.upjs.paz1c.storage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,6 +16,7 @@ import sk.upjs.paz1c.storage.IngredientDao;
 
 class MysqlIngredientDaoTest {
 	private IngredientDao ingredientDao;
+	private Ingredient savedIngr;
 	
 	public MysqlIngredientDaoTest() {
 		DaoFactory.INSTANCE.testing();
@@ -23,6 +26,7 @@ class MysqlIngredientDaoTest {
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
+		
 	}
 
 	@AfterAll
@@ -31,32 +35,39 @@ class MysqlIngredientDaoTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		//Ingredient i = new Ingredient("testing", 0.01, "100 g");
+		//savedIngr = ingredientDao.save(i);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
+		//ingredientDao.delete(savedIngr.getId());
 	}
 
 	@Test
 	void testGetAll() {
-		fail("Not yet implemented");
+		//vsetko zbehlo ok
+		List<Ingredient> ingredients =ingredientDao.getAll();
+		assertNotNull(ingredients);
+		assertTrue(ingredients.size() > 0);
+		System.out.println(ingredients);
 	}
 	
-	@Test
-	void testSave() {
-		Ingredient i = new Ingredient("testing", 0.01, "100 g");
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	void testDelete() {
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	void testGetById() {
-		fail("Not yet implemented");
-	}
-	
+//	@Test
+//	void testSave() {
+//		
+//		fail("Not yet implemented");
+//	}
+//	
+//	@Test
+//	void testDelete() {
+//		fail("Not yet implemented");
+//	}
+//	
+//	@Test
+//	void testGetById() {
+//		fail("Not yet implemented");
+//	}
+//	
 
 }

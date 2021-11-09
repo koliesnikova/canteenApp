@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.main;
+package sk.upjs.paz1c.storage;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ public interface IngredientDao {
 	
 	Ingredient save(Ingredient ingredient);
 	
-	Ingredient delete(long idIgredient);
+	Ingredient delete(long idIgredient) throws EntityUndeletableException;
 	
 	Ingredient getById(long idIngredient);
 }
