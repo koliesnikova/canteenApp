@@ -18,16 +18,15 @@ import sk.upjs.paz1c.storage.IngredientDao;
 class MysqlIngredientDaoTest {
 	private IngredientDao ingredientDao;
 	private Ingredient savedIngr;
-	
+
 	public MysqlIngredientDaoTest() {
 		DaoFactory.INSTANCE.testing();
 		ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
 	}
-	
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		
+
 	}
 
 	@AfterAll
@@ -42,21 +41,21 @@ class MysqlIngredientDaoTest {
 
 	@AfterEach
 	void tearDown() throws Exception {
-		//ingredientDao.delete(savedIngr.getId());
+		ingredientDao.delete(savedIngr.getId());
 	}
 
 	@Test
 	void testGetAll() {
-		//vsetko zbehlo ok
-		List<Ingredient> ingredients =ingredientDao.getAll();
+		// vsetko zbehlo ok
+		List<Ingredient> ingredients = ingredientDao.getAll();
 		assertNotNull(ingredients);
 		assertTrue(ingredients.size() > 0);
 		System.out.println(ingredients);
 	}
-	
+
 	@Test
 	void testGetById() {
-		//vsetko zbehlo ok
+		// vsetko zbehlo ok
 		Ingredient byId = ingredientDao.getById(savedIngr.getId());
 		assertEquals(savedIngr.getName(), byId.getName());
 		assertEquals(savedIngr.getPrice().toString(), byId.getPrice().toString());
@@ -68,20 +67,35 @@ class MysqlIngredientDaoTest {
 			public void execute() throws Throwable {
 				ingredientDao.getById(-1L);
 			}
-		});	
+		});
 	}
-	
+
 //	@Test
 //	void testSave() {
 //		
 //		fail("Not yet implemented");
 //	}
 //	
-//	@Test
-//	void testDelete() {
-//		fail("Not yet implemented");
+	@Test
+	void testDelete() throws EntityUndeletableException {
+		Ingredient ingredientToDelete = new Ingredient("delete", 0.90, "8 L");
+		Ingredient saved = ingredientDao.save(ingredientToDelete);
+		Ingredient saved2 = ingredientDao.delete(saved.getId());
+		assertEquals(saved, saved2);
+		assertThrows(EntityNotFoundException.class, new Executable() {
+			@Override
+			public void execute() throws Throwable {
+				ingredientDao.getById(saved.getId());
+			}
+		});
+		// TODO otestovat ked pridame ingredienciu do jedla
+//		assertThrows(EntityUndeletableException.class, new Executable() {
+//			@Override
+//			public void execute() throws Throwable {
+//				ingredientDao.delete(1L);
+//			}
+//		});
 //	}
-//	
-//	
 
+	}
 }
