@@ -3,7 +3,7 @@ package sk.upjs.paz1c.storage;
 public class Ingredient {
 	private Long id;
 	private String name;
-	private double price;
+	private Double price;
 	private String amount; //extract number + unit
 	private String amountAvailiable;
 	
@@ -40,7 +40,7 @@ public class Ingredient {
 		this.name = name;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 

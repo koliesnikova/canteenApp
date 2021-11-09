@@ -77,7 +77,7 @@ public class MysqlIngredientDao implements IngredientDao{
 
 	@Override
 	public Ingredient getById(long idIngredient) throws EntityNotFoundException { 
-		String sql = "SELECT name, price, amount, amount_availiable FROM ingredient WHERE id = ? ";
+		String sql = "SELECT id, name, price, amount, amount_availiable FROM ingredient WHERE id = ? ";
 		try {
 			return jdbcTemplate.queryForObject(sql, new IngredientRowMapper(), idIngredient);
 		} catch (EmptyResultDataAccessException e) {
@@ -91,7 +91,7 @@ public class MysqlIngredientDao implements IngredientDao{
 		public Ingredient mapRow(ResultSet rs, int rowNum) throws SQLException {
 			long id = rs.getLong("id");
 			String name = rs.getString("name");
-			float price = rs.getFloat("price");
+			Double price = rs.getDouble("price");
 			String amount = rs.getString("amount");
 			String amountAvailiable = rs.getString("amount_availiable");
 			return new Ingredient(id, name, price, amount, amountAvailiable);
