@@ -23,18 +23,7 @@ public class MysqlIngredientDao implements IngredientDao{
 	@Override
 	public List<Ingredient> getAll() {
 		String sql = "SELECT id, name, price, amount, amount_availiable FROM ingredient";
-		return jdbcTemplate.query(sql, new RowMapper<>() {
-
-			@Override
-			public Ingredient mapRow(ResultSet rs, int rowNum) throws SQLException {
-				long id = rs.getLong("id");
-				String name = rs.getString("name");
-				double price = rs.getDouble("price");
-				String amount = rs.getString("amount");
-				String amountAvailiable = rs.getString("amount_availiable");
-				return new Ingredient(id, name, price, amount, amountAvailiable);
-			}
-		});
+		return jdbcTemplate.query(sql, new IngredientRowMapper());
 	}
 
 	@Override
@@ -67,7 +56,8 @@ public class MysqlIngredientDao implements IngredientDao{
 	public Ingredient delete(long idIngredient) throws EntityUndeletableException {
 		Ingredient ingr = getById(idIngredient);
 		try {
-			jdbcTemplate.update("DELETE FROM ingredient WHERE id = ?" );
+			String sql = "DELETE FROM ingredient WHERE id = ?";
+			jdbcTemplate.update(sql, idIngredient );
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityUndeletableException(
 					"Ingredient is needed for some food: can not be deleted", e);
