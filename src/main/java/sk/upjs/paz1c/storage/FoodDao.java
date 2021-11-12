@@ -12,6 +12,6 @@ public interface FoodDao {
 
 	Food getById(long idFood);
 	
-	Map<Ingredient, Integer> addIngredient(Ingredient ingredient, Integer amount);
+	Map<Ingredient, Integer> saveIngredient(Food food, Ingredient ingredient, Integer amount);
 
 }

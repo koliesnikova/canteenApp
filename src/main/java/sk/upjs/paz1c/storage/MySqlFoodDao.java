@@ -15,18 +15,38 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 public class MySqlFoodDao implements FoodDao {
 
 	private JdbcTemplate jdbcTemplate;
-	
-	//TODO skontrolovat Select - lebo pridanie mapy ingrediencii
-	//... vyselekotovat z tabulky food_ingredients(food_id, ingredient_id, amount_needed)?
+
+	// TODO skontrolovat Select - lebo pridanie mapy ingrediencii
+	// ... vyselekotovat z tabulky food_ingredients(food_id, ingredient_id,
+	// amount_needed)?
 
 	public MySqlFoodDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	@Override
-	public HashMap<Ingredient, Integer> addIngredient(Ingredient ingredient, Integer amount) {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<Ingredient, Integer> saveIngredient(Food food, Ingredient ingredient, Integer amount) {
+		Map<Ingredient, Integer> map = food.getIngredients();
+		map.put(ingredient, amount);
+		food.setIngredients(map);
+		if (map.containsKey(ingredient)) {
+			// UPDATE
+			String sql = "UPDATE food_ingredients SET amount_needed =? WHERE food_id = ? AND ingredient_id = ?";
+			int changedCount = jdbcTemplate.update(sql, amount, food.getId(), ingredient.getId());
+			if (changedCount == 1) {
+				return map;
+			}
+			throw new EntityNotFoundException("Food or ingredient is not in DB: operation failed.");
+		} else {
+			// INSERT
+			String sql = "INSERT INTO food_ingredients (`food_id`,`ingredient_id`,`amount_needed` VALUES (?, ? ,?)";
+			int changedRows = jdbcTemplate.update(sql, food.getId(), ingredient.getId(), amount);
+			if (changedRows == 1) {
+				return map;
+			}
+			throw new EntityNotFoundException("Food or ingredient is not in DB: operation failed.");
+		}
+
 	}
 
 	@Override
