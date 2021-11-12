@@ -12,10 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 class MySqlFoodDaoTest {
-	
+
 	private Food savedFood;
 	private FoodDao foodDao;
-	
+
 	public MySqlFoodDaoTest() {
 		DaoFactory.INSTANCE.testing();
 		foodDao = DaoFactory.INSTANCE.getFoodDao();
@@ -33,7 +33,7 @@ class MySqlFoodDaoTest {
 	void setUp() throws Exception {
 		Food food = new Food("test food", "made for testing", "none", 10.99, 1);
 		savedFood = foodDao.save(food);
-		
+
 	}
 
 	@AfterEach
@@ -43,29 +43,23 @@ class MySqlFoodDaoTest {
 
 	@Test
 	void testGetAll() {
-		//OK
-		List<Food> foods= foodDao.getAll();
+		// OK
+		List<Food> foods = foodDao.getAll();
 		assertNotNull(foods);
 		assertTrue(foods.size() > 0);
-		System.out.println(foods); //divne IDcka?? pozriet
+		System.out.println(foods); // divne IDcka?? pozriet
 	}
-	
-	@Test
-	void testSave() {
-		fail("Not yet implemented");
-	}
-	
+
+//	@Test
+//	void testSave() {
+//		fail("Not yet implemented");
+//	}
+//	
 	@Test
 	void testGetById() {
-		//OK
+		// OK
 		Food byId = foodDao.getById(savedFood.getId());
 		assertEquals(savedFood, byId);
-//		assertTrue(byId.equals(savedFood));
-//		assertEquals(savedFood.getName(), byId.getName());
-//		assertEquals(savedIngr.getPrice().toString(), byId.getPrice().toString());
-//		assertEquals(savedIngr.getId(), byId.getId());
-//		assertEquals(savedIngr.getAmount(), byId.getAmount());
-//		assertEquals(savedIngr.getAmountAvailiable(), byId.getAmountAvailiable());
 		assertThrows(EntityNotFoundException.class, new Executable() {
 			@Override
 			public void execute() throws Throwable {
@@ -73,10 +67,28 @@ class MySqlFoodDaoTest {
 			}
 		});
 	}
-	
+
 	@Test
-	void testDelete() {
-		fail("Not yet implemented");
+	void testDelete() throws EntityUndeletableException {
+		//OK
+		Food foodToDelete = new Food("delete", "food to be deleted", "idk", 5.00, 100);
+		Food saved = foodDao.save(foodToDelete);
+		Food savedToDelete = foodDao.delete(saved.getId());
+		assertEquals(saved, savedToDelete);
+		assertThrows(EntityNotFoundException.class, new Executable() {
+			@Override
+			public void execute() throws Throwable {
+				foodDao.getById(saved.getId());
+			}
+		});
+		// TODO otestovat ked pridame jedlo do order
+//		assertThrows(EntityUndeletableException.class, new Executable() {
+//			@Override
+//			public void execute() throws Throwable {
+//				foodDao.delete(1L);
+//			}
+//		});
+//	}
 	}
-	
+
 }

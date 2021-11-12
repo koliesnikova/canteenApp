@@ -15,19 +15,28 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 public class MySqlFoodDao implements FoodDao {
 
 	private JdbcTemplate jdbcTemplate;
+	
+	//TODO skontrolovat Select - lebo pridanie mapy ingrediencii
+	//... vyselekotovat z tabulky food_ingredients(food_id, ingredient_id, amount_needed)?
 
 	public MySqlFoodDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	@Override
-	public List<Food> getAll() {
-		String sql = "SELECT id, name, description, price, image_url, weight FROM food";
-		return jdbcTemplate.query(sql,new FoodRowMapper());
+	public HashMap<Ingredient, Integer> addIngredient(Ingredient ingredient, Integer amount) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public Food save(Food food) throws EntityNotFoundException{
+	public List<Food> getAll() {
+		String sql = "SELECT id, name, description, price, image_url, weight FROM food";
+		return jdbcTemplate.query(sql, new FoodRowMapper());
+	}
+
+	@Override
+	public Food save(Food food) throws EntityNotFoundException {
 		if (food.getId() == null) { // insert
 			SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 			insert.withTableName("food");
@@ -39,12 +48,13 @@ public class MySqlFoodDao implements FoodDao {
 			values.put("price", food.getPrice());
 			values.put("description", food.getDescription());
 			values.put("image_url", food.getImage_url());
-			return new Food (insert.executeAndReturnKey(values).longValue(), food.getName(), food.getDescription(), food.getImage_url(),
-					food.getPrice(), food.getWeight());
+			values.put("weight", food.getWeight());
+			return new Food(insert.executeAndReturnKey(values).longValue(), food.getName(), food.getDescription(),
+					food.getImage_url(), food.getPrice(), food.getWeight());
 		} else { // update
 			String sql = "UPDATE food SET name = ?, description = ?, image_url = ?, price = ?,weight = ? WHERE id = ?";
-			int changedCount = jdbcTemplate.update(sql, food.getName(),food.getDescription(), food.getImage_url(), food.getPrice(),
-					food.getWeight());
+			int changedCount = jdbcTemplate.update(sql, food.getName(), food.getDescription(), food.getImage_url(),
+					food.getPrice(), food.getWeight());
 			if (changedCount == 1)
 				return food;
 			else
@@ -57,25 +67,23 @@ public class MySqlFoodDao implements FoodDao {
 		Food food = getById(idFood);
 		try {
 			String sql = "DELETE FROM food WHERE id = ?";
-			jdbcTemplate.update(sql, idFood );
+			jdbcTemplate.update(sql, idFood);
 		} catch (DataIntegrityViolationException e) {
-			throw new EntityUndeletableException(
-					"Food can not be deleted", e);
+			throw new EntityUndeletableException("Food can not be deleted", e);
 		}
 		return food;
 	}
 
 	@Override
 	public Food getById(long idFood) throws EntityNotFoundException {
-		String sql = "SELECT id, name,description, price, image_url, weight FROM food WHERE id = ? ";
+		String sql = "SELECT id, name, description, price, image_url, weight FROM food WHERE id = ? ";
 		try {
 			return jdbcTemplate.queryForObject(sql, new FoodRowMapper(), idFood);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException("Food with id " 
-					+ idFood + " not found!", e);
+			throw new EntityNotFoundException("Food with id " + idFood + " not found!", e);
 		}
 	}
-	
+
 	private class FoodRowMapper implements RowMapper<Food> {
 		@Override
 		public Food mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -84,7 +92,7 @@ public class MySqlFoodDao implements FoodDao {
 			Double price = rs.getDouble("price");
 			String description = rs.getString("description");
 			String image_url = rs.getString("image_url");
-			int weight = rs.getInt("weight");
+			Integer weight = rs.getInt("weight");
 			return new Food(id, name, description, image_url, price, weight);
 		}
 	}

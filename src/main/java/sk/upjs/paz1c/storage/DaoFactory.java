@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.main;
+package sk.upjs.paz1c.storage;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -11,17 +11,24 @@ public enum DaoFactory {
 	private JdbcTemplate jdbcTemplate;
 	private boolean testing = false;
 	private IngredientDao ingredientDao;
-	
+	private FoodDao foodDao;
 
 	public void testing() {
 		testing = true;
 	}
-	
+
 	public IngredientDao getIngredientDao() {
 		if (ingredientDao == null) {
 			ingredientDao = new MysqlIngredientDao(getJdbcTemplate());
 		}
 		return ingredientDao;
+	}
+	
+	public FoodDao getFoodDao() {
+		if(foodDao==null) {
+			foodDao = new MySqlFoodDao(getJdbcTemplate());
+		} 
+		return foodDao;
 	}
 
 	public JdbcTemplate getJdbcTemplate() {
@@ -29,7 +36,11 @@ public enum DaoFactory {
 			MysqlDataSource dataSource = new MysqlDataSource();
 			dataSource.setUser("canteen");
 			dataSource.setPassword("canteenApp2021");
-			dataSource.setUrl("jdbc:mysql://localhost:3306/projekt_jedalen?" + "serverTimezone=Europe/Bratislava");
+			if (!testing) {
+				dataSource.setUrl("jdbc:mysql://localhost:3306/projekt_jedalen?" + "serverTimezone=Europe/Bratislava");
+			}else {
+				dataSource.setUrl("jdbc:mysql://localhost:3306/projekt_jedalen_test?" + "serverTimezone=Europe/Bratislava");
+			}
 
 			jdbcTemplate = new JdbcTemplate(dataSource);
 		}

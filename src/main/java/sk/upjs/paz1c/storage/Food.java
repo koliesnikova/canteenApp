@@ -1,6 +1,8 @@
 package sk.upjs.paz1c.storage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Food {
@@ -8,12 +10,12 @@ public class Food {
 	private String name;
 	private String description;
 	private String image_url;
-	private double price;
-	private int weight; //in grams
+	private Double price;
+	private Integer weight; //in grams
+	//TODO prerobit naspat na mapu
+	private Map<Ingredient, Integer> ingredients; //ingrediencia + jej mnozstvo
 	
-	private Map<Ingredient, Integer> ingredients;
-	
-	public Food(String name, String description, String image_url, double price, int weight,
+	public Food(String name, String description, String image_url, Double price, Integer weight,
 			Map<Ingredient, Integer> ingredients) {
 		super();
 		this.name = name;
@@ -24,19 +26,38 @@ public class Food {
 		this.ingredients = ingredients;
 	}
 
-	public Food(String name, String description, String image_url, double price, int weight) {
+	public Food(String name, String description, String image_url, Double price, Integer weight) {
 		this.name = name;
 		this.description = description;
 		this.image_url = image_url;
 		this.price = price;
 		this.weight = weight;
-		this.ingredients = new HashMap<>();
+		this.ingredients = new HashMap<Ingredient, Integer>();
+	}
+	
+	public Food(long id, String name, String description, String image_url, Double price, Integer weight) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.image_url = image_url;
+		this.price = price;
+		this.weight = weight;
+		this.ingredients = new HashMap<Ingredient, Integer>();
+	}
+	
+	public Food(long id, String name, String description, String image_url, Double price, Integer weight, Map<Ingredient, Integer> ingredients) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.image_url = image_url;
+		this.price = price;
+		this.weight = weight;
+		this.ingredients = ingredients;
 	}
 	
 	public Food(String name) {
 		this.name = name;
 	}
-
 	
 	public Long getId() {
 		return id;
@@ -70,7 +91,7 @@ public class Food {
 		this.image_url = image_url;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
@@ -78,7 +99,7 @@ public class Food {
 		this.price = price;
 	}
 
-	public int getWeight() {
+	public Integer getWeight() {
 		return weight;
 	}
 
@@ -93,6 +114,8 @@ public class Food {
 	public void setIngredients(Map<Ingredient, Integer> ingredients) {
 		this.ingredients = ingredients;
 	}
+	
+	
 
 	@Override
 	public String toString() {
@@ -109,10 +132,8 @@ public class Food {
 //		result = prime * result + ((image_url == null) ? 0 : image_url.hashCode());
 //		result = prime * result + ((ingredients == null) ? 0 : ingredients.hashCode());
 //		result = prime * result + ((name == null) ? 0 : name.hashCode());
-//		long temp;
-//		temp = Double.doubleToLongBits(price);
-//		result = prime * result + (int) (temp ^ (temp >>> 32));
-//		result = prime * result + weight;
+//		result = prime * result + ((price == null) ? 0 : price.hashCode());
+//		result = prime * result + ((weight == null) ? 0 : weight.hashCode());
 //		return result;
 //	}
 
@@ -150,17 +171,17 @@ public class Food {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
 			return false;
-		if (weight != other.weight)
+		if (weight == null) {
+			if (other.weight != null)
+				return false;
+		} else if (!weight.equals(other.weight))
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
-	
 
 }
