@@ -3,6 +3,7 @@ package sk.upjs.paz1c.storage;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Order {
 	
@@ -12,8 +13,23 @@ public class Order {
 	
 	private Map<Food, Integer> portions;
 	
-	public Order(LocalDateTime day, Map<Food, Integer> portions) {
+	
+	
+	public Order(LocalDateTime day, boolean prepared, Map<Food, Integer> portions) {
+		this.day = day;
+		this.prepared = prepared;
+		this.portions = portions;
+	}
+
+	public Order(Long id, LocalDateTime day, boolean prepared, Map<Food, Integer> portions) {
 		super();
+		this.id = id;
+		this.day = day;
+		this.prepared = prepared;
+		this.portions = portions;
+	}
+
+	public Order(LocalDateTime day, Map<Food, Integer> portions) {
 		this.day = day;
 		this.portions = portions;
 	}
@@ -58,6 +74,24 @@ public class Order {
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", day=" + day + ", prepared=" + prepared + ", portions=" + portions + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(day, id, portions, prepared);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Order other = (Order) obj;
+		return Objects.equals(day, other.day) && Objects.equals(id, other.id)
+				&& Objects.equals(portions.size(), other.portions.size()) && prepared == other.prepared;
 	}
 	
 	

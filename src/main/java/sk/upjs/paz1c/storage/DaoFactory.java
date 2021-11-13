@@ -12,6 +12,7 @@ public enum DaoFactory {
 	private boolean testing = false;
 	private IngredientDao ingredientDao;
 	private FoodDao foodDao;
+	private OrderDao orderDao;
 
 	public void testing() {
 		testing = true;
@@ -29,6 +30,13 @@ public enum DaoFactory {
 			foodDao = new MySqlFoodDao(getJdbcTemplate());
 		} 
 		return foodDao;
+	}
+	
+	public OrderDao getOrderDao() {
+		if(orderDao==null) {
+			orderDao = new MySqlOrderDao(getJdbcTemplate());
+		} 
+		return orderDao;
 	}
 
 	public JdbcTemplate getJdbcTemplate() {

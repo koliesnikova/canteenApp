@@ -21,14 +21,6 @@ class MySqlFoodDaoTest {
 		foodDao = DaoFactory.INSTANCE.getFoodDao();
 	}
 
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
-
 	@BeforeEach
 	void setUp() throws Exception {
 		Food food = new Food("test food", "made for testing", "none", 10.99, 1);
