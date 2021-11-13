@@ -5,11 +5,18 @@ public class Ingredient {
 	private String name;
 	private Double price;
 	private String amount; //extract number + unit
-	private String amountAvailiable;
+	private Integer amountAvailiable;
 	
 	
-	public Ingredient(Long id, String name, double price, String amount, String amountAvailiable) {
+	public Ingredient(Long id, String name, double price, String amount, Integer amountAvailiable) {
 		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.amount = amount;
+		this.amountAvailiable = amountAvailiable;
+	}
+	
+	public Ingredient( String name, double price, String amount, Integer amountAvailiable) {
 		this.name = name;
 		this.price = price;
 		this.amount = amount;
@@ -21,14 +28,17 @@ public class Ingredient {
 		this.name = name;
 		this.price = price;
 		this.amount = amount;
-		this.amountAvailiable = "0";
+		this.amountAvailiable = 0;
 	}
 	
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Long id) throws NullPointerException {
+		if(id==null) {
+			throw new NullPointerException("ID can not be set to null");
+		}
 		this.id = id;
 	}
 
@@ -52,15 +62,21 @@ public class Ingredient {
 		return amount;
 	}
 
-	public void setAmount(String amount) {
+	public void setAmount(String amount) throws NullPointerException{
+		if(amount==null) {
+			throw new NullPointerException("Amount can not be null");
+		}
 		this.amount = amount;
 	}
 	
-	public String getAmountAvailiable() {
+	public Integer getAmountAvailiable() {
 		return amountAvailiable;
 	}
 
-	public void setAmountAvailiable(String amountAvailiable) {
+	public void setAmountAvailiable(Integer amountAvailiable) throws NullPointerException{
+		if(amountAvailiable==null) {
+			throw new NullPointerException("Amount availiable can not be null");
+		}
 		this.amountAvailiable = amountAvailiable;
 	}
 

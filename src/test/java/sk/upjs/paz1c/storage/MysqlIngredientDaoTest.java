@@ -57,11 +57,13 @@ class MysqlIngredientDaoTest {
 	void testGetById() {
 		// vsetko zbehlo ok
 		Ingredient byId = ingredientDao.getById(savedIngr.getId());
+		assertEquals(savedIngr, byId);
 		assertEquals(savedIngr.getName(), byId.getName());
 		assertEquals(savedIngr.getPrice().toString(), byId.getPrice().toString());
 		assertEquals(savedIngr.getId(), byId.getId());
 		assertEquals(savedIngr.getAmount(), byId.getAmount());
 		assertEquals(savedIngr.getAmountAvailiable(), byId.getAmountAvailiable());
+		assertTrue(savedIngr.equals(byId)); ///staci toto
 		assertThrows(EntityNotFoundException.class, new Executable() {
 			@Override
 			public void execute() throws Throwable {
@@ -70,12 +72,75 @@ class MysqlIngredientDaoTest {
 		});
 	}
 
-//	@Test
-//	void testSave() {
-//		
-//		fail("Not yet implemented");
-//	}
-//	
+	@Test
+	void testSave() throws EntityUndeletableException {
+		//OK
+		//INSERT
+		int initialSize = ingredientDao.getAll().size();
+		Ingredient newIngr = new Ingredient("TestOfSave", 0.5, "3");
+		Ingredient savedNewIngr = ingredientDao.save(newIngr);
+		//assertTrue(savedNewIngr.equals(newIngr)); - can not be used here, newIngr does not have ID yet
+		assertEquals(savedNewIngr.getName(), newIngr.getName());
+		assertEquals(savedNewIngr.getAmount(), newIngr.getAmount());
+		assertEquals(savedNewIngr.getPrice(), newIngr.getPrice());
+		assertEquals(savedNewIngr.getAmountAvailiable(), newIngr.getAmountAvailiable());
+		assertNotNull(savedNewIngr.getId());
+		
+		List<Ingredient> all = ingredientDao.getAll();
+		assertEquals(initialSize + 1, all.size());
+
+		boolean found = false;
+	
+		for(Ingredient i : all) {
+			if (i.getId().equals(savedNewIngr.getId())) {
+				found = true;
+				assertEquals("TestOfSave", i.getName());
+				assertEquals(0.5, i.getPrice());
+				assertEquals("3", i.getAmount());
+				assertEquals(0, i.getAmountAvailiable());
+				break;
+			}
+		}
+		assertTrue(found);	
+		ingredientDao.delete(savedNewIngr.getId());
+		
+		//UPDATE
+		Ingredient changedIngr = new Ingredient(savedIngr.getId(), "Change", 8.8, "8 kg", 6);
+		Ingredient savedChangedIngr = ingredientDao.save(changedIngr);
+		assertEquals("Change", savedChangedIngr.getName());
+		assertEquals(8.8, savedChangedIngr.getPrice());
+		assertEquals("8 kg", savedChangedIngr.getAmount());
+		assertEquals(6, savedChangedIngr.getAmountAvailiable());
+		assertEquals(savedChangedIngr.getId(), changedIngr.getId());
+		
+		all = ingredientDao.getAll();
+		found = false;
+		for (Ingredient i : all) {
+			if (i.getId().equals(changedIngr.getId())) {
+				found = true;
+				assertEquals("Change", i.getName());
+				assertEquals(8.8, i.getPrice());
+				assertEquals("8 kg", i.getAmount());
+				assertEquals(6, i.getAmountAvailiable());
+				break;
+			}
+		}
+		assertTrue(found);
+		changedIngr.setId(-1L);
+		assertThrows(EntityNotFoundException.class, new Executable() {
+			@Override
+			public void execute() throws Throwable {
+				ingredientDao.save(changedIngr);
+			}
+		});
+		assertThrows(NullPointerException.class, new Executable() {
+			@Override
+			public void execute() throws Throwable {
+				ingredientDao.save(null);
+			}
+		});
+	}
+	
 	@Test
 	void testDelete() throws EntityUndeletableException {
 		Ingredient ingredientToDelete = new Ingredient("delete", 0.90, "8 L");

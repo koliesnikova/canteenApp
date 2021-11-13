@@ -12,7 +12,6 @@ public class Food {
 	private String image_url;
 	private Double price;
 	private Integer weight; //in grams
-	//TODO prerobit naspat na mapu
 	private Map<Ingredient, Integer> ingredients; //ingrediencia + jej mnozstvo
 	
 	public Food(String name, String description, String image_url, Double price, Integer weight,

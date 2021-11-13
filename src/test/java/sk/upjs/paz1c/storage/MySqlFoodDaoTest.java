@@ -52,9 +52,15 @@ class MySqlFoodDaoTest {
 
 //	@Test
 //	void testSave() {
-//		fail("Not yet implemented");
+//	 TODO test
 //	}
 //	
+	
+//	@Test
+//	void testSaveIngredient() {
+//		TODO test
+//	}
+	
 	@Test
 	void testGetById() {
 		// OK

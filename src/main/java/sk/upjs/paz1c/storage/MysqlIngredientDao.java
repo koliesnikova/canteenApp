@@ -44,7 +44,7 @@ public class MysqlIngredientDao implements IngredientDao{
 		} else { // update
 			String sql = "UPDATE ingredient SET name = ?, price = ?, amount = ?, amount_availiable = ? WHERE id = ?";
 			int changedCount = jdbcTemplate.update(sql, ingredient.getName(), ingredient.getPrice(),
-					ingredient.getAmount(), ingredient.getAmountAvailiable());
+					ingredient.getAmount(), ingredient.getAmountAvailiable(), ingredient.getId());
 			if (changedCount == 1)
 				return ingredient;
 			else
@@ -83,7 +83,7 @@ public class MysqlIngredientDao implements IngredientDao{
 			String name = rs.getString("name");
 			Double price = rs.getDouble("price");
 			String amount = rs.getString("amount");
-			String amountAvailiable = rs.getString("amount_availiable");
+			Integer amountAvailiable = rs.getInt("amount_availiable");
 			return new Ingredient(id, name, price, amount, amountAvailiable);
 		}
 	}
