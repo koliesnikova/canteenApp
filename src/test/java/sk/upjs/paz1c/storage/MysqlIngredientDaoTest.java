@@ -24,15 +24,6 @@ class MysqlIngredientDaoTest {
 		ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
 	}
 
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-
-	}
-
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
-
 	@BeforeEach
 	void setUp() throws Exception {
 		Ingredient i = new Ingredient("testing", 0.01, "100 g");
@@ -58,12 +49,6 @@ class MysqlIngredientDaoTest {
 		// vsetko zbehlo ok
 		Ingredient byId = ingredientDao.getById(savedIngr.getId());
 		assertEquals(savedIngr, byId);
-		assertEquals(savedIngr.getName(), byId.getName());
-		assertEquals(savedIngr.getPrice().toString(), byId.getPrice().toString());
-		assertEquals(savedIngr.getId(), byId.getId());
-		assertEquals(savedIngr.getAmount(), byId.getAmount());
-		assertEquals(savedIngr.getAmountAvailiable(), byId.getAmountAvailiable());
-		assertTrue(savedIngr.equals(byId)); ///staci toto
 		assertThrows(EntityNotFoundException.class, new Executable() {
 			@Override
 			public void execute() throws Throwable {
@@ -90,7 +75,6 @@ class MysqlIngredientDaoTest {
 		assertEquals(initialSize + 1, all.size());
 
 		boolean found = false;
-	
 		for(Ingredient i : all) {
 			if (i.getId().equals(savedNewIngr.getId())) {
 				found = true;

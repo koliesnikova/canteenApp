@@ -74,7 +74,7 @@ public class MySqlFoodDao implements FoodDao {
 		} else { // update
 			String sql = "UPDATE food SET name = ?, description = ?, image_url = ?, price = ?,weight = ? WHERE id = ?";
 			int changedCount = jdbcTemplate.update(sql, food.getName(), food.getDescription(), food.getImage_url(),
-					food.getPrice(), food.getWeight());
+					food.getPrice(), food.getWeight(), food.getId());
 			if (changedCount == 1)
 				return food;
 			else
