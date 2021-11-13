@@ -112,6 +112,7 @@ CREATE TABLE `ingredient` (
   `name` varchar(45) COLLATE utf8_slovak_ci DEFAULT NULL,
   `price` decimal(4,2) DEFAULT NULL,
   `amount` varchar(20) COLLATE utf8_slovak_ci NOT NULL,
+  `amount_availiable` varchar(20) COLLATE utf8_slovak_ci NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_slovak_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -123,30 +124,6 @@ CREATE TABLE `ingredient` (
 LOCK TABLES `ingredient` WRITE;
 /*!40000 ALTER TABLE `ingredient` DISABLE KEYS */;
 /*!40000 ALTER TABLE `ingredient` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `ingredients_available`
---
-
-DROP TABLE IF EXISTS `ingredients_available`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `ingredients_available` (
-  `ingredient_id` int NOT NULL,
-  `amount` varchar(20) COLLATE utf8_slovak_ci NOT NULL DEFAULT '0',
-  KEY `fk_ingredients_available_ingredient1_idx` (`ingredient_id`),
-  CONSTRAINT `fk_ingredients_available_ingredient1` FOREIGN KEY (`ingredient_id`) REFERENCES `ingredient` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_slovak_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `ingredients_available`
---
-
-LOCK TABLES `ingredients_available` WRITE;
-/*!40000 ALTER TABLE `ingredients_available` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ingredients_available` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -182,4 +159,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-04 17:46:39
+-- Dump completed on 2021-11-13 18:15:00

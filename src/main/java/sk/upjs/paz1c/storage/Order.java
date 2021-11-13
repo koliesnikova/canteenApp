@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.main;
+package sk.upjs.paz1c.storage;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
