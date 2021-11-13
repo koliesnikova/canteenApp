@@ -25,15 +25,16 @@ public class MySqlFoodDao implements FoodDao {
 	}
 
 	@Override
-	public Map<Ingredient, Integer> saveIngredient(Food food, Ingredient ingredient, Integer amount) {
+	public Map<Ingredient, Integer> saveIngredient(Food food, Ingredient ingredient, Integer amount) throws EntityNotFoundException{
 		Map<Ingredient, Integer> map = food.getIngredients();
-		map.put(ingredient, amount);
-		food.setIngredients(map);
+		
 		if (map.containsKey(ingredient)) {
 			// UPDATE
-			String sql = "UPDATE food_ingredients SET amount_needed =? WHERE food_id = ? AND ingredient_id = ?";
+			String sql = "UPDATE food_ingredients SET amount_needed = ? WHERE food_id = ? AND ingredient_id = ?";
 			int changedCount = jdbcTemplate.update(sql, amount, food.getId(), ingredient.getId());
 			if (changedCount == 1) {
+				map.put(ingredient, amount);
+				food.setIngredients(map);
 				return map;
 			}
 			throw new EntityNotFoundException("Food or ingredient is not in DB: operation failed.");
@@ -42,6 +43,8 @@ public class MySqlFoodDao implements FoodDao {
 			String sql = "INSERT INTO food_ingredients (`food_id`,`ingredient_id`,`amount_needed` VALUES (?, ? ,?)";
 			int changedRows = jdbcTemplate.update(sql, food.getId(), ingredient.getId(), amount);
 			if (changedRows == 1) {
+				map.put(ingredient, amount);
+				food.setIngredients(map);
 				return map;
 			}
 			throw new EntityNotFoundException("Food or ingredient is not in DB: operation failed.");

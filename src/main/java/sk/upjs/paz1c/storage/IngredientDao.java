@@ -6,10 +6,10 @@ public interface IngredientDao {
 
 	List<Ingredient> getAll(); 
 	
-	Ingredient save(Ingredient ingredient);
+	Ingredient save(Ingredient ingredient) throws EntityNotFoundException;
 	
 	Ingredient delete(long idIgredient) throws EntityUndeletableException;
 	
-	Ingredient getById(long idIngredient);
+	Ingredient getById(long idIngredient) throws EntityNotFoundException;
 
 }

@@ -6,12 +6,12 @@ import java.util.Map;
 public interface FoodDao {
 	List<Food> getAll();
 
-	Food save(Food food);
+	Food save(Food food) throws EntityNotFoundException;
 
 	Food delete(long idFood) throws EntityUndeletableException;
 
-	Food getById(long idFood);
+	Food getById(long idFood) throws EntityNotFoundException;
 	
-	Map<Ingredient, Integer> saveIngredient(Food food, Ingredient ingredient, Integer amount);
+	Map<Ingredient, Integer> saveIngredient(Food food, Ingredient ingredient, Integer amount) throws EntityNotFoundException;
 
 }
