@@ -121,9 +121,6 @@ public class MySqlOrderDao implements OrderDao{
 
 	@Override
 	public void insertFoods(Order order) {
-		if(order.getPortions().size() == 0)
-			return;
-		
 		jdbcTemplate.update("delete from daily_orders where order_id = ?", order.getId());
 
 		if (order.getPortions().keySet().size() > 0) {
