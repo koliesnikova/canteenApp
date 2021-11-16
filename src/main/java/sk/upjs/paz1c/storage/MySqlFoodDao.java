@@ -16,10 +16,6 @@ public class MySqlFoodDao implements FoodDao {
 
 	private JdbcTemplate jdbcTemplate;
 
-	// TODO skontrolovat Select - lebo pridanie mapy ingrediencii
-	// ... vyselekotovat z tabulky food_ingredients(food_id, ingredient_id,
-	// amount_needed)?
-
 	public MySqlFoodDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
@@ -27,7 +23,6 @@ public class MySqlFoodDao implements FoodDao {
 	@Override
 	public Map<Ingredient, Integer> saveIngredient(Food food, Ingredient ingredient, Integer amount) throws EntityNotFoundException{
 		Map<Ingredient, Integer> map = food.getIngredients();
-		
 		if (map.containsKey(ingredient)) {
 			// UPDATE
 			String sql = "UPDATE food_ingredients SET amount_needed = ? WHERE food_id = ? AND ingredient_id = ?";
@@ -40,7 +35,7 @@ public class MySqlFoodDao implements FoodDao {
 			throw new EntityNotFoundException("Food or ingredient is not in DB: operation failed.");
 		} else {
 			// INSERT
-			String sql = "INSERT INTO food_ingredients (`food_id`,`ingredient_id`,`amount_needed` VALUES (?, ? ,?)";
+			String sql = "INSERT INTO food_ingredients (`food_id`,`ingredient_id`,`amount_needed`) VALUES (?, ? ,?)";
 			int changedRows = jdbcTemplate.update(sql, food.getId(), ingredient.getId(), amount);
 			if (changedRows == 1) {
 				map.put(ingredient, amount);
@@ -50,6 +45,17 @@ public class MySqlFoodDao implements FoodDao {
 			throw new EntityNotFoundException("Food or ingredient is not in DB: operation failed.");
 		}
 
+	}
+	
+	@Override
+	public Food deleteIngredient(Food food, Ingredient ingredient) throws EntityNotFoundException{
+		String sql = "DELETE FROM food_ingredients WHERE food_id = ? AND ingredient_id = ?";
+		int changedRows = jdbcTemplate.update(sql, food.getId(), ingredient.getId());
+		if(changedRows==1) {
+			food.setIngredients(null);
+			return food;
+		}
+		throw new EntityNotFoundException("Food or ingredient not found: operation failed.");		
 	}
 
 	@Override

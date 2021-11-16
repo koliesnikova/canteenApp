@@ -13,5 +13,7 @@ public interface FoodDao {
 	Food getById(long idFood) throws EntityNotFoundException;
 	
 	Map<Ingredient, Integer> saveIngredient(Food food, Ingredient ingredient, Integer amount) throws EntityNotFoundException;
+	
+	Food deleteIngredient (Food food, Ingredient ingredient);
 
 }
