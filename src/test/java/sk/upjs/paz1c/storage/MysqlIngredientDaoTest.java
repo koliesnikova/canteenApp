@@ -127,6 +127,7 @@ class MysqlIngredientDaoTest {
 	
 	@Test
 	void testDelete() throws EntityUndeletableException {
+		//OK
 		Ingredient ingredientToDelete = new Ingredient("delete", 0.90, "8 L");
 		Ingredient saved = ingredientDao.save(ingredientToDelete);
 		Ingredient saved2 = ingredientDao.delete(saved.getId());
@@ -137,14 +138,19 @@ class MysqlIngredientDaoTest {
 				ingredientDao.getById(saved.getId());
 			}
 		});
-		// TODO otestovat ked pridame ingredienciu do jedla
-//		assertThrows(EntityUndeletableException.class, new Executable() {
-//			@Override
-//			public void execute() throws Throwable {
-//				ingredientDao.delete(1L);
-//			}
-//		});
-//	}
-
+		
+		Food food = new Food("Test food");
+		FoodDao foodDao = DaoFactory.INSTANCE.getFoodDao();
+		Food savedFood = foodDao.save(food);
+		foodDao.saveIngredient(savedFood, savedIngr, 4);
+		
+		assertThrows(EntityUndeletableException.class, new Executable() {
+			@Override
+			public void execute() throws Throwable {
+				ingredientDao.delete(savedIngr.getId());
+			}
+		});
+		foodDao.deleteIngredient(savedFood, savedIngr);
+		foodDao.delete(savedFood.getId());
 	}
 }

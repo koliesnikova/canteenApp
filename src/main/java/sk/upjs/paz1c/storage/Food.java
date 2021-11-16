@@ -105,6 +105,9 @@ public class Food {
 	}
 
 	public Map<Ingredient, Integer> getIngredients() {
+		if(ingredients == null) {
+			return new HashMap<Ingredient, Integer>();
+		}
 		return ingredients;
 	}
 
