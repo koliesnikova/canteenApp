@@ -52,7 +52,9 @@ public class MySqlFoodDao implements FoodDao {
 		String sql = "DELETE FROM food_ingredients WHERE food_id = ? AND ingredient_id = ?";
 		int changedRows = jdbcTemplate.update(sql, food.getId(), ingredient.getId());
 		if(changedRows==1) {
-			food.setIngredients(null);
+			Map <Ingredient, Integer> map = food.getIngredients();
+			map.remove(ingredient);
+			food.setIngredients(map);
 			return food;
 		}
 		throw new EntityNotFoundException("Food or ingredient not found: operation failed.");		

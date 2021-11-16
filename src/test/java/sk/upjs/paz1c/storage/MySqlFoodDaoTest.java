@@ -2,7 +2,9 @@ package sk.upjs.paz1c.storage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -44,6 +46,7 @@ class MySqlFoodDaoTest {
 
 	@Test
 	void testSave() throws EntityUndeletableException {
+		//OK
 		// INSERT
 		int initialSize = foodDao.getAll().size();
 		Food newFood = new Food("TestOfSave", "idk", "image", 5.55, 500);
@@ -98,25 +101,78 @@ class MySqlFoodDaoTest {
 			}
 		}
 		assertTrue(found);
-//		changedFood.setId(-1L);
+		changedFood.setId(-1L);
+		assertThrows(EntityNotFoundException.class, new Executable() {
+			@Override
+			public void execute() throws Throwable {
+				foodDao.save(changedFood);
+			}
+		});
+		assertThrows(NullPointerException.class, new Executable() {
+			@Override
+			public void execute() throws Throwable {
+				foodDao.save(null);
+			}
+		});
+	}
+
+	@Test
+	void testSaveIngredient() throws EntityUndeletableException {
+		//INSERT
+		Ingredient i = new Ingredient("Test", 0.5, "5 g");
+		IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
+		Ingredient savedIngr = ingredientDao.save(i);
+		int beforeInsert = savedFood.getIngredients().size();
+		System.out.println(beforeInsert);
+		foodDao.saveIngredient(savedFood, savedIngr, 8);
+		System.out.println(savedFood.getIngredients().size());
+		
+		Map<Ingredient, Integer> all = savedFood.getIngredients();
+		assertEquals(beforeInsert + 1, all.size());
+		assertTrue(all.containsKey(savedIngr));
+		assertTrue(all.containsValue(8));
+		
+		
+//		Ingredient i2 = new Ingredient("tttt", 3.2, "");
 //		assertThrows(EntityNotFoundException.class, new Executable() {
 //			@Override
 //			public void execute() throws Throwable {
-//				ingredientDao.save(changedFood);
+//				foodDao.saveIngredient(savedFood, i2, 9);				
 //			}
 //		});
-//		assertThrows(NullPointerException.class, new Executable() {
-//			@Override
-//			public void execute() throws Throwable {
-//				ingredientDao.save(null);
-//			}
-//		});
+		
+		//UPDATE
+		all = foodDao.saveIngredient(savedFood, savedIngr, 10);
+		assertEquals(savedFood.getIngredients(), all);
+		assertTrue(all.containsKey(savedIngr));
+		assertEquals(all.get(savedIngr), 10);
+		
+		foodDao.deleteIngredient(savedFood, savedIngr);
+		ingredientDao.delete(savedIngr.getId());		
 	}
-
-//	@Test
-//	void testSaveIngredient() {
-//		TODO test
-//	}
+	
+	@Test
+	void deleteIngredientTest() throws EntityUndeletableException {
+		//OK
+		Ingredient i = new Ingredient("Test", 0.5, "5 g");
+		Ingredient i2 = new Ingredient("Test2", 0.5, "5 g");
+		IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
+		Ingredient savedIngr = ingredientDao.save(i);
+		Ingredient savedIngr2 = ingredientDao.save(i2);
+		foodDao.saveIngredient(savedFood, savedIngr, 4);
+		foodDao.saveIngredient(savedFood, savedIngr2, 3);
+		
+		int beforeCount = savedFood.getIngredients().size();
+		Food afterDelete = foodDao.deleteIngredient(savedFood, savedIngr);
+		
+		assertEquals(beforeCount - 1, afterDelete.getIngredients().size());
+		assertFalse(afterDelete.getIngredients().containsKey(savedIngr) );
+		
+		foodDao.deleteIngredient(savedFood, savedIngr2);
+		ingredientDao.delete(savedIngr.getId());
+		ingredientDao.delete(savedIngr2.getId());
+		
+	}
 
 	@Test
 	void testGetById() {
@@ -151,7 +207,6 @@ class MySqlFoodDaoTest {
 //				foodDao.delete(1L);
 //			}
 //		});
-//	}
 	}
 
 }
