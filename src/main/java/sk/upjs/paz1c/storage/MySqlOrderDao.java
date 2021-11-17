@@ -32,7 +32,6 @@ public class MySqlOrderDao implements OrderDao{
 			@Override
 			public List<Order> extractData(ResultSet rs) throws SQLException, DataAccessException {
 				List<Order> orders = new ArrayList<>();
-				
 				List<Food> foods = DaoFactory.INSTANCE.getFoodDao().getAll();
 				Map<Long, Food> mappedFood = new HashMap<>();
 				for (Food f : foods) {
@@ -131,8 +130,8 @@ public class MySqlOrderDao implements OrderDao{
 			
 			for (int i = 0; i < foods.size(); i++) {
 				sb.append("(" + order.getId() + ", " + foods.get(i).getId() + ", " + order.getPortions().get(foods.get(i)) + "),");
-
 			}
+			
 			String insertSql = sb.substring(0, sb.length() - 1);
 			jdbcTemplate.update(insertSql);
 		}

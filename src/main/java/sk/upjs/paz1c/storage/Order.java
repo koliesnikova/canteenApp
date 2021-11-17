@@ -6,15 +6,12 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Order {
-	
+
 	private Long id;
 	private LocalDateTime day;
 	private boolean prepared;
-	
 	private Map<Food, Integer> portions;
-	
-	
-	
+
 	public Order(LocalDateTime day, boolean prepared, Map<Food, Integer> portions) {
 		this.day = day;
 		this.prepared = prepared;
@@ -32,11 +29,13 @@ public class Order {
 	public Order(LocalDateTime day, Map<Food, Integer> portions) {
 		this.day = day;
 		this.portions = portions;
+		this.prepared = false;
 	}
 
 	public Order(LocalDateTime day) {
 		this.day = day;
 		this.portions = new HashMap<>();
+		this.prepared = false;
 	}
 
 	public Long getId() {
@@ -93,10 +92,5 @@ public class Order {
 		return Objects.equals(day, other.day) && Objects.equals(id, other.id)
 				&& Objects.equals(portions.size(), other.portions.size()) && prepared == other.prepared;
 	}
-	
-	
-	
-	
-	
 
 }

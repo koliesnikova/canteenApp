@@ -73,7 +73,6 @@ class MySqlOrderDaoTest {
 		assertTrue(o.equals(savedOrder));
 		
 		assertThrows(EntityNotFoundException.class, new Executable() {
-			
 			@Override
 			public void execute() throws Throwable {
 				orderDao.getById(-1L);
@@ -105,6 +104,7 @@ class MySqlOrderDaoTest {
 		}
 		assertTrue(found);	
 		orderDao.delete(savedNewOrder.getId());
+		
 		Order newOrder2 = new Order(-1L, LocalDateTime.now(), found, null);
 		assertThrows(EntityNotFoundException.class, new Executable() {
 			@Override
