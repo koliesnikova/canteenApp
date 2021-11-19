@@ -10,7 +10,7 @@
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0">
          <image>
-            <Image url="@../../../../../../../CantBcgrd.png" />
+            <Image url="@CantBcgrd.png" />
          </image>
       </ImageView>
       <GridPane layoutX="53.0" layoutY="76.0" prefHeight="76.0" prefWidth="152.0">

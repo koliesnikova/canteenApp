@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView cacheHint="SCALE" fitHeight="400.0" fitWidth="600.0">
          <image>
-            <Image url="@../../../../../../../CantBcgrd.png" />
+            <Image url="@CantBcgrd.png" />
          </image>
       </ImageView>
       <GridPane alignment="CENTER" layoutX="57.0" layoutY="48.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="82.0" prefWidth="200.0">
@@ -55,5 +55,10 @@
             <ComboBox prefHeight="31.0" prefWidth="55.0" promptText="kg" GridPane.columnIndex="2" />
          </children>
       </GridPane>
+      <Label layoutX="34.0" layoutY="325.0" text="?">
+         <tooltip>
+            <Tooltip text="Click on ingredient to see details and edit ingredient. " />
+         </tooltip>
+      </Label>
    </children>
 </AnchorPane>
