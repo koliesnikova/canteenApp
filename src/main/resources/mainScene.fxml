@@ -18,20 +18,20 @@
       </Label>
       <VBox layoutX="44.0" layoutY="87.0" prefHeight="158.0" prefWidth="135.0" spacing="20.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="155.0" text="View orders" />
-            <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="153.0" text="View foods" />
-            <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="143.0" text="View ingredients" />
+            <Button fx:id="viewOrdersButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="155.0" text="View orders" />
+            <Button fx:id="viewFoodsButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="153.0" text="View foods" />
+            <Button fx:id="viewIngredientsButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="143.0" text="View ingredients" />
          </children>
       </VBox>
-      <Button layoutX="476.0" layoutY="130.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="135.0" text="Shopping list" />
+      <Button fx:id="shoppingListButton" layoutX="476.0" layoutY="130.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="135.0" text="Shopping list" AnchorPane.rightAnchor="42.0" />
       <VBox layoutX="44.0" layoutY="252.0" prefHeight="158.0" prefWidth="135.0" spacing="20.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="162.0" text="Create order" />
-            <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="160.0" text="Create food" />
-            <Button mnemonicParsing="false" text="Create ingredient" />
+            <Button fx:id="createOrderButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="162.0" text="Create order" />
+            <Button fx:id="createFoodButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="160.0" text="Create food" />
+            <Button fx:id="createIngredientButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="156.0" text="Create ingredient" />
          </children>
       </VBox>
-      <Label layoutX="413.0" layoutY="73.0" text="You have 0 orders to prepare." />
-      <Label layoutX="346.0" layoutY="100.0" text="There are 0 items on your shopping list." />
+      <Label fx:id="numOfOrdersLabel" layoutX="410.0" layoutY="73.0" text="You have 0 orders to prepare." AnchorPane.rightAnchor="42.0" />
+      <Label fx:id="numOfToBuyLabel" layoutX="346.0" layoutY="100.0" text="There are 0 items on your shopping list." AnchorPane.rightAnchor="42.0" />
    </children>
 </AnchorPane>

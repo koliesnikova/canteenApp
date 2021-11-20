@@ -38,8 +38,8 @@
             <Font size="17.0" />
          </font>
       </Text>
-      <ChoiceBox layoutX="394.0" layoutY="73.0" prefHeight="31.0" prefWidth="180.0" />
-      <Label layoutX="308.0" layoutY="78.0" text="Ingredients: ">
+      <ChoiceBox layoutX="420.0" layoutY="73.0" prefHeight="31.0" prefWidth="180.0" />
+      <Label layoutX="332.0" layoutY="78.0" text="Ingredients: ">
          <tooltip>
             <Tooltip text="Select all ingredients the food if made of." />
          </tooltip>
