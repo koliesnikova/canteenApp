@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="bodybg" stylesheets="@background.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="247.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New order" AnchorPane.leftAnchor="247.0" AnchorPane.rightAnchor="247.7587890625" AnchorPane.topAnchor="44.259765625">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Text>
+      <Label layoutX="50.0" layoutY="90.0" text="Date: " AnchorPane.leftAnchor="50.0" />
+      <DatePicker layoutX="99.0" layoutY="85.0" prefHeight="31.0" prefWidth="83.0" AnchorPane.leftAnchor="99.0" />
+      <Label layoutX="50.0" layoutY="148.0" text="Add food:" AnchorPane.leftAnchor="50.0" />
+      <FlowPane hgap="5.0" layoutX="142.0" layoutY="148.0" orientation="VERTICAL" prefHeight="144.0" prefWidth="415.0" vgap="5.0" AnchorPane.bottomAnchor="108.0" AnchorPane.leftAnchor="142.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="148.0">
+         <children>
+            <ComboBox prefWidth="150.0" />
+            <ComboBox prefWidth="150.0" />
+         </children>
+      </FlowPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="640.0" styleClass="bodybg" stylesheets="@background.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane layoutX="53.0" layoutY="108.0" prefHeight="76.0" prefWidth="152.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="61.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="137.0" minWidth="10.0" prefWidth="48.0" />
+            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="137.0" minWidth="10.0" prefWidth="47.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Price:" />
+            <Label text="Weight:" GridPane.rowIndex="1" />
+            <TextField prefHeight="31.0" prefWidth="48.0" GridPane.columnIndex="1" />
+            <TextField prefHeight="28.0" prefWidth="49.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text=" grams" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+      <Label layoutX="53.0" layoutY="79.0" text="Name: " />
+      <TextField layoutX="112.0" layoutY="73.0" prefHeight="31.0" prefWidth="138.0" />
+      <ImageView fitHeight="172.0" fitWidth="187.0" layoutX="390.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" />
+      <TextArea layoutX="53.0" layoutY="236.0" prefHeight="133.0" prefWidth="277.0" promptText="Description" />
+      <Button layoutX="510.0" layoutY="369.0" mnemonicParsing="false" text="Submit" />
+      <Label layoutX="53.0" layoutY="195.0" text="Image path:" />
+      <TextField layoutX="140.0" layoutY="192.0" prefHeight="21.0" prefWidth="187.0" />
+      <Text layoutX="235.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Food" AnchorPane.topAnchor="12.6552734375">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <ChoiceBox layoutX="394.0" layoutY="73.0" prefHeight="31.0" prefWidth="180.0" />
+      <Label layoutX="308.0" layoutY="78.0" text="Ingredients: ">
+         <tooltip>
+            <Tooltip text="Select all ingredients the food if made of." />
+         </tooltip>
+      </Label>
+   </children>
+</AnchorPane>

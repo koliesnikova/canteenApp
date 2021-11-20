@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="bodybg" stylesheets="@background.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="241.0" layoutY="31.0" text="INGREDIENTS">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <ListView layoutX="54.0" layoutY="82.0" prefHeight="225.0" prefWidth="497.0" />
+      <Button layoutX="433.0" layoutY="336.0" mnemonicParsing="false" text="Edit ingredient">
+         <tooltip>
+            <Tooltip text="Click on the ingredient you want to edit, then click on this button." />
+         </tooltip>
+      </Button>
+   </children>
+</AnchorPane>

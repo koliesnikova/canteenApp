@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="bodybg" stylesheets="@background.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="244.0" layoutY="30.0" text="Shopping list">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="50.0" layoutY="71.0" text="Date: " />
+      <DatePicker layoutX="105.0" layoutY="66.0" prefHeight="31.0" prefWidth="166.0" />
+      <TableView layoutX="50.0" layoutY="120.0" prefHeight="200.0" prefWidth="516.0">
+        <columns>
+          <TableColumn prefWidth="367.0" text="Ingredient" />
+          <TableColumn minWidth="0.0" prefWidth="147.0" text="Amount to buy" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <Label layoutX="48.0" layoutY="348.0" text="?">
+         <tooltip>
+            <Tooltip text="Right click on ingredient you had already bought. You can set the ingredient as bought and it will not appear on this shopping list anymore." wrapText="true" />
+         </tooltip>
+      </Label>
+   </children>
+</AnchorPane>

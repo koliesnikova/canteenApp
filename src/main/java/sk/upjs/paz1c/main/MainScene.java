@@ -15,7 +15,7 @@ public class MainScene extends Application {
 		Parent parent = loader.load();
 		Scene scene = new Scene(parent);
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Tvorba obedového menu");
+		primaryStage.setTitle("Project Canteen");
 		primaryStage.show();
 
 	}
