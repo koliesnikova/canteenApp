@@ -85,31 +85,61 @@ public class MainSceneController {
 				}
 			});
 	    	
-	    	createFoodButton.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent event) {
-					// TODO Auto-generated method stub
+	    	createFoodButton.setOnAction(event -> {
+	    		try {
+					CreateFoodSceneController controller = new CreateFoodSceneController();
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("createFoodScene.fxml"));
+					loader.setController(controller);
 					
+					Parent parent = loader.load();
+					Scene scene = new Scene(parent);
+					Stage stage = new Stage();
+					stage.setScene(scene);
+					stage.initModality(Modality.APPLICATION_MODAL);
+					stage.setTitle("Create food");
+					stage.showAndWait();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			});
+	    	});
 	    	
-	    	createOrderButton.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent event) {
-					// TODO Auto-generated method stub
+	    	
+	    	createOrderButton.setOnAction(event -> {
+	    		try {
+					CreateOrderSceneController controller = new CreateOrderSceneController();
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("createOrderScene.fxml"));
+					loader.setController(controller);
 					
+					Parent parent = loader.load();
+					Scene scene = new Scene(parent);
+					Stage stage = new Stage();
+					stage.setScene(scene);
+					stage.initModality(Modality.APPLICATION_MODAL);
+					stage.setTitle("Create order");
+					stage.showAndWait();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			});
-	    	shoppingListButton.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent event) {
-					// TODO Auto-generated method stub
-					
+	    	});
+	    	shoppingListButton.setOnAction(event -> {
+	    		try {
+					ShoppingListSceneController controller = new ShoppingListSceneController();
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("shoppingListScene.fxml"));
+					loader.setController(controller);
+					Parent parent = loader.load();
+					Scene scene = new Scene(parent);
+					Stage stage = new Stage();
+					stage.setScene(scene);
+					stage.setTitle("Shopping list");
+					stage.initModality(Modality.APPLICATION_MODAL);
+					stage.showAndWait();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			});
+	    	});
 	    	
 	    	//TODO vyhrat sa s Lables - pocet objednavok a veci na nakup - maybe - one day 
 	    }
