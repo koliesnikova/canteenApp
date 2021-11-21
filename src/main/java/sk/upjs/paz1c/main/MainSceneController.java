@@ -76,7 +76,7 @@ public class MainSceneController {
 	    	createIngredientButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					CreateIngredientSceneController c = new CreateIngredientSceneController();
+					CreateIngredientSceneController c = new CreateIngredientSceneController(null);
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("createIngredientScene.fxml"));				
 					loader.setController(c);
 					Stage stage = openWindow("Create ingredient", loader);

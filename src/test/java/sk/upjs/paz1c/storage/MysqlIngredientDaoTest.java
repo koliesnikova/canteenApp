@@ -43,6 +43,20 @@ class MysqlIngredientDaoTest {
 		assertTrue(ingredients.size() > 0);
 		System.out.println(ingredients);
 	}
+	
+	@Test
+	void testGetAllAvailable() throws EntityUndeletableException {
+		List<Ingredient> ing = ingredientDao.getAllAvailable();
+		int count = ing.size();
+		Ingredient i1 = new Ingredient("paradajka", 0.36, "1kg", 1);
+		i1 = ingredientDao.save(i1);
+		assertEquals(count + 1, ingredientDao.getAllAvailable().size());
+		Ingredient i2 = new Ingredient("uhorka", 0.36, "1ks", 0);
+		i2 = ingredientDao.save(i2);
+		assertEquals(count + 1, ingredientDao.getAllAvailable().size());
+		ingredientDao.delete(i1.getId());
+		ingredientDao.delete(i2.getId());
+	}
 
 	@Test
 	void testGetById() {

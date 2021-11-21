@@ -25,6 +25,12 @@ public class MysqlIngredientDao implements IngredientDao{
 		String sql = "SELECT id, name, price, amount, amount_availiable FROM ingredient";
 		return jdbcTemplate.query(sql, new IngredientRowMapper());
 	}
+	
+	@Override
+	public List<Ingredient> getAllAvailable(){
+		String sql = "SELECT * FROM ingredient where amount_availiable > 0";
+		return jdbcTemplate.query(sql, new IngredientRowMapper());
+	}
 
 	@Override
 	public Ingredient save(Ingredient ingredient) throws EntityNotFoundException {

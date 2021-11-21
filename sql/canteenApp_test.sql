@@ -112,9 +112,9 @@ CREATE TABLE `ingredient` (
   `name` varchar(45) COLLATE utf8_slovak_ci DEFAULT NULL,
   `price` decimal(4,2) DEFAULT NULL,
   `amount` varchar(20) COLLATE utf8_slovak_ci NOT NULL,
-  `amount_availiable` varchar(20) COLLATE utf8_slovak_ci NOT NULL DEFAULT '0',
+  `amount_availiable` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_slovak_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_slovak_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,6 +123,7 @@ CREATE TABLE `ingredient` (
 
 LOCK TABLES `ingredient` WRITE;
 /*!40000 ALTER TABLE `ingredient` DISABLE KEYS */;
+INSERT INTO `ingredient` VALUES (1,'zemiak',0.50,'1kg',10),(2,'jablko',0.30,'1kg',1),(3,'chlieb',0.70,'1ks',0),(4,'mlieko',0.40,'1L',2),(5,'muka',0.35,'1kg',0);
 /*!40000 ALTER TABLE `ingredient` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,4 +160,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-21 19:20:34
+-- Dump completed on 2021-11-21 22:55:23
