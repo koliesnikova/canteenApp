@@ -48,7 +48,7 @@ public class MainSceneController {
 				@Override
 				public void handle(ActionEvent event) {
 					ViewFoodsSceneController controller = new ViewFoodsSceneController();
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("/viewFoodsScene.fxml"));				
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("viewFoodsScene.fxml"));				
 					loader.setController(controller);
 					openWindow("Foods", loader);	
 				}
@@ -57,7 +57,7 @@ public class MainSceneController {
 				@Override
 				public void handle(ActionEvent event) {
 					ViewIngredientsSceneController controller = new ViewIngredientsSceneController();
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("/viewIngredientsScene.fxml"));				
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("viewIngredientsScene.fxml"));				
 					loader.setController(controller);
 					openWindow("Ingredients", loader);	
 					
@@ -67,7 +67,7 @@ public class MainSceneController {
 				@Override
 				public void handle(ActionEvent event) {
 					ViewOrdersSceneController controller = new ViewOrdersSceneController();
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("/viewOrdersScene.fxml"));				
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("viewOrdersScene.fxml"));				
 					loader.setController(controller);
 					openWindow("Orders", loader);	
 					
@@ -77,7 +77,7 @@ public class MainSceneController {
 				@Override
 				public void handle(ActionEvent event) {
 					CreateIngredientSceneController c = new CreateIngredientSceneController();
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("/createIngredientScene.fxml"));				
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("createIngredientScene.fxml"));				
 					loader.setController(c);
 					Stage stage = openWindow("Create ingredient", loader);
 					//ak chceme nastavit modalitu, tak cele open window manualne...
