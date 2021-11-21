@@ -151,12 +151,14 @@ public class MySqlFoodDao implements FoodDao {
 
 	@Override
 	public Food getById(long idFood) throws EntityNotFoundException {
-		String sql = "SELECT id, name, description, price, image_url, weight FROM food WHERE id = ? ";
-		try {
-			return jdbcTemplate.queryForObject(sql, new FoodRowMapper(), idFood);
-		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException("Food with id " + idFood + " not found!", e);
+		List<Food> allFoods = getAll();
+		for (Food f : allFoods) {
+			if (f.getId().equals(idFood)) {
+				return f;
+			}
 		}
+		throw new EntityNotFoundException("Food with ID: " + idFood + " not found in DB!");
+		
 	}
 
 	private class FoodRowMapper implements RowMapper<Food> {
