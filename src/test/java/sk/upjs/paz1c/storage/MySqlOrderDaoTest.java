@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,12 +15,14 @@ import org.junit.jupiter.api.function.Executable;
 
 class MySqlOrderDaoTest {
 	
-	private OrderDao orderDao; 
+	private OrderDao orderDao;
+	private FoodDao foodDao;
 	private Order savedOrder;
 	
 	public MySqlOrderDaoTest() {
 		DaoFactory.INSTANCE.testing();
 		orderDao = DaoFactory.INSTANCE.getOrderDao();
+		foodDao = DaoFactory.INSTANCE.getFoodDao();
 	}
 
 	@BeforeEach
@@ -78,6 +81,20 @@ class MySqlOrderDaoTest {
 				orderDao.getById(-1L);
 			}
 		});
+	}
+	
+	@Test
+	void testGetByDay() {
+		Order o = orderDao.getByDay(savedOrder.getDay());
+		assertTrue(o.equals(savedOrder));
+		
+		assertThrows(EntityNotFoundException.class, new Executable() {
+			@Override
+			public void execute() throws Throwable {
+				orderDao.getById(-1L);
+			}
+		});
+		
 	}
 	
 	@Test
@@ -150,4 +167,29 @@ class MySqlOrderDaoTest {
 			}
 		});
 	}
+	
+	@Test
+	void testInsertFoods() {
+		List<Food> foods = foodDao.getAll();
+		Map<Food, Integer> portions = new HashMap();
+		for (Food f : foods) {
+			portions.put(f, (int)(Math.random() * 100));
+		}
+		orderDao.insertFoods(savedOrder);
+		Order orderWithNewFoods = orderDao.getById(savedOrder.getId());
+		
+		for (Food f : orderWithNewFoods.getPortions().keySet()) {
+			assertEquals(portions.get(f), orderWithNewFoods.getPortions().get(f));
+		}
+		
+		savedOrder.setPortions(null);
+		orderDao.insertFoods(savedOrder);
+		orderWithNewFoods = orderDao.getById(savedOrder.getId());
+		assertNotNull(orderWithNewFoods.getPortions());
+		assertEquals(0, orderWithNewFoods.getPortions().keySet().size());
+		
+		
+	}
+	
+	
 }
