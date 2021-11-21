@@ -82,7 +82,7 @@ DROP TABLE IF EXISTS `food_ingredients`;
 CREATE TABLE `food_ingredients` (
   `food_id` int NOT NULL,
   `ingredient_id` int NOT NULL,
-  `amount_needed` varchar(20) COLLATE utf8_slovak_ci NOT NULL,
+  `amount_needed` int NOT NULL,
   PRIMARY KEY (`food_id`,`ingredient_id`),
   KEY `fk_food_has_ingredient_ingredient1_idx` (`ingredient_id`),
   KEY `fk_food_has_ingredient_food1_idx` (`food_id`),
@@ -159,4 +159,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-13 18:15:00
+-- Dump completed on 2021-11-21 19:20:34
