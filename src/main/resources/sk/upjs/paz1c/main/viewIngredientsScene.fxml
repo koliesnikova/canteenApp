@@ -29,5 +29,15 @@
             <Font size="15.0" />
          </font>
       </CheckBox>
+      <Button layoutX="347.0" layoutY="346.0" mnemonicParsing="false" onAction="#createNewIngredient" text="Create new ingredient">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="deleteButton" layoutX="217.0" layoutY="346.0" mnemonicParsing="false" onAction="#deleteSelected" text="Delete selected">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
