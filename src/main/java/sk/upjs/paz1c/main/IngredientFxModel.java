@@ -12,6 +12,7 @@ import sk.upjs.paz1c.storage.Ingredient;
 public class IngredientFxModel {
 	
 	private Long id;
+	private String unit;
 	private StringProperty name = new SimpleStringProperty();
 	private DoubleProperty price = new SimpleDoubleProperty();
 	private StringProperty amount = new SimpleStringProperty();
@@ -23,6 +24,7 @@ public class IngredientFxModel {
 	
 	public IngredientFxModel(Ingredient ingredient) {
 		this.id = ingredient.getId();
+		this.unit = ingredient.getAmount().split(" ")[1];
 		setName(ingredient.getName());
 		setPrice(ingredient.getPrice());
 		setAmount(ingredient.getAmount());
@@ -31,6 +33,14 @@ public class IngredientFxModel {
 
 	public Long getId() {
 		return id;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
 	}
 
 	public String getName() {
@@ -62,7 +72,7 @@ public class IngredientFxModel {
 	}
 
 	public void setAmount(String amount) {
-		this.amount.set(amount);
+		this.amount.set(amount.split(" ")[0]);
 	}
 	
 	public StringProperty amountProperty() {
@@ -82,7 +92,7 @@ public class IngredientFxModel {
 	}
 	
 	public Ingredient getIngredient() {
-		return new Ingredient(id, getName(), getPrice(), getAmount(), getAmountAvailable());
+		return new Ingredient(id, getName(), getPrice(), getAmount() + " " + unit, getAmountAvailable());
 	}
 
 

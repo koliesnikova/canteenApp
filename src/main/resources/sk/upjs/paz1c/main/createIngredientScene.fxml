@@ -10,7 +10,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="bodybg" stylesheets="@background.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button layoutX="506.0" layoutY="344.0" mnemonicParsing="false" onAction="#saveChanges" text="Save">
+      <Button fx:id="saveButton" layoutX="506.0" layoutY="344.0" mnemonicParsing="false" onAction="#saveChanges" text="Save">
          <font>
             <Font size="15.0" />
          </font></Button>
@@ -29,7 +29,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <ComboBox fx:id="standardAmountComboBox" layoutX="264.0" layoutY="213.0" prefHeight="31.0" prefWidth="55.0" promptText="kg" />
+      <ComboBox fx:id="standardAmountComboBox" layoutX="264.0" layoutY="213.0" prefHeight="31.0" prefWidth="76.0" />
       <TextField fx:id="standardAmountTextField" layoutX="183.0" layoutY="213.0" prefHeight="31.0" prefWidth="62.0" scaleShape="false" />
       <Label layoutX="59.0" layoutY="259.0" text="Amount aviliable:">
          <font>

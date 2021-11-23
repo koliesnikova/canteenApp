@@ -77,7 +77,7 @@ public class MainSceneController {
 				@Override
 				public void handle(ActionEvent event) {
 					try {
-						CreateIngredientSceneController c = new CreateIngredientSceneController(null);
+						CreateIngredientSceneController c = new CreateIngredientSceneController();
 						FXMLLoader loader = new FXMLLoader(getClass().getResource("createIngredientScene.fxml"));				
 						loader.setController(c);
 						Parent parent = loader.load();

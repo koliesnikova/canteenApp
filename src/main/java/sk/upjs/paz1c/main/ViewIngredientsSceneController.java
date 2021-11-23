@@ -42,17 +42,13 @@ public class ViewIngredientsSceneController {
 	@FXML
 	void initialize() {
 		deleteButton.setDisable(true);
-		updateListView("all");
+		updateListView();
 
 		availabilityCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				if (newValue) {
-					updateListView("available");
-				} else {
-					updateListView("all");
-				}
+				updateListView();
 			}
 		});
 
@@ -76,11 +72,7 @@ public class ViewIngredientsSceneController {
 				CreateIngredientSceneController controller = new CreateIngredientSceneController(selectedIngredient);
 				openSaveIngredientWindow(controller);
 
-				if (availabilityCheckBox.isSelected()) {
-					updateListView("available");
-				} else {
-					updateListView("all");
-				}
+				updateListView();
 			}
 
 		});
@@ -106,11 +98,7 @@ public class ViewIngredientsSceneController {
 			Optional<ButtonType> buttonType = alert.showAndWait();
 			if (buttonType.get() == ButtonType.OK) {
 				ingredientDao.delete(selectedIngredient.getId());
-				if (availabilityCheckBox.isSelected()) {
-					updateListView("available");
-				} else {
-					updateListView("all");
-				}
+				updateListView();
 			}
 		} catch (EntityUndeletableException e) {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -133,6 +121,7 @@ public class ViewIngredientsSceneController {
 
 			// to do
 			// take saved ingredient and update listview
+			updateListView();
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -140,12 +129,12 @@ public class ViewIngredientsSceneController {
 		}
 	}
 	
-	private void updateListView(String method) {
-		if (method.equals("all")) {
-			List<Ingredient> ingr = ingredientDao.getAll();
+	private void updateListView() {
+		if (availabilityCheckBox.isSelected()) {
+			List<Ingredient> ingr = ingredientDao.getAllAvailable();
 			ingredientsListView.setItems(FXCollections.observableArrayList(ingr));
 		} else {
-			List<Ingredient> ingr = ingredientDao.getAllAvailable();
+			List<Ingredient> ingr = ingredientDao.getAll();
 			ingredientsListView.setItems(FXCollections.observableArrayList(ingr));
 		}
 	}
