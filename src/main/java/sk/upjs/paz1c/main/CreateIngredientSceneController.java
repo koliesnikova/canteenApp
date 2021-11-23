@@ -1,7 +1,8 @@
 package sk.upjs.paz1c.main;
 
+import sk.upjs.paz1c.storage.DaoFactory;
 import sk.upjs.paz1c.storage.Ingredient;
-
+import sk.upjs.paz1c.storage.IngredientDao;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -10,7 +11,7 @@ import javafx.scene.control.TextField;
 
 public class CreateIngredientSceneController {
 	@FXML
-	private Spinner<?> amountAvailableSpinner;
+	private Spinner<Integer> amountAvailableSpinner;
 
 	@FXML
 	private TextField nameTextField;
@@ -19,18 +20,21 @@ public class CreateIngredientSceneController {
 	private TextField priceTextField;
 
 	@FXML
-	private ComboBox<?> standardAmountComboBox;
+	private ComboBox<String> standardAmountComboBox;
 
 	@FXML
 	private TextField standardAmountTextField;
+	
+	private IngredientFxModel ingredientModel;
+	private IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
 
 	
 	public CreateIngredientSceneController(Ingredient ingredient) {
-		// TODO Auto-generated constructor stub
+		ingredientModel = new IngredientFxModel(ingredient);
 	}
 
 	public CreateIngredientSceneController() {
-		// TODO Auto-generated constructor stub
+		ingredientModel = new IngredientFxModel();
 	}
 	
 
@@ -41,7 +45,7 @@ public class CreateIngredientSceneController {
 
 	@FXML
 	void cancelChanges(ActionEvent event) {
-
+		nameTextField.getScene().getWindow().hide();
 	}
 
 	@FXML

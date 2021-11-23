@@ -5,7 +5,7 @@ public class Ingredient {
 	private String name;
 	private Double price;
 	private String amount; //extract number + unit
-	private Integer amountAvailiable;
+	private Integer amountAvailable;
 	
 	
 	public Ingredient(Long id, String name, double price, String amount, Integer amountAvailiable) {
@@ -13,14 +13,14 @@ public class Ingredient {
 		this.name = name;
 		this.price = price;
 		this.amount = amount;
-		this.amountAvailiable = amountAvailiable;
+		this.amountAvailable = amountAvailiable;
 	}
 	
 	public Ingredient( String name, double price, String amount, Integer amountAvailiable) {
 		this.name = name;
 		this.price = price;
 		this.amount = amount;
-		this.amountAvailiable = amountAvailiable;
+		this.amountAvailable = amountAvailiable;
 	}
 	
 
@@ -28,7 +28,7 @@ public class Ingredient {
 		this.name = name;
 		this.price = price;
 		this.amount = amount;
-		this.amountAvailiable = 0;
+		this.amountAvailable = 0;
 	}
 	
 	public Long getId() {
@@ -70,21 +70,21 @@ public class Ingredient {
 	}
 	
 	public Integer getAmountAvailiable() {
-		return amountAvailiable;
+		return amountAvailable;
 	}
 
 	public void setAmountAvailiable(Integer amountAvailiable) throws NullPointerException{
 		if(amountAvailiable==null) {
 			throw new NullPointerException("Amount availiable can not be null");
 		}
-		this.amountAvailiable = amountAvailiable;
+		this.amountAvailable = amountAvailiable;
 	}
 
 
 	@Override
 	public String toString() {
 		return "Ingredient [id=" + id + ", name=" + name + ", price=" + price + ", amount=" + amount
-				+ ", amountAvailiable=" + amountAvailiable + "]";
+				+ ", amountAvailiable=" + amountAvailable + "]";
 	}
 
 
@@ -115,10 +115,10 @@ public class Ingredient {
 				return false;
 		} else if (!amount.equals(other.amount))
 			return false;
-		if (amountAvailiable == null) {
-			if (other.amountAvailiable != null)
+		if (amountAvailable == null) {
+			if (other.amountAvailable != null)
 				return false;
-		} else if (!amountAvailiable.equals(other.amountAvailiable))
+		} else if (!amountAvailable.equals(other.amountAvailable))
 			return false;
 		if (id == null) {
 			if (other.id != null)
