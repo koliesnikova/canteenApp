@@ -16,4 +16,5 @@ public interface FoodDao {
 	
 	Food deleteIngredient (Food food, Ingredient ingredient);
 
+	List<Food> getFoodsInOrders();
 }

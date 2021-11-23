@@ -2,6 +2,7 @@ package sk.upjs.paz1c.storage;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Food {
 	private Long id;
@@ -111,9 +112,24 @@ public class Food {
 		return ingredients;
 	}
 
+	
+	public Map<Long, Integer> getIngredientsById() {
+		HashMap<Long, Integer> map = new HashMap<Long, Integer>();
+		if(ingredients == null) {
+			return map;
+		}
+		Set<Ingredient> ingrs = this.ingredients.keySet();
+		for (Ingredient ingredient : ingrs) {
+			map.put(ingredient.getId(), this.ingredients.get(ingredient));
+		}
+		return map;
+	}
+
 	public void setIngredients(Map<Ingredient, Integer> ingredients) {
 		this.ingredients = ingredients;
 	}
+	
+
 	
 	
 

@@ -22,7 +22,14 @@ public class MySqlFoodDao implements FoodDao {
 	public MySqlFoodDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
-
+	
+	@Override
+	public List<Food> getFoodsInOrders() {
+		//TODO test
+		String sql = "SELECT * from food f JOIN daily_orders o on o.food_id = f.id";
+		return jdbcTemplate.query(sql, new FoodRowMapper());
+	}
+	
 	@Override
 	public Map<Ingredient, Integer> saveIngredient(Food food, Ingredient ingredient, Integer amount)
 			throws EntityNotFoundException {
@@ -169,7 +176,7 @@ public class MySqlFoodDao implements FoodDao {
 			Double price = rs.getDouble("price");
 			String description = rs.getString("description");
 			String image_url = rs.getString("image_url");
-			Integer weight = rs.getInt("weight");
+			Integer weight = rs.getInt("weight");		
 			return new Food(id, name, description, image_url, price, weight);
 		}
 	}
