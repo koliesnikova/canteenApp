@@ -33,7 +33,7 @@ public class MySqlFoodDao implements FoodDao {
 			public List<Food> extractData(ResultSet rs) throws SQLException, DataAccessException {
 				List<Food> result = new ArrayList<>();
 				Food food = null;
-				while (rs.next()) {
+				while (rs.next()) { 
 					Long id = rs.getLong("id");
 					IngredientDao ingrediantDao = DaoFactory.INSTANCE.getIngredientDao();
 					if (food == null || food.getId() != id) {
