@@ -76,12 +76,23 @@ public class MainSceneController {
 	    	createIngredientButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					CreateIngredientSceneController c = new CreateIngredientSceneController(null);
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("createIngredientScene.fxml"));				
-					loader.setController(c);
-					Stage stage = openWindow("Create ingredient", loader);
-					//ak chceme nastavit modalitu, tak cele open window manualne...
-					//stage.initModality(Modality.APPLICATION_MODAL);
+					try {
+						CreateIngredientSceneController c = new CreateIngredientSceneController(null);
+						FXMLLoader loader = new FXMLLoader(getClass().getResource("createIngredientScene.fxml"));				
+						loader.setController(c);
+						Parent parent = loader.load();
+						
+						Stage stage = new Stage();
+						Scene scene = new Scene(parent);
+						stage.initModality(Modality.APPLICATION_MODAL);
+						stage.setScene(scene);
+						stage.setTitle("Create ingredient");
+						stage.showAndWait();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 				}
 			});
 	    	
