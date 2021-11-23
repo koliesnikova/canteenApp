@@ -26,8 +26,48 @@ public class MySqlFoodDao implements FoodDao {
 	@Override
 	public List<Food> getFoodsInOrders() {
 		//TODO test
-		String sql = "SELECT * from food f JOIN daily_orders o on o.food_id = f.id";
-		return jdbcTemplate.query(sql, new FoodRowMapper());
+		String sql = "select * from food f LEFT JOIN food_ingredients fi on f.id = fi.food_id \r\n" + 
+				"where f.id in (select food_id from daily_orders where f.id = food_id)  ORDER BY f.id";
+		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Food>>() {
+			@Override
+			public List<Food> extractData(ResultSet rs) throws SQLException, DataAccessException {
+				List<Food> result = new ArrayList<>();
+				Food food = null;
+				while (rs.next()) {
+					Long id = rs.getLong("id");
+					IngredientDao ingrediantDao = DaoFactory.INSTANCE.getIngredientDao();
+					if (food == null || food.getId() != id) {
+						String name = rs.getString("name");
+						Double price = rs.getDouble("price");
+						String description = rs.getString("description");
+						String image_url = rs.getString("image_url");
+						Integer weight = rs.getInt("weight");
+						Long idIngredient = rs.getLong("ingredient_id");
+						Integer amount = rs.getInt("amount_needed");
+						if (idIngredient == 0 && amount == 0) {
+							food = new Food(id, name, description, image_url, price, weight, new HashMap<Ingredient, Integer>());
+							result.add(food);
+						} else {
+							Ingredient i = ingrediantDao.getById(idIngredient);
+							Map<Ingredient, Integer> map = new HashMap<Ingredient, Integer>();
+							map.put(i, amount);
+							food = new Food(id, name, description, image_url, price, weight, map);
+							result.add(food);
+						}
+					} else {
+						result.remove(food);
+						Map<Ingredient, Integer> map = food.getIngredients();
+						Long idIngredient = rs.getLong("ingredient_id");
+						Integer amount = rs.getInt("amount_needed");
+						Ingredient i = ingrediantDao.getById(idIngredient);
+						map.put(i, amount);
+						food.setIngredients(map);
+						result.add(food);
+					}
+				}
+				return result;
+			}
+		});
 	}
 	
 	@Override
