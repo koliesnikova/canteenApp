@@ -7,6 +7,8 @@ public interface OrderDao {
 	
 	List<Order> getAll();
 	
+	List<Order> getByPrepared(boolean prepared);
+	
 	Order getById(long idOrder) throws EntityNotFoundException;
 	
 	Order getByDay(LocalDateTime day) throws EntityNotFoundException;

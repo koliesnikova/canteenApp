@@ -57,6 +57,19 @@ public class MySqlOrderDao implements OrderDao{
 			
 		});
 	}
+	
+
+	@Override
+	public List<Order> getByPrepared(boolean prepared) {
+		List<Order> allOrders = getAll();
+		List<Order> filtred = new ArrayList<>();
+		for (Order o : allOrders) {
+			if (o.isPrepared() == prepared) {
+				filtred.add(o);
+			}
+		}
+		return filtred;
+	}
 
 	@Override
 	public Order getById(long idOrder) throws EntityNotFoundException{

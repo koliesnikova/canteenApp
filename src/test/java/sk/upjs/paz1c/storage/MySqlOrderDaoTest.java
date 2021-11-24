@@ -58,6 +58,20 @@ class MySqlOrderDaoTest {
 	}
 	
 	@Test
+	void testGetByPrepared() {
+		List<Order> orders = orderDao.getByPrepared(true);
+		int size = orders.size();
+		Order o = new Order(LocalDateTime.of(2021, 11, 20, 0, 0));
+		o.setPrepared(true);
+		o = orderDao.save(o);
+		assertEquals(size + 1 , orderDao.getByPrepared(true).size());
+		o = new Order(LocalDateTime.of(2021, 11, 20, 0, 0));
+		o = orderDao.save(o);
+		assertEquals(size + 1, orderDao.getByPrepared(true).size());
+		
+	}
+	
+	@Test
 	void testDelete() {
 		Order newOrder = orderDao.save(new Order(LocalDateTime.of(21, 11, 25, 0, 0)));
 		int size = orderDao.getAll().size();
