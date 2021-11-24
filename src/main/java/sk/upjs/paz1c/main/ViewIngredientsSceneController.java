@@ -72,7 +72,6 @@ public class ViewIngredientsSceneController {
 				CreateIngredientSceneController controller = new CreateIngredientSceneController(selectedIngredient);
 				openSaveIngredientWindow(controller);
 
-				updateListView();
 			}
 
 		});
