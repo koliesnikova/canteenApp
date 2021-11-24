@@ -12,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sk.upjs.paz1c.storage.DaoFactory;
+import sk.upjs.paz1c.storage.OrderDao;
 
 public class MainSceneController {
 
@@ -41,6 +43,8 @@ public class MainSceneController {
 
 	    @FXML
 	    private Button shoppingListButton;
+	    
+	    private OrderDao orderDao = DaoFactory.INSTANCE.getOrderDao();
 
 	    @FXML
 	    void initialize() {
@@ -153,6 +157,7 @@ public class MainSceneController {
 	    	});
 	    	
 	    	//TODO vyhrat sa s Lables - pocet objednavok a veci na nakup - maybe - one day 
+	    	updateLabels();
 	    }
 	    
 	    private Stage openWindow(String title, FXMLLoader loader) {
@@ -171,4 +176,13 @@ public class MainSceneController {
 			return null;
 	    }
 
+	    private void updateLabels() {
+	    	int notPreparedOrders = orderDao.getByPrepared(false).size();
+	    	String text = "You have " + notPreparedOrders;
+	    	text += notPreparedOrders == 1 ? " order to prepare." : " orders to prepare.";
+	    	numOfOrdersLabel.setText(text);
+	    }
+	    
+	    
+	    
 }
