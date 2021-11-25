@@ -138,7 +138,7 @@ public class ViewFoodsSceneController {
 		// TODO take saved food and update listview
 	}
 
-	private void openSaveFoodWindow(CreateFoodSceneController controlller) {
+	private void openSaveFoodWindow(CreateFoodSceneController controlller) { //TODO toto pomocou modelu
 		try {
 			CreateFoodSceneController controller = new CreateFoodSceneController();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("createFoodScene.fxml"));
@@ -153,27 +153,22 @@ public class ViewFoodsSceneController {
 
 			Text title = controller.getTitleLabel();
 			title.setText("Edit food");
-			//controller.setTitleLabel(title);
+
 
 			TextField field = controller.getNameTextField();
 			field.setText(selectedFood.getName());
-			//controller.setNameTextField(field);
 
 			field = controller.getPriceTextField();
 			field.setText(selectedFood.getPrice().toString());
-			//controller.setPriceTextField(field);
 
 			field = controller.getWeightTextField();
 			field.setText(selectedFood.getWeight().toString());
-			//controller.setWeightTextField(field);
 
 			TextArea area = controller.getDescriptionTextArea();
 			area.setText(selectedFood.getDescription());
-			//controller.setDescriptionTextArea(area);
 
 			field = controller.getImageTextField();
 			field.setText(selectedFood.getImage_url());
-			//controller.setImageTextField(field);
 
 			//Ingredients selection
 			VBox ingredients = controller.getIngredientVbox();
@@ -203,9 +198,6 @@ public class ViewFoodsSceneController {
 				}
 				vneeded.add(field);
 			}
-			//controller.setIngredientVbox(ingredients);
-			//controller.setAmountVbox(amount);
-			//controller.setAmountNeededVbox(needed);
 			stage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();

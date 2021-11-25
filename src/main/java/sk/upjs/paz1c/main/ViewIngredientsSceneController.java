@@ -118,12 +118,10 @@ public class ViewIngredientsSceneController {
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.showAndWait();
 
-			// to do
-			// take saved ingredient and update listview
+			// TODO take saved ingredient and update listview
 			updateListView();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

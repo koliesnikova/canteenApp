@@ -30,7 +30,7 @@
       </GridPane>
       <Label layoutX="53.0" layoutY="79.0" text="Name: " AnchorPane.leftAnchor="50.0" />
       <TextField fx:id="nameTextField" layoutX="112.0" layoutY="73.0" prefHeight="31.0" prefWidth="138.0" AnchorPane.leftAnchor="110.0" />
-      <ImageView fitHeight="44.0" fitWidth="82.0" layoutX="22.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imageView" fitHeight="44.0" fitWidth="82.0" layoutX="22.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
       <TextArea fx:id="descriptionTextArea" layoutX="53.0" layoutY="236.0" prefHeight="133.0" prefWidth="277.0" promptText="Description" wrapText="true" AnchorPane.leftAnchor="50.0" />
       <Button fx:id="submitButton" layoutX="544.0" layoutY="385.0" mnemonicParsing="false" onAction="#save" text="Submit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="29.0" />
       <Label layoutX="53.0" layoutY="195.0" text="Image path:" AnchorPane.leftAnchor="50.0" />
@@ -44,8 +44,8 @@
       <GridPane gridLinesVisible="true" layoutX="360.0" layoutY="60.0" prefHeight="312.0" prefWidth="247.0">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="117.0" minWidth="10.0" prefWidth="101.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="88.0" minWidth="10.0" prefWidth="77.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="69.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="88.0" minWidth="10.0" prefWidth="69.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="77.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="151.0" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
@@ -57,7 +57,7 @@
             <VBox fx:id="amountNeededVbox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="0.1" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Label text="Ingredient" />
             <Label text="Amount" GridPane.columnIndex="1" />
-            <Label prefHeight="21.0" prefWidth="76.0" text="A. needed" GridPane.columnIndex="2">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="21.0" prefWidth="76.0" text="A. needed" GridPane.columnIndex="2">
                <tooltip>
                   <Tooltip text="Amount needed is some multiple of amount." />
                </tooltip>

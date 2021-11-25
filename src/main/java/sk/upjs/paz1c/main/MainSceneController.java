@@ -93,7 +93,6 @@ public class MainSceneController {
 						stage.setTitle("Create ingredient");
 						stage.showAndWait();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
@@ -114,7 +113,6 @@ public class MainSceneController {
 					stage.setTitle("Create food");
 					stage.showAndWait();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	    	});
@@ -134,7 +132,6 @@ public class MainSceneController {
 					stage.setTitle("Create order");
 					stage.showAndWait();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	    	});
@@ -151,7 +148,6 @@ public class MainSceneController {
 					stage.initModality(Modality.APPLICATION_MODAL);
 					stage.showAndWait();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	    	});
@@ -170,7 +166,6 @@ public class MainSceneController {
 				stage.show();
 				return stage;
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return null;

@@ -78,7 +78,6 @@ class MySqlOrderDaoTest {
 		try {
 			orderDao.delete(newOrder.getId());
 		} catch (EntityUndeletableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(size - 1, orderDao.getAll().size());
