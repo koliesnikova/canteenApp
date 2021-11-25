@@ -11,7 +11,7 @@ public class Food {
 	private String image_url;
 	private Double price;
 	private Integer weight; //in grams
-	private Map<Ingredient, Integer> ingredients; //ingrediencia + jej mnozstvo
+	private Map<Ingredient, Integer> ingredients; //ingrediencia + jej mnozstvo needed
 	
 	public Food(String name, String description, String image_url, Double price, Integer weight,
 			Map<Ingredient, Integer> ingredients) {

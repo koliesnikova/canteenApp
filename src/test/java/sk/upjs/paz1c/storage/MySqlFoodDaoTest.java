@@ -2,13 +2,12 @@ package sk.upjs.paz1c.storage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -17,10 +16,13 @@ class MySqlFoodDaoTest {
 
 	private Food savedFood;
 	private FoodDao foodDao;
+	private OrderDao orderDao;
 
 	public MySqlFoodDaoTest() {
 		DaoFactory.INSTANCE.testing();
 		foodDao = DaoFactory.INSTANCE.getFoodDao();
+		orderDao = DaoFactory.INSTANCE.getOrderDao();
+		
 	}
 
 	@BeforeEach
@@ -43,6 +45,41 @@ class MySqlFoodDaoTest {
 		assertTrue(foods.size() > 0);
 		assertTrue(foods.contains(savedFood));
 	}
+	
+	@Test
+	void getFoodsInOrders() {
+		//OK
+		Food inOrder = new Food("inOrder", "food in order test", "cccc", 0.08, 100);
+		int beforeSize = foodDao.getFoodsInOrders().size();
+		Food savedOrderFood = foodDao.save(inOrder);
+		Map<Food, Integer> map =  new HashMap<Food, Integer>();
+		map.put(savedOrderFood, 2);
+		Order order = new Order(LocalDateTime.now(), map);
+		Order savedOrder = orderDao.save(order);
+		
+		List<Food> list = foodDao.getFoodsInOrders();
+		assertEquals(beforeSize+1, list.size());
+		
+		boolean found = false;
+		for (Food food : list) {
+			if(food.equals(savedOrderFood)) {
+				assertEquals(savedOrderFood,food);
+				found = true;
+				break;
+			}
+		}
+		assertTrue(found);
+		
+		try {
+			savedOrder.setPortions(new HashMap<Food, Integer>());
+			orderDao.save(savedOrder);
+			orderDao.delete(savedOrder.getId());
+			foodDao.delete(savedOrderFood.getId());
+		} catch (EntityUndeletableException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	@Test
 	void testSave() throws EntityUndeletableException {
@@ -60,7 +97,7 @@ class MySqlFoodDaoTest {
 		assertNotNull(savedNewFood.getId());
 
 		List<Food> all = foodDao.getAll();
-		//assertEquals(initialSize + 1, all.size());
+		assertEquals(initialSize + 1, all.size());
 
 		boolean found = false;
 		for (Food food : all) {
@@ -115,9 +152,7 @@ class MySqlFoodDaoTest {
 		IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
 		Ingredient savedIngr = ingredientDao.save(i);
 		int beforeInsert = savedFood.getIngredients().size();
-		System.out.println(beforeInsert);
 		foodDao.saveIngredient(savedFood, savedIngr, 8);
-		System.out.println(savedFood.getIngredients().size());
 		
 		Map<Ingredient, Integer> all = savedFood.getIngredients();
 		assertEquals(beforeInsert + 1, all.size());
@@ -192,13 +227,29 @@ class MySqlFoodDaoTest {
 				foodDao.getById(saved.getId());
 			}
 		});
-		// TODO otestovat ked pridame jedlo do order
-//		assertThrows(EntityUndeletableException.class, new Executable() {
-//			@Override
-//			public void execute() throws Throwable {
-//				foodDao.delete(1L);
-//			}
-//		});
+		
+		HashMap<Food, Integer> portions = new HashMap<Food, Integer>();
+		Food inOrder = new Food("inOrderException", "food in order test", "dd", 0.08, 100);
+		Food savedOrderFood = foodDao.save(inOrder);
+		portions.put(savedOrderFood, 5);
+		Order order = new Order(LocalDateTime.now(), portions);
+		Order savedOrder = orderDao.save(order);
+		assertThrows(EntityUndeletableException.class, new Executable() {
+			@Override
+			public void execute() throws Throwable {
+				foodDao.delete(savedOrderFood.getId());
+			}
+		});
+		
+		try {
+			savedOrder.setPortions(new HashMap<Food, Integer>());
+			orderDao.save(savedOrder);
+			orderDao.delete(savedOrder.getId());
+			foodDao.delete(savedOrderFood.getId());
+		} catch (EntityUndeletableException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }
