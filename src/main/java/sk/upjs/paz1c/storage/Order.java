@@ -79,7 +79,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", day=" + day + ", prepared=" + prepared + ", portions=" + portions + "]";
+		return id + " " + day + " portions: " + portions.toString();
 	}
 
 	@Override
@@ -99,5 +99,6 @@ public class Order {
 		return Objects.equals(day, other.day) && Objects.equals(id, other.id)
 				&& Objects.equals(portions.size(), other.portions.size()) && prepared == other.prepared;
 	}
+
 
 }

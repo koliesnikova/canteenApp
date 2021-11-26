@@ -135,8 +135,7 @@ public class Food {
 
 	@Override
 	public String toString() {
-		return "Food [id=" + id + ", name=" + name + ", description=" + description + ", image_url=" + image_url
-				+ ", price=" + price + ", weight=" + weight + ", ingredients=" + ingredients + "]";
+		return id + " " + name + " " + price;
 	}
 
 //	@Override
