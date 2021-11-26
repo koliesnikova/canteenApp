@@ -37,6 +37,13 @@ public class Order {
 		this.portions = new HashMap<>();
 		this.prepared = false;
 	}
+	
+	public Order(Long id, LocalDateTime day) {
+		this.id = id;
+		this.day = day;
+		this.portions = new HashMap<>();
+		this.prepared = false;
+	}
 
 	public Long getId() {
 		return id;

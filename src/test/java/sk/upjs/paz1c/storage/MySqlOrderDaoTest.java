@@ -200,8 +200,22 @@ class MySqlOrderDaoTest {
 		orderWithNewFoods = orderDao.getById(savedOrder.getId());
 		assertNotNull(orderWithNewFoods.getPortions());
 		assertEquals(0, orderWithNewFoods.getPortions().keySet().size());
-		
-		
+	}
+	
+	@Test
+	void testRemoveFood() {
+		Food f = new Food("pecene stehno");
+		Food f2 = new Food("ostro-kysla polievka");
+		f = foodDao.save(f);
+		f2 = foodDao.save(f2);
+		Map<Food, Integer> portions = new HashMap<>();
+		portions.put(f, 4);
+		portions.put(f2, 5);
+		Order order = new Order(LocalDateTime.of(15, 11, 25, 0, 0), portions);
+		Order newSaved = orderDao.save(order);
+		int countOfFoods = newSaved.getPortions().size();
+		newSaved = orderDao.removeFood(newSaved, f2);
+		assertEquals(countOfFoods - 1, newSaved.getPortions().size());
 	}
 	
 	

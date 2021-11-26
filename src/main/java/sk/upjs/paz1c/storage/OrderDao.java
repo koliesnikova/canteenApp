@@ -19,5 +19,6 @@ public interface OrderDao {
 	
 	Order delete(long idOrder) throws EntityUndeletableException;
 	
-
+	Order removeFood(Order order, Food food);
+	
 }

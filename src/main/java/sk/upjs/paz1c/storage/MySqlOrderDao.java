@@ -149,5 +149,19 @@ public class MySqlOrderDao implements OrderDao{
 			jdbcTemplate.update(insertSql);
 		}
 	}
+	
+	public Order removeFood(Order order, Food food) {
+		String sql = "DELETE FROM daily_orders WHERE order_id = ? AND food_id = ?";
+		int changed = jdbcTemplate.update(sql, order.getId(), food.getId());
+		if (changed == 1) {
+			Map<Food, Integer> portions = order.getPortions();
+			portions.remove(food);
+			order.setPortions(portions);
+			return order;
+		}
+		throw new EntityNotFoundException("Food: " + food.getName() + " is not on order's list!");
+		
+		
+	}
 
 }
