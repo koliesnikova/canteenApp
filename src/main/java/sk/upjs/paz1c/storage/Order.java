@@ -99,6 +99,15 @@ public class Order {
 		return Objects.equals(day, other.day) && Objects.equals(id, other.id)
 				&& Objects.equals(portions.size(), other.portions.size()) && prepared == other.prepared;
 	}
+	
+	public int hasFoodOnList(Long id) {
+		for (Food f : portions.keySet()) {
+			if (f.getId().equals(id)) {
+				return portions.get(f);
+			}
+		}
+		return 0;
+	}
 
 
 }

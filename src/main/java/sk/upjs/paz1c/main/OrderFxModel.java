@@ -25,10 +25,7 @@ public class OrderFxModel {
 		this.id = order.getId();
 		setDay(order.getDay().toLocalDate());
 		for (Food f : foodDao.getAll()) {
-			if (order.getPortions().keySet().contains(f))
-				portions.put(f, order.getPortions().get(f));
-			else
-				portions.put(f, 0);
+			portions.put(f, order.hasFoodOnList(f.getId()));
 		}
 	}
 	
@@ -60,6 +57,14 @@ public class OrderFxModel {
 
 	public Map<Food, Integer> getPortions() {
 		return portions;
+	}
+	
+	public void removePortionsOfFood(Long id) {
+		for (Entry<Food, Integer> pair : portions.entrySet()) {
+			if (pair.getKey().getId().equals(id)) {
+				portions.put(pair.getKey(), 0);
+			}
+		}
 	}
 	
 	public Order getOrderFromModel() {
