@@ -1,10 +1,27 @@
 package sk.upjs.paz1c.main;
 
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.SwingUtilities;
+
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
+import com.sun.javafx.scene.SceneUtils;
+
+import javafx.beans.value.ChangeListener;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.util.converter.NumberStringConverter;
 import sk.upjs.paz1c.storage.Food;
 import sk.upjs.paz1c.storage.Ingredient;
 
@@ -29,26 +46,28 @@ public class CreateFoodSceneController {
 	private TextField priceTextField;
 
 	@FXML
-	private VBox ingredientVbox;
-
-	@FXML
-	private VBox amountVbox;
-
-	@FXML
-	private VBox amountNeededVbox;
-
-	@FXML
 	private TextArea descriptionTextArea;
 
 	@FXML
 	private TextField weightTextField;
 
+	@FXML
+	private ImageView imageView;
+
+	@FXML
+	private ComboBox<Ingredient> ingredientsComboBox;
+	
+	@FXML 
+	private Button loadImageButton;
+
+	private FoodFxModel foodFxModel;
+
 	public CreateFoodSceneController(Food food) {
-		// TODO Auto-generated constructor stub
+		foodFxModel = new FoodFxModel(food);
 	}
 
 	public CreateFoodSceneController() {
-		// TODO Auto-generated constructor stub
+		foodFxModel = new FoodFxModel();
 	}
 
 	@FXML
@@ -61,77 +80,80 @@ public class CreateFoodSceneController {
 
 	}
 
-	public TextField getImageTextField() {
-		return imageTextField;
-	}
+	@FXML
+	void initialize() {
+		nameTextField.textProperty().bindBidirectional(foodFxModel.nameProperty());
+		//TODO overenie ci sa uspesne premenil string na cislo
+		priceTextField.textProperty().bindBidirectional(foodFxModel.priceProperty(), new NumberStringConverter() {
+			@Override
+			public Number fromString(String value) {
+				try {
+					return Double.parseDouble(value);
+				} catch (NumberFormatException e) {
+					return -1;
+				}
+			}
+		});
+		weightTextField.textProperty().bindBidirectional(foodFxModel.weightProperty(), new NumberStringConverter() {
+			@Override
+			public Number fromString(String value) {
+				try {
+					return Double.parseDouble(value);
+				} catch (NumberFormatException e) {
+					return -1;
+				}
+			}
+		});
+		imageTextField.textProperty().bindBidirectional(foodFxModel.imagePathProperty());
+		descriptionTextArea.textProperty().bindBidirectional(foodFxModel.descriptionProperty());
+		loadImageButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				//https://java-buddy.blogspot.com/2013/01/use-javafx-filechooser-to-open-image.html
+				FileChooser fileChooser = new FileChooser();
+				FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+				FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+				fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+				java.io.File file = fileChooser.showOpenDialog(null);
+				try {
+					BufferedImage bufferedImage = ImageIO.read(file);
+					imageTextField.setText(file.getPath());
+					Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+					imageView.setImage(image);
+				} catch (IOException ex) {
 
-	public void setImageTextField(TextField imageTextField) {
-		this.imageTextField = imageTextField;
-	}
+				}
+			}
+		});
 
-	public Text getTitleLabel() {
-		return titleLabel;
-	}
+//		//https://stackoverflow.com/questions/51032498/get-change-amount-with-listener-and-doubleproperty
+//		foodFxModel.priceProperty().addListener(new ChangeListener<Number>() {
+//
+//			@Override
+//			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//				if (newValue.doubleValue() < 0) {
+//					saveButton.setDisable(true);
+//					priceTextField.setStyle("-fx-background-color: lightcoral");
+//				} else {
+//					saveButton.setDisable(false);
+//					priceTextField.setStyle("-fx-background-color: white");					
+//				}
+//				
+//			}
+//		});
+//		
 
-	public void setTitleLabel(Text titleLabel) {
-		this.titleLabel = titleLabel;
-	}
+//		standardAmountComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+//
+//			@Override
+//			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+//				newValue = newValue == null ? "" : newValue;
+//				ingredientModel.setUnit(newValue);
+//			}
+//		});
+//		
 
-	public TextField getNameTextField() {
-		return nameTextField;
 	}
-
-	public void setNameTextField(TextField nameTextField) {
-		this.nameTextField = nameTextField;
-	}
-
-	public TextField getPriceTextField() {
-		return priceTextField;
-	}
-
-	public void setPriceTextField(TextField priceTextField) {
-		this.priceTextField = priceTextField;
-	}
-
-
-	public VBox getIngredientVbox() {
-		return ingredientVbox;
-	}
-
-	public void setIngredientVbox(VBox ingredientVbox) {
-		this.ingredientVbox = ingredientVbox;
-	}
-
-	public VBox getAmountVbox() {
-		return amountVbox;
-	}
-
-	public void setAmountVbox(VBox amountVbox) {
-		this.amountVbox = amountVbox;
-	}
-
-	public VBox getAmountNeededVbox() {
-		return amountNeededVbox;
-	}
-
-	public void setAmountNeededVbox(VBox amountNeededVbox) {
-		this.amountNeededVbox = amountNeededVbox;
-	}
-
-	public TextArea getDescriptionTextArea() {
-		return descriptionTextArea;
-	}
-
-	public void setDescriptionTextArea(TextArea descriptionTextField) {
-		this.descriptionTextArea = descriptionTextField;
-	}
-
-	public TextField getWeightTextField() {
-		return weightTextField;
-	}
-
-	public void setWeightTextField(TextField weightTextField) {
-		this.weightTextField = weightTextField;
-	}
+	
 
 }

@@ -59,8 +59,15 @@ public class ViewFoodsSceneController {
 	@FXML
 	void initialize() {
 		deleteButton.setDisable(true);
-		updateListView("all");
+		updateListView();
 
+		inOrdersCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				updateListView();
+			}
+		});
+		
 		foodListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Food>() {
 			@Override
 			public void changed(ObservableValue<? extends Food> observable, Food oldValue, Food newValue) {
@@ -77,24 +84,9 @@ public class ViewFoodsSceneController {
 			if (event.getClickCount() == 2) {
 				CreateFoodSceneController controller = new CreateFoodSceneController(selectedFood);
 				openSaveFoodWindow(controller);
-				if (inOrdersCheckBox.isSelected()) {
-					updateListView("inOrders");
-				} else {
-					updateListView("all");
-				}
 			}
 		});
 
-		inOrdersCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				if (newValue) {
-					updateListView("inOrders");
-				} else {
-					updateListView("all");
-				}
-			}
-		});
 	}
 
 	@FXML
@@ -105,11 +97,7 @@ public class ViewFoodsSceneController {
 			Optional<ButtonType> buttonType = alert.showAndWait();
 			if (buttonType.get() == ButtonType.OK) {
 				foodDao.delete(selectedFood.getId());
-				if (inOrdersCheckBox.isSelected()) {
-					updateListView("available");
-				} else {
-					updateListView("all");
-				}
+				updateListView();
 			}
 		} catch (EntityUndeletableException e) {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -138,9 +126,8 @@ public class ViewFoodsSceneController {
 		// TODO take saved food and update listview
 	}
 
-	private void openSaveFoodWindow(CreateFoodSceneController controlller) { //TODO toto pomocou modelu
+	private void openSaveFoodWindow(CreateFoodSceneController controller) { //TODO toto pomocou modelu
 		try {
-			CreateFoodSceneController controller = new CreateFoodSceneController();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("createFoodScene.fxml"));
 			loader.setController(controller);
 
@@ -151,53 +138,6 @@ public class ViewFoodsSceneController {
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setTitle("Edit food");
 
-			Text title = controller.getTitleLabel();
-			title.setText("Edit food");
-
-
-			TextField field = controller.getNameTextField();
-			field.setText(selectedFood.getName());
-
-			field = controller.getPriceTextField();
-			field.setText(selectedFood.getPrice().toString());
-
-			field = controller.getWeightTextField();
-			field.setText(selectedFood.getWeight().toString());
-
-			TextArea area = controller.getDescriptionTextArea();
-			area.setText(selectedFood.getDescription());
-
-			field = controller.getImageTextField();
-			field.setText(selectedFood.getImage_url());
-
-			//Ingredients selection
-			VBox ingredients = controller.getIngredientVbox();
-			VBox amount = controller.getAmountVbox();
-			VBox needed = controller.getAmountNeededVbox();
-			
-			ObservableList<Node> vingredients = ingredients.getChildren();
-			ObservableList<Node> vamount = amount.getChildren();
-			ObservableList<Node> vneeded = needed.getChildren();
-
-			IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
-			List<Ingredient> allIngrs = ingredientDao.getAll();
-
-			Map<Long, Integer> map = selectedFood.getIngredientsById();
-			
-			for (Ingredient ingredient : allIngrs) {
-				vingredients.add(new Label (ingredient.getName()));
-				vamount.add(new Label (ingredient.getAmount()));
-
-				field = new TextField();
-				field.setEditable(true);
-				if (map.get(ingredient.getId())!=null) {
-					//get amount needed
-					field.setText(map.get(ingredient.getId()).toString());
-				}else {
-					field.setText("0");
-				}
-				vneeded.add(field);
-			}
 			stage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -205,13 +145,13 @@ public class ViewFoodsSceneController {
 		// TODO take edited food and update listview
 	}
 
-	private void updateListView(String method) {
-		if (method.equals("all")) {
-			List<Food> food = foodDao.getAll();
-			foodListView.setItems(FXCollections.observableArrayList(food));
-		} else {
+	private void updateListView() {
+		if (inOrdersCheckBox.isSelected()) {
 			List<Food> foods = foodDao.getFoodsInOrders();
 			foodListView.setItems(FXCollections.observableArrayList(foods));
+		} else {
+			List<Food> food = foodDao.getAll();
+			foodListView.setItems(FXCollections.observableArrayList(food));
 		}
 	}
 
