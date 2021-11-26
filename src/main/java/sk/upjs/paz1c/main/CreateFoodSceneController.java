@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -105,26 +106,24 @@ public class CreateFoodSceneController {
 			}
 		});
 		imageTextField.textProperty().bindBidirectional(foodFxModel.imagePathProperty());
+		imageTextField.setDisable(true);
 		descriptionTextArea.textProperty().bindBidirectional(foodFxModel.descriptionProperty());
-		loadImageButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				//https://java-buddy.blogspot.com/2013/01/use-javafx-filechooser-to-open-image.html
-				FileChooser fileChooser = new FileChooser();
-				FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
-				FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-				fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
-				java.io.File file = fileChooser.showOpenDialog(null);
-				try {
-					BufferedImage bufferedImage = ImageIO.read(file);
-					imageTextField.setText(file.getPath());
-					Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-					imageView.setImage(image);
-				} catch (IOException ex) {
-
-				}
+		
+		if(imageTextField.getText()!=null) {
+			FileInputStream input;
+			try {
+				input = new FileInputStream(imageTextField.getText());
+				BufferedImage bufferedImage = ImageIO.read(input);
+				Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+				imageView.setImage(image);
+			} catch (IOException e) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setContentText("Image can not be opened. Invalid path or damaged file.");
+				alert.show();
+				e.printStackTrace();
 			}
-		});
+			
+		}
 
 //		//https://stackoverflow.com/questions/51032498/get-change-amount-with-listener-and-doubleproperty
 //		foodFxModel.priceProperty().addListener(new ChangeListener<Number>() {
@@ -153,6 +152,24 @@ public class CreateFoodSceneController {
 //		});
 //		
 
+	}
+	@FXML
+	void loadImage(){
+		//https://java-buddy.blogspot.com/2013/01/use-javafx-filechooser-to-open-image.html
+		FileChooser fileChooser = new FileChooser();
+		FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+		FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+		fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+		java.io.File file = fileChooser.showOpenDialog(null);
+		try {
+			BufferedImage bufferedImage = ImageIO.read(file);
+			imageTextField.setText(file.getPath());
+			Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+			imageView.setImage(image);
+		} catch (IOException ex) {
+			
+			ex.printStackTrace(); 
+		}
 	}
 	
 

@@ -34,7 +34,7 @@
       <TextArea fx:id="descriptionTextArea" layoutX="53.0" layoutY="236.0" prefHeight="133.0" prefWidth="326.0" promptText="Description" wrapText="true" AnchorPane.leftAnchor="50.0" />
       <Button fx:id="submitButton" layoutX="544.0" layoutY="385.0" mnemonicParsing="false" onAction="#save" text="Submit" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="29.0" />
       <Label layoutX="53.0" layoutY="195.0" text="Image path:" AnchorPane.leftAnchor="50.0" />
-      <TextField fx:id="imageTextField" layoutX="133.0" layoutY="192.0" prefHeight="31.0" prefWidth="152.0" AnchorPane.leftAnchor="133.0" />
+      <TextField fx:id="imageTextField" layoutX="135.0" layoutY="192.0" prefHeight="31.0" prefWidth="239.0" AnchorPane.leftAnchor="135.0" />
       <Text fx:id="titleLabel" layoutX="251.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Food" AnchorPane.topAnchor="13.5">
          <font>
             <Font name="System Bold" size="17.0" />
@@ -42,6 +42,6 @@
       </Text>
       <Button fx:id="cancelButton" layoutX="399.0" layoutY="385.0" mnemonicParsing="false" onAction="#cancelChanges" text="Cancel changes" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="120.0" />
       <ComboBox fx:id="ingredientsComboBox" layoutX="388.0" layoutY="73.0" prefHeight="31.0" prefWidth="187.0" promptText="Ingredients" />
-      <Button fx:id="loadImageButton" layoutX="284.0" layoutY="192.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="95.0" text="Find image" AnchorPane.leftAnchor="284.0" />
+      <Button fx:id="loadImageButton" layoutX="374.0" layoutY="192.0" mnemonicParsing="false" onAction="#loadImage" prefHeight="31.0" prefWidth="95.0" text="Find image" AnchorPane.leftAnchor="374.0" />
    </children>
 </AnchorPane>
