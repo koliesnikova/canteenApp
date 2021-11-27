@@ -13,5 +13,6 @@ public interface IngredientDao {
 	Ingredient delete(long idIgredient) throws EntityUndeletableException;
 	
 	Ingredient getById(long idIngredient) throws EntityNotFoundException;
-
+	
+	List<String> getAllNames(); 
 }

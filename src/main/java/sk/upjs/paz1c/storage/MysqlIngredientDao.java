@@ -2,13 +2,16 @@ package sk.upjs.paz1c.storage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
@@ -24,6 +27,22 @@ public class MysqlIngredientDao implements IngredientDao{
 	public List<Ingredient> getAll() {
 		String sql = "SELECT id, name, price, amount, amount_availiable FROM ingredient";
 		return jdbcTemplate.query(sql, new IngredientRowMapper());
+	}
+	
+	public List<String> getAllNames(){
+		//TODO test
+		String sql = "SELECT name FROM ingredient";
+		return jdbcTemplate.query(sql, new ResultSetExtractor<List<String>>() {
+			@Override
+			public List<String> extractData(ResultSet rs) throws SQLException, DataAccessException {
+				List<String> result = new ArrayList<String>();
+				while(rs.next()) {
+					result.add(rs.getString("name"));
+				}
+				return result;
+			}
+			
+		});
 	}
 	
 	@Override

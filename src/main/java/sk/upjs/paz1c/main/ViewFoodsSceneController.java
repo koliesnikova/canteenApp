@@ -124,6 +124,8 @@ public class ViewFoodsSceneController {
 			e.printStackTrace();
 		}
 		// TODO take saved food and update listview
+		//foodFxModel.getSavedFood
+		//updateListView();
 	}
 
 	private void openSaveFoodWindow(CreateFoodSceneController controller) { //TODO toto pomocou modelu
