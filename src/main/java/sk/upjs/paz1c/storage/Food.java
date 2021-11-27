@@ -11,7 +11,7 @@ public class Food {
 	private String image_url;
 	private Double price;
 	private Integer weight; //in grams
-	private Map<Ingredient, Integer> ingredients; //ingrediencia + jej mnozstvo needed
+	private Map<Ingredient, Integer> ingredients; //ingredient + its amount needed
 	
 	public Food(String name, String description, String image_url, Double price, Integer weight,
 			Map<Ingredient, Integer> ingredients) {
@@ -135,7 +135,7 @@ public class Food {
 
 	@Override
 	public String toString() {
-		return id + " " + name + " " + price;
+		return id + " " + name + " " + price + " ";
 	}
 
 //	@Override

@@ -1,6 +1,7 @@
 package sk.upjs.paz1c.main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,6 +30,8 @@ public class FoodFxModel {
 	private StringProperty description = new SimpleStringProperty();
 	private List<String> ingredients = new ArrayList<String>();
 	private List<Ingredient> ingredientsInFood = new ArrayList<Ingredient>();
+	
+	private Map<Ingredient, Integer> amountNeeded = new HashMap<Ingredient, Integer>();
 	private IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
 
 	public FoodFxModel() {
@@ -43,8 +46,9 @@ public class FoodFxModel {
 		setImagePath(food.getImage_url());
 		setDescription(food.getDescription());
 		setIngredients(ingredientDao.getAllNames()); 
+		amountNeeded = food.getIngredients();
 		
-		Set<Ingredient> foodIngrs = food.getIngredients().keySet();
+		Set<Ingredient> foodIngrs = amountNeeded.keySet();
 		for (Ingredient ingredient : foodIngrs) {
 			ingredientsInFood.add(ingredient);
 		}
@@ -128,23 +132,13 @@ public class FoodFxModel {
 		return ingredientsInFood;
 	}
 
+	public Map<Ingredient, Integer> getAmountNeededMap() {
+		return amountNeeded;
+	}
 
-// vratit mapu ingrediencii vo formate, ako ju ma food
-//	public Map<Long, Integer> getIngredientsMap() {
-//		Map<Long, Integer> map = new HashMap<Long, Integer>();
-//		List<Ingredient> allIngrs = ingredientDao.getAll();
-//		for (Ingredient ingr : allIngrs) {
-//			if (this.ingredients.contains(ingr.getName())) {
-//				// map.put(ingr.getId(), amountNeeded.)
-//			}
-//		}
-//
-//	}
+	public Food getFood() {
+		return new Food(id, getName(), getDescription(), getImagePath(), getPrice(), getWeight(), amountNeeded);
 
-//	public Food getFood() {
-//		//TODO
-//		return new Food(id, name, description, imagePath, price, weight, );
-//
-//	}
+	}
 
 }

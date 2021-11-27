@@ -83,7 +83,7 @@ public class Ingredient {
 
 	@Override
 	public String toString() {
-		return id + " " + name + " " + amount;
+		return id + " " + name + " " + amount +" ";
 	}
 
 

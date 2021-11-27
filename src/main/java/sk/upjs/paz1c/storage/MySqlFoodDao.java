@@ -123,7 +123,7 @@ public class MySqlFoodDao implements FoodDao {
 				while (rs.next()) {
 					Long id = rs.getLong("id");
 					IngredientDao ingrediantDao = DaoFactory.INSTANCE.getIngredientDao();
-					if (food == null || food.getId() != id) {
+					if (food == null || food.getId() != id) { //new food
 						String name = rs.getString("name");
 						Double price = rs.getDouble("price");
 						String description = rs.getString("description");
@@ -141,7 +141,7 @@ public class MySqlFoodDao implements FoodDao {
 							food = new Food(id, name, description, image_url, price, weight, map);
 							result.add(food);
 						}
-					} else {
+					} else { //same food
 						result.remove(food);
 						Map<Ingredient, Integer> map = food.getIngredients();
 						Long idIngredient = rs.getLong("ingredient_id");
@@ -206,19 +206,6 @@ public class MySqlFoodDao implements FoodDao {
 		}
 		throw new EntityNotFoundException("Food with ID: " + idFood + " not found in DB!");
 		
-	}
-
-	private class FoodRowMapper implements RowMapper<Food> {
-		@Override
-		public Food mapRow(ResultSet rs, int rowNum) throws SQLException {
-			Long id = rs.getLong("id");
-			String name = rs.getString("name");
-			Double price = rs.getDouble("price");
-			String description = rs.getString("description");
-			String image_url = rs.getString("image_url");
-			Integer weight = rs.getInt("weight");		
-			return new Food(id, name, description, image_url, price, weight);
-		}
 	}
 
 }

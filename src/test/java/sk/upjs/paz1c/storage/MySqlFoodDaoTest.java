@@ -170,6 +170,7 @@ class MySqlFoodDaoTest {
 		
 		//UPDATE
 		all = foodDao.saveIngredient(savedFood, savedIngr, 10);
+		System.out.println(savedFood.getIngredients());
 		assertEquals(savedFood.getIngredients(), all);
 		assertTrue(all.containsKey(savedIngr));
 		assertEquals(all.get(savedIngr), 10);

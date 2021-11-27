@@ -128,7 +128,7 @@ public class ViewFoodsSceneController {
 		//updateListView();
 	}
 
-	private void openSaveFoodWindow(CreateFoodSceneController controller) { //TODO toto pomocou modelu
+	private void openSaveFoodWindow(CreateFoodSceneController controller) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("createFoodScene.fxml"));
 			loader.setController(controller);

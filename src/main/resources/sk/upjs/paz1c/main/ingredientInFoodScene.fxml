@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="231.0" prefWidth="424.0" styleClass="bodybg" stylesheets="@background.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="ingredientNameLabel" alignment="TOP_CENTER" layoutX="142.0" layoutY="29.0" text="Ingredient name" textAlignment="CENTER" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="141.0" AnchorPane.topAnchor="30.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
+      <Label layoutX="38.0" layoutY="78.0" text="Standard amount:" />
+      <Label layoutX="38.0" layoutY="116.0" text="Amount in food:">
+         <tooltip>
+            <Tooltip text="Amount can only be integer number. It represents how many times the standard amount is needed." />
+         </tooltip></Label>
+      <TextField fx:id="amountNeededTextField" layoutX="158.0" layoutY="111.0" prefHeight="31.0" prefWidth="45.0" />
+      <Label fx:id="standardAmountLabel" layoutX="163.0" layoutY="78.0" text="overwrite" />
+      <Button fx:id="saveButton" layoutX="319.0" layoutY="171.0" mnemonicParsing="false" onAction="#saveChanges" text="Save" />
+       <Spinner fx:id="amountNeededSpinner" editable="true" layoutX="158.0" layoutY="111.0" prefHeight="31.0" prefWidth="71.0" />
+   </children>
+</AnchorPane>

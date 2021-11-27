@@ -16,6 +16,9 @@ import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -23,6 +26,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.converter.NumberStringConverter;
 import sk.upjs.paz1c.storage.DaoFactory;
@@ -68,6 +73,7 @@ public class CreateFoodSceneController {
 	private FoodFxModel foodFxModel;
 	private IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
 	private List<String> ingredientInFood = new ArrayList<String>();
+	private String selectedIngredient = null;
 
 	public CreateFoodSceneController(Food food) {
 		foodFxModel = new FoodFxModel(food);
@@ -159,14 +165,14 @@ public class CreateFoodSceneController {
 
 		ingredientListView.setItems(FXCollections.observableArrayList(ingredientDao.getAllNames()));
 
-//		ingredientListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		}); 
+		ingredientListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				selectedIngredient = newValue;
+				
+			}
+		}); 
+		
 		imageTextField.textProperty().bindBidirectional(foodFxModel.imagePathProperty());
 		imageTextField.setEditable(false);
 		descriptionTextArea.textProperty().bindBidirectional(foodFxModel.descriptionProperty());
@@ -188,7 +194,30 @@ public class CreateFoodSceneController {
 		
 		ingredientListView.setOnMouseClicked(event -> {
 			if (event.getClickCount() == 2) {
-				// new window
+				List<Ingredient> ingrs = ingredientDao.getAll();
+				Ingredient selectedI = null;
+				for (Ingredient ingredient : ingrs) {
+					if(selectedIngredient.equals(ingredient.getName())) {
+						selectedI = ingredient;
+						break;
+					}
+				}
+				IngredientInFoodController controller = new IngredientInFoodController(selectedI,foodFxModel.getFood());
+				try {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("ingredientInFoodScene.fxml"));
+					loader.setController(controller);
+
+					Parent parent = loader.load();
+					Scene scene = new Scene(parent);
+					Stage stage = new Stage();
+					stage.setScene(scene);
+					stage.initModality(Modality.APPLICATION_MODAL);
+					stage.setTitle("Amount of ingredient in food");
+					stage.showAndWait();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				//get amount needed...
 			}
 		});
 
