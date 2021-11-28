@@ -2,8 +2,6 @@ package sk.upjs.paz1c.main;
 
 import java.util.Map;
 
-import com.mysql.cj.ParseInfo;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -69,5 +67,6 @@ public class IngredientInFoodController {
 	@FXML
 	void saveChanges(ActionEvent event) {
 		// TODO implement
+		
 	}
 }

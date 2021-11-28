@@ -8,11 +8,9 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,6 +30,7 @@ import javafx.util.Callback;
 import javafx.util.converter.NumberStringConverter;
 import sk.upjs.paz1c.storage.DaoFactory;
 import sk.upjs.paz1c.storage.Food;
+import sk.upjs.paz1c.storage.FoodDao;
 import sk.upjs.paz1c.storage.Ingredient;
 import sk.upjs.paz1c.storage.IngredientDao;
 
@@ -71,9 +70,11 @@ public class CreateFoodSceneController {
 	private Button loadImageButton;
 
 	private FoodFxModel foodFxModel;
+	private FoodDao foodDao = DaoFactory.INSTANCE.getFoodDao();
 	private IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
 	private List<String> ingredientInFood = new ArrayList<String>();
 	private String selectedIngredient = null;
+	private Food savedFood = null;
 
 	public CreateFoodSceneController(Food food) {
 		foodFxModel = new FoodFxModel(food);
@@ -85,12 +86,13 @@ public class CreateFoodSceneController {
 
 	@FXML
 	void save(ActionEvent event) {
-
+		Food f = foodFxModel.getFood();
+		savedFood = foodDao.save(f);
 	}
 
 	@FXML
 	void cancelChanges(ActionEvent event) {
-
+		cancelButton.getScene().getWindow().hide();
 	}
 
 	@FXML
@@ -247,5 +249,6 @@ public class CreateFoodSceneController {
 			ingredientInFood.add(ingredient.getName());
 		}
 	}
+	
 
 }

@@ -8,13 +8,10 @@ import java.util.Set;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
 import sk.upjs.paz1c.storage.DaoFactory;
 import sk.upjs.paz1c.storage.Food;
 import sk.upjs.paz1c.storage.Ingredient;
@@ -22,7 +19,7 @@ import sk.upjs.paz1c.storage.IngredientDao;
 
 public class FoodFxModel {
 
-	private Long id;
+	private Long id = null;
 	private StringProperty name = new SimpleStringProperty();
 	private DoubleProperty price = new SimpleDoubleProperty();
 	private IntegerProperty weight = new SimpleIntegerProperty();
