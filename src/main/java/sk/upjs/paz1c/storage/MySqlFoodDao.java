@@ -26,7 +26,6 @@ public class MySqlFoodDao implements FoodDao {
 	
 	@Override
 	public List<Food> getFoodsInOrders() {
-		//TODO test
 		String sql = "select * from food f LEFT JOIN food_ingredients fi on f.id = fi.food_id \r\n" + 
 				"where f.id in (select food_id from daily_orders where f.id = food_id)  ORDER BY f.id";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Food>>() {
@@ -78,21 +77,29 @@ public class MySqlFoodDao implements FoodDao {
 		if (map.containsKey(ingredient)) {
 			// UPDATE
 			String sql = "UPDATE food_ingredients SET amount_needed = ? WHERE food_id = ? AND ingredient_id = ?";
-			int changedCount = jdbcTemplate.update(sql, amount, food.getId(), ingredient.getId());
-			if (changedCount == 1) {
-				map.put(ingredient, amount);
-				food.setIngredients(map);
-				return map;
+			try {
+				int changedCount = jdbcTemplate.update(sql, amount, food.getId(), ingredient.getId());
+				if (changedCount == 1) {
+					map.put(ingredient, amount);
+					food.setIngredients(map);
+					return map;
+				}
+				throw new EntityNotFoundException("Food or ingredient is not in DB: operation failed.");
+			} catch (DataIntegrityViolationException e) {
+				throw new EntityNotFoundException("Food or ingredient is not in DB: operation failed.");
 			}
-			throw new EntityNotFoundException("Food or ingredient is not in DB: operation failed.");
 		} else {
 			// INSERT
 			String sql = "INSERT INTO food_ingredients (`food_id`,`ingredient_id`,`amount_needed`) VALUES (?, ? ,?)";
-			int changedRows = jdbcTemplate.update(sql, food.getId(), ingredient.getId(), amount);
-			if (changedRows == 1) {
-				map.put(ingredient, amount);
-				food.setIngredients(map);
-				return map;
+			try {
+				int changedRows = jdbcTemplate.update(sql, food.getId(), ingredient.getId(), amount);
+				if (changedRows == 1) {
+					map.put(ingredient, amount);
+					food.setIngredients(map);
+					return map;
+				}
+			} catch (DataIntegrityViolationException e) {
+				throw new EntityNotFoundException("Food or ingredient is not in DB: operation failed.");
 			}
 			throw new EntityNotFoundException("Food or ingredient is not in DB: operation failed.");
 		}

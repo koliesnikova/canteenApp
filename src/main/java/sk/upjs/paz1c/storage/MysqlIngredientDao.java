@@ -30,7 +30,6 @@ public class MysqlIngredientDao implements IngredientDao{
 	}
 	
 	public List<String> getAllNames(){
-		//TODO test
 		String sql = "SELECT name FROM ingredient";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<String>>() {
 			@Override

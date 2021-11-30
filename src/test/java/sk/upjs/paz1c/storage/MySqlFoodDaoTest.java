@@ -39,7 +39,6 @@ class MySqlFoodDaoTest {
 
 	@Test
 	void testGetAll() {
-		// OK
 		List<Food> foods = foodDao.getAll();
 		assertNotNull(foods);
 		assertTrue(foods.size() > 0);
@@ -48,7 +47,6 @@ class MySqlFoodDaoTest {
 
 	@Test
 	void getFoodsInOrders() {
-		// OK
 		Food inOrder = new Food("inOrder", "food in order test", "cccc", 0.08, 100);
 		int beforeSize = foodDao.getFoodsInOrders().size();
 		Food savedOrderFood = foodDao.save(inOrder);
@@ -83,7 +81,6 @@ class MySqlFoodDaoTest {
 
 	@Test
 	void testSave() throws EntityUndeletableException {
-		// OK
 		// INSERT
 		int initialSize = foodDao.getAll().size();
 		Food newFood = new Food("TestOfSave", "idk", "image", 5.55, 500);
@@ -159,13 +156,13 @@ class MySqlFoodDaoTest {
 		assertTrue(all.containsKey(savedIngr));
 		assertTrue(all.containsValue(8));
 
-//		Ingredient i2 = new Ingredient("tttt", 3.2, "");
-//		assertThrows(EntityNotFoundException.class, new Executable() {
-//			@Override
-//			public void execute() throws Throwable {
-//				foodDao.saveIngredient(savedFood, i2, 9);				
-//			}
-//		});
+		Food food2 = new Food(5555, "name", "description", "image_url", 0.5,3);
+		assertThrows(EntityNotFoundException.class, new Executable() {
+			@Override
+			public void execute() throws Throwable {
+				foodDao.saveIngredient(food2, i, 9);				
+			}
+		});
 
 		// UPDATE
 		all = foodDao.saveIngredient(savedFood, savedIngr, 10);
@@ -180,7 +177,6 @@ class MySqlFoodDaoTest {
 
 	@Test
 	void deleteIngredientTest() throws EntityUndeletableException {
-		// OK
 		Ingredient i = new Ingredient("Test", 0.5, "5 g");
 		Ingredient i2 = new Ingredient("Test2", 0.5, "5 g");
 		IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
@@ -203,7 +199,6 @@ class MySqlFoodDaoTest {
 
 	@Test
 	void testGetById() {
-		// OK
 		Food byId = foodDao.getById(savedFood.getId());
 		assertEquals(savedFood, byId);
 		assertThrows(EntityNotFoundException.class, new Executable() {
@@ -216,7 +211,6 @@ class MySqlFoodDaoTest {
 
 	@Test
 	void testDelete() throws EntityUndeletableException {
-		// OK
 		Food foodToDelete = new Food("delete", "food to be deleted", "idk", 5.00, 100);
 		Ingredient i = new Ingredient("test delete", 0.01, "2 ks");
 		IngredientDao idao = DaoFactory.INSTANCE.getIngredientDao();
