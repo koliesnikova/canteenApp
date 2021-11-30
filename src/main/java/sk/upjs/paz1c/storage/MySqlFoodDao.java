@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -187,11 +188,16 @@ public class MySqlFoodDao implements FoodDao {
 	@Override
 	public Food delete(long idFood) throws EntityUndeletableException {
 		Food food = getById(idFood);
+		Set<Ingredient> ingrs = food.getIngredients().keySet();
+		for (Ingredient ingredient : ingrs) {
+			deleteIngredient(food, ingredient);
+		}
+		
 		try {
 			String sql = "DELETE FROM food WHERE id = ?";
 			jdbcTemplate.update(sql, idFood);
 		} catch (DataIntegrityViolationException e) {
-			throw new EntityUndeletableException("Food can not be deleted", e);
+			throw new EntityUndeletableException("Food can not be deleted: it is part of some order.", e);
 		}
 		return food;
 	}
