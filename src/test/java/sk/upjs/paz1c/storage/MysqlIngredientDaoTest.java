@@ -36,6 +36,12 @@ class MysqlIngredientDaoTest {
 	}
 
 	@Test
+	void testGetAllNames() {
+		List<String> allNames = ingredientDao.getAllNames();
+		assertTrue(allNames.contains(savedIngr.getName()));
+	}
+	
+	@Test
 	void testGetAll() {
 		// vsetko zbehlo ok
 		List<Ingredient> ingredients = ingredientDao.getAll();

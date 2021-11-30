@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -123,7 +124,7 @@ public class MySqlFoodDao implements FoodDao {
 				while (rs.next()) {
 					Long id = rs.getLong("id");
 					IngredientDao ingrediantDao = DaoFactory.INSTANCE.getIngredientDao();
-					if (food == null || food.getId() != id) {
+					if (food == null || food.getId() != id) { //new food
 						String name = rs.getString("name");
 						Double price = rs.getDouble("price");
 						String description = rs.getString("description");
@@ -141,7 +142,7 @@ public class MySqlFoodDao implements FoodDao {
 							food = new Food(id, name, description, image_url, price, weight, map);
 							result.add(food);
 						}
-					} else {
+					} else { //same food
 						result.remove(food);
 						Map<Ingredient, Integer> map = food.getIngredients();
 						Long idIngredient = rs.getLong("ingredient_id");
@@ -187,11 +188,16 @@ public class MySqlFoodDao implements FoodDao {
 	@Override
 	public Food delete(long idFood) throws EntityUndeletableException {
 		Food food = getById(idFood);
+		Set<Ingredient> ingrs = food.getIngredients().keySet();
+		for (Ingredient ingredient : ingrs) {
+			deleteIngredient(food, ingredient);
+		}
+		
 		try {
 			String sql = "DELETE FROM food WHERE id = ?";
 			jdbcTemplate.update(sql, idFood);
 		} catch (DataIntegrityViolationException e) {
-			throw new EntityUndeletableException("Food can not be deleted", e);
+			throw new EntityUndeletableException("Food can not be deleted: it is part of some order.", e);
 		}
 		return food;
 	}
@@ -206,19 +212,6 @@ public class MySqlFoodDao implements FoodDao {
 		}
 		throw new EntityNotFoundException("Food with ID: " + idFood + " not found in DB!");
 		
-	}
-
-	private class FoodRowMapper implements RowMapper<Food> {
-		@Override
-		public Food mapRow(ResultSet rs, int rowNum) throws SQLException {
-			Long id = rs.getLong("id");
-			String name = rs.getString("name");
-			Double price = rs.getDouble("price");
-			String description = rs.getString("description");
-			String image_url = rs.getString("image_url");
-			Integer weight = rs.getInt("weight");		
-			return new Food(id, name, description, image_url, price, weight);
-		}
 	}
 
 }

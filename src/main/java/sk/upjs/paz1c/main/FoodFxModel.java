@@ -12,7 +12,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
 import sk.upjs.paz1c.storage.DaoFactory;
 import sk.upjs.paz1c.storage.Food;
 import sk.upjs.paz1c.storage.Ingredient;
@@ -20,14 +19,16 @@ import sk.upjs.paz1c.storage.IngredientDao;
 
 public class FoodFxModel {
 
-	private Long id;
+	private Long id = null;
 	private StringProperty name = new SimpleStringProperty();
 	private DoubleProperty price = new SimpleDoubleProperty();
 	private IntegerProperty weight = new SimpleIntegerProperty();
 	private StringProperty imagePath = new SimpleStringProperty();
 	private StringProperty description = new SimpleStringProperty();
-	private List<String> ingredients;
-
+	private List<String> ingredients = new ArrayList<String>();
+	private List<Ingredient> ingredientsInFood = new ArrayList<Ingredient>();
+	
+	private Map<Ingredient, Integer> amountNeeded = new HashMap<Ingredient, Integer>();
 	private IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
 
 	public FoodFxModel() {
@@ -41,7 +42,14 @@ public class FoodFxModel {
 		setWeight(food.getWeight());
 		setImagePath(food.getImage_url());
 		setDescription(food.getDescription());
-		//setIngredients(food.getIngredientsById()); // from map
+		setIngredients(ingredientDao.getAllNames()); 
+		amountNeeded = food.getIngredients();
+		
+		Set<Ingredient> foodIngrs = amountNeeded.keySet();
+		for (Ingredient ingredient : foodIngrs) {
+			ingredientsInFood.add(ingredient);
+		}
+		
 	}
 
 	public Long getId() {
@@ -110,39 +118,24 @@ public class FoodFxModel {
 		return description;
 	}
 
+	public void setIngredients(List<String> names) {
+		this.ingredients = names;
+	}
 	public List<String> getIngredients() {
 		return ingredients;
 	}
+	
+	public List<Ingredient> getIngredientsInFood() {
+		return ingredientsInFood;
+	}
 
-//	public void setIngredients(Map<Long, Integer> map) {
-//		Set<Long> ids = map.keySet();
-//		List<Ingredient> ingrs = ingredientDao.getAll();
-//		for (Ingredient ingredient : ingrs) {
-//			if (ids.contains(ingredient.getId())) {
-//				this.ingredients.add(ingredient.getName());
-//				this.amount.add(ingredient.getAmount());
-//				this.amountNeeded.add(map.get(ingredient.getId()));
-//			}
-//		}
-//	}
+	public Map<Ingredient, Integer> getAmountNeededMap() {
+		return amountNeeded;
+	}
 
-	// vratit mapu ingrediencii vo formate, ako ju ma food
-	// vratit udaje ako su privatne premenne v tejto triede a mapu si vytvorit inde
-//	public Map<Long, Integer> getIngredientsMap() {
-//		Map<Long, Integer> map = new HashMap<Long, Integer>();
-//		List<Ingredient> allIngrs = ingredientDao.getAll();
-//		for (Ingredient ingr : allIngrs) {
-//			if (this.ingredients.contains(ingr.getName())) {
-//				// map.put(ingr.getId(), amountNeeded.)
-//			}
-//		}
-//
-//	}
+	public Food getFood() {
+		return new Food(id, getName(), getDescription(), getImagePath(), getPrice(), getWeight(), amountNeeded);
 
-//	public Food getFood() {
-//		//TODO
-//		return new Food(id, name, description, imagePath, price, weight, );
-//
-//	}
+	}
 
 }

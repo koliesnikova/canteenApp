@@ -1,34 +1,23 @@
 package sk.upjs.paz1c.main;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.lang.ModuleLayer.Controller;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -108,8 +97,9 @@ public class ViewFoodsSceneController {
 
 	@FXML
 	void openCreateFood(ActionEvent event) {
+		CreateFoodSceneController controller = new CreateFoodSceneController();
 		try {
-			CreateFoodSceneController controller = new CreateFoodSceneController();
+			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("createFoodScene.fxml"));
 			loader.setController(controller);
 
@@ -124,9 +114,10 @@ public class ViewFoodsSceneController {
 			e.printStackTrace();
 		}
 		// TODO take saved food and update listview
+		updateListView();
 	}
 
-	private void openSaveFoodWindow(CreateFoodSceneController controller) { //TODO toto pomocou modelu
+	private void openSaveFoodWindow(CreateFoodSceneController controller) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("createFoodScene.fxml"));
 			loader.setController(controller);
@@ -143,6 +134,7 @@ public class ViewFoodsSceneController {
 			e.printStackTrace();
 		}
 		// TODO take edited food and update listview
+		updateListView();
 	}
 
 	private void updateListView() {

@@ -22,7 +22,7 @@ class MySqlFoodDaoTest {
 		DaoFactory.INSTANCE.testing();
 		foodDao = DaoFactory.INSTANCE.getFoodDao();
 		orderDao = DaoFactory.INSTANCE.getOrderDao();
-		
+
 	}
 
 	@BeforeEach
@@ -45,31 +45,31 @@ class MySqlFoodDaoTest {
 		assertTrue(foods.size() > 0);
 		assertTrue(foods.contains(savedFood));
 	}
-	
+
 	@Test
 	void getFoodsInOrders() {
-		//OK
+		// OK
 		Food inOrder = new Food("inOrder", "food in order test", "cccc", 0.08, 100);
 		int beforeSize = foodDao.getFoodsInOrders().size();
 		Food savedOrderFood = foodDao.save(inOrder);
-		Map<Food, Integer> map =  new HashMap<Food, Integer>();
+		Map<Food, Integer> map = new HashMap<Food, Integer>();
 		map.put(savedOrderFood, 2);
 		Order order = new Order(LocalDateTime.now(), map);
 		Order savedOrder = orderDao.save(order);
-		
+
 		List<Food> list = foodDao.getFoodsInOrders();
-		assertEquals(beforeSize+1, list.size());
-		
+		assertEquals(beforeSize + 1, list.size());
+
 		boolean found = false;
 		for (Food food : list) {
-			if(food.equals(savedOrderFood)) {
-				assertEquals(savedOrderFood,food);
+			if (food.equals(savedOrderFood)) {
+				assertEquals(savedOrderFood, food);
 				found = true;
 				break;
 			}
 		}
 		assertTrue(found);
-		
+
 		try {
 			savedOrder.setPortions(new HashMap<Food, Integer>());
 			orderDao.save(savedOrder);
@@ -78,12 +78,12 @@ class MySqlFoodDaoTest {
 		} catch (EntityUndeletableException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Test
 	void testSave() throws EntityUndeletableException {
-		//OK
+		// OK
 		// INSERT
 		int initialSize = foodDao.getAll().size();
 		Food newFood = new Food("TestOfSave", "idk", "image", 5.55, 500);
@@ -111,7 +111,7 @@ class MySqlFoodDaoTest {
 		foodDao.delete(savedNewFood.getId());
 
 		// UPDATE
-		Food changedFood = new Food(savedFood.getId(),"changedFood", "changed food test", "image2", 8.00, 450);
+		Food changedFood = new Food(savedFood.getId(), "changedFood", "changed food test", "image2", 8.00, 450);
 		Food savedChangedFood = foodDao.save(changedFood);
 		assertEquals(changedFood, savedChangedFood);
 		assertEquals("changedFood", savedChangedFood.getName());
@@ -147,19 +147,18 @@ class MySqlFoodDaoTest {
 
 	@Test
 	void testSaveIngredient() throws EntityUndeletableException {
-		//INSERT
+		// INSERT
 		Ingredient i = new Ingredient("Test", 0.5, "5 g");
 		IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
 		Ingredient savedIngr = ingredientDao.save(i);
 		int beforeInsert = savedFood.getIngredients().size();
 		foodDao.saveIngredient(savedFood, savedIngr, 8);
-		
+
 		Map<Ingredient, Integer> all = savedFood.getIngredients();
 		assertEquals(beforeInsert + 1, all.size());
 		assertTrue(all.containsKey(savedIngr));
 		assertTrue(all.containsValue(8));
-		
-		
+
 //		Ingredient i2 = new Ingredient("tttt", 3.2, "");
 //		assertThrows(EntityNotFoundException.class, new Executable() {
 //			@Override
@@ -167,20 +166,21 @@ class MySqlFoodDaoTest {
 //				foodDao.saveIngredient(savedFood, i2, 9);				
 //			}
 //		});
-		
-		//UPDATE
+
+		// UPDATE
 		all = foodDao.saveIngredient(savedFood, savedIngr, 10);
+		System.out.println(savedFood.getIngredients());
 		assertEquals(savedFood.getIngredients(), all);
 		assertTrue(all.containsKey(savedIngr));
 		assertEquals(all.get(savedIngr), 10);
-		
+
 		foodDao.deleteIngredient(savedFood, savedIngr);
-		ingredientDao.delete(savedIngr.getId());		
+		ingredientDao.delete(savedIngr.getId());
 	}
-	
+
 	@Test
 	void deleteIngredientTest() throws EntityUndeletableException {
-		//OK
+		// OK
 		Ingredient i = new Ingredient("Test", 0.5, "5 g");
 		Ingredient i2 = new Ingredient("Test2", 0.5, "5 g");
 		IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
@@ -188,17 +188,17 @@ class MySqlFoodDaoTest {
 		Ingredient savedIngr2 = ingredientDao.save(i2);
 		foodDao.saveIngredient(savedFood, savedIngr, 4);
 		foodDao.saveIngredient(savedFood, savedIngr2, 3);
-		
+
 		int beforeCount = savedFood.getIngredients().size();
 		Food afterDelete = foodDao.deleteIngredient(savedFood, savedIngr);
-		
+
 		assertEquals(beforeCount - 1, afterDelete.getIngredients().size());
-		assertFalse(afterDelete.getIngredients().containsKey(savedIngr) );
-		
+		assertFalse(afterDelete.getIngredients().containsKey(savedIngr));
+
 		foodDao.deleteIngredient(savedFood, savedIngr2);
 		ingredientDao.delete(savedIngr.getId());
 		ingredientDao.delete(savedIngr2.getId());
-		
+
 	}
 
 	@Test
@@ -218,6 +218,13 @@ class MySqlFoodDaoTest {
 	void testDelete() throws EntityUndeletableException {
 		// OK
 		Food foodToDelete = new Food("delete", "food to be deleted", "idk", 5.00, 100);
+		Ingredient i = new Ingredient("test delete", 0.01, "2 ks");
+		IngredientDao idao = DaoFactory.INSTANCE.getIngredientDao();
+		i = idao.save(i);
+		HashMap<Ingredient, Integer> map = new HashMap<Ingredient, Integer>();
+		map.put(i, 3);
+		foodToDelete.setIngredients(map);
+		
 		Food saved = foodDao.save(foodToDelete);
 		Food savedToDelete = foodDao.delete(saved.getId());
 		assertEquals(saved, savedToDelete);
@@ -228,6 +235,7 @@ class MySqlFoodDaoTest {
 			}
 		});
 		
+		idao.delete(i.getId());
 		HashMap<Food, Integer> portions = new HashMap<Food, Integer>();
 		Food inOrder = new Food("inOrderException", "food in order test", "dd", 0.08, 100);
 		Food savedOrderFood = foodDao.save(inOrder);
@@ -240,7 +248,7 @@ class MySqlFoodDaoTest {
 				foodDao.delete(savedOrderFood.getId());
 			}
 		});
-		
+
 		try {
 			savedOrder.setPortions(new HashMap<Food, Integer>());
 			orderDao.save(savedOrder);
@@ -249,7 +257,7 @@ class MySqlFoodDaoTest {
 		} catch (EntityUndeletableException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }
