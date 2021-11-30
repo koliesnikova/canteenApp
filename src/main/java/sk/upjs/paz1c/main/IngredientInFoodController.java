@@ -15,7 +15,7 @@ import sk.upjs.paz1c.storage.Ingredient;
 public class IngredientInFoodController {
 
 	@FXML
-	private TextField amountNeededTextField;
+	private TextField amountNeededTextField; //delete
 
 	@FXML
 	private Label ingredientNameLabel;
@@ -23,17 +23,20 @@ public class IngredientInFoodController {
 	@FXML
 	private Label standardAmountLabel;
 
-	@FXML
-	private Button saveButton;
+	//@FXML
+	//private Button saveButton;
 
 	@FXML
 	private Spinner<Integer> amountNeededSpinner;
 
 	private String name;
 	private String amount;
-	private Integer needed;
-	
-	public IngredientInFoodController(Ingredient ingredient, Food food) {
+	private Integer needed = 0;
+	private FoodFxModel foodModel;
+	private Ingredient ingredient;
+
+	public IngredientInFoodController(Ingredient ingredient, Food food, FoodFxModel foodModel) {
+		this.ingredient = ingredient;
 		this.name = ingredient.getName();
 		this.amount = ingredient.getAmount();
 		Map<Ingredient, Integer> allIngrs = food.getIngredients();
@@ -42,31 +45,33 @@ public class IngredientInFoodController {
 				this.needed = allIngrs.get(ingr);
 			}
 		}
+		this.foodModel = foodModel;
 	}
 
 	@FXML
 	void initialize() {
 		ingredientNameLabel.setText(name);
 		standardAmountLabel.setText(amount);
+		// https://o7planning.org/11185/javafx-spinner
+		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,
+				Integer.MAX_VALUE, 0);
+		amountNeededSpinner.setValueFactory(valueFactory);
+
 		if (needed != null) {
-			amountNeededTextField.setText(needed.toString());
+			amountNeededSpinner.getValueFactory().setValue(needed);
 		} else {
-			amountNeededTextField.setText("0");
+			amountNeededSpinner.getValueFactory().setValue(0);
 		}
 
-		// https://o7planning.org/11185/javafx-spinner
-		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,Integer.MAX_VALUE, 0);
-		amountNeededSpinner.setValueFactory(valueFactory);
-		
-		// TODO bind spinner?
 		// https://stackoverflow.com/questions/35835939/spinnerinteger-bind-to-integerproperty
-		//amountNeededSpinner.getValueFactory().valueProperty().bindBidirectional(foodFxModel.amountAvailableProperty().asObject());
-
+		 amountNeededSpinner.getValueFactory().valueProperty().bindBidirectional(foodModel.amountNeededProperty(ingredient, needed).asObject());
 	}
 
 	@FXML
 	void saveChanges(ActionEvent event) {
-		// TODO implement
-		
+		// TODO implement save amount needed
+		foodModel.setAmountNeeded(ingredient.getId(), needed);
+		ingredientNameLabel.getScene().getWindow().hide();
+
 	}
 }

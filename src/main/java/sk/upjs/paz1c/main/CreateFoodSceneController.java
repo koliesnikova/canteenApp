@@ -13,6 +13,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -87,6 +88,7 @@ public class CreateFoodSceneController {
 	@FXML
 	void save(ActionEvent event) {
 		Food f = foodFxModel.getFood();
+		System.out.println(f);
 		savedFood = foodDao.save(f);
 	}
 
@@ -146,8 +148,17 @@ public class CreateFoodSceneController {
 
 			}
 		});
+		submitButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				foodDao.save(foodFxModel.getFood());
+				nameTextField.getScene().getWindow().hide();
+				
+			}
+		});
 		
 		setIngredientInFood();
+		
 		//https://stackoverflow.com/questions/35249058/set-items-colors-in-listview-in-javafx
 		ingredientListView.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
 			@Override
@@ -204,7 +215,7 @@ public class CreateFoodSceneController {
 						break;
 					}
 				}
-				IngredientInFoodController controller = new IngredientInFoodController(selectedI,foodFxModel.getFood());
+				IngredientInFoodController controller = new IngredientInFoodController(selectedI,foodFxModel.getFood(), foodFxModel);
 				try {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("ingredientInFoodScene.fxml"));
 					loader.setController(controller);
@@ -220,8 +231,10 @@ public class CreateFoodSceneController {
 					e.printStackTrace();
 				}
 				//get amount needed...
+				//update ingredient view -color
 			}
 		});
+		
 
 	}
 

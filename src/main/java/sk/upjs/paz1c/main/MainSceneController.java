@@ -152,7 +152,7 @@ public class MainSceneController {
 				}
 	    	});
 	    	
-	    	//TODO vyhrat sa s Lables - pocet objednavok a veci na nakup - maybe - one day 
+	    	//TODO vyhrat sa s Lables - pocet poloziek v nakupnom zozname
 	    	updateLabels();
 	    }
 	    

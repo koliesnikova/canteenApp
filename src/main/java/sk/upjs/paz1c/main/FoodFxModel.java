@@ -27,8 +27,8 @@ public class FoodFxModel {
 	private StringProperty description = new SimpleStringProperty();
 	private List<String> ingredients = new ArrayList<String>();
 	private List<Ingredient> ingredientsInFood = new ArrayList<Ingredient>();
-	
-	private Map<Ingredient, Integer> amountNeeded = new HashMap<Ingredient, Integer>();
+
+	private Map<Ingredient, Integer> amountNeededMap = new HashMap<Ingredient, Integer>();
 	private IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
 
 	public FoodFxModel() {
@@ -42,14 +42,14 @@ public class FoodFxModel {
 		setWeight(food.getWeight());
 		setImagePath(food.getImage_url());
 		setDescription(food.getDescription());
-		setIngredients(ingredientDao.getAllNames()); 
-		amountNeeded = food.getIngredients();
-		
-		Set<Ingredient> foodIngrs = amountNeeded.keySet();
+		setIngredients(ingredientDao.getAllNames());
+		amountNeededMap = food.getIngredients();
+
+		Set<Ingredient> foodIngrs = amountNeededMap.keySet();
 		for (Ingredient ingredient : foodIngrs) {
 			ingredientsInFood.add(ingredient);
 		}
-		
+
 	}
 
 	public Long getId() {
@@ -83,6 +83,7 @@ public class FoodFxModel {
 	public DoubleProperty priceProperty() {
 		return price;
 	}
+
 	public Integer getWeight() {
 		return weight.get();
 	}
@@ -90,7 +91,7 @@ public class FoodFxModel {
 	public void setWeight(Integer integer) {
 		this.weight.set(integer);
 	}
-	
+
 	public IntegerProperty weightProperty() {
 		return weight;
 	}
@@ -102,7 +103,7 @@ public class FoodFxModel {
 	public void setImagePath(String string) {
 		this.imagePath.set(string);
 	}
-	
+
 	public StringProperty imagePathProperty() {
 		return imagePath;
 	}
@@ -114,6 +115,7 @@ public class FoodFxModel {
 	public void setDescription(String string) {
 		this.description.set(string);
 	}
+
 	public StringProperty descriptionProperty() {
 		return description;
 	}
@@ -121,20 +123,45 @@ public class FoodFxModel {
 	public void setIngredients(List<String> names) {
 		this.ingredients = names;
 	}
+
 	public List<String> getIngredients() {
 		return ingredients;
 	}
-	
+
 	public List<Ingredient> getIngredientsInFood() {
 		return ingredientsInFood;
 	}
 
 	public Map<Ingredient, Integer> getAmountNeededMap() {
-		return amountNeeded;
+		return amountNeededMap;
+	}
+
+	public void setAmountNeeded(Long id, int needed) {
+		Set<Ingredient> all = amountNeededMap.keySet();
+		for (Ingredient ingredient : all) {
+			if (ingredient.getId().equals(id)) {
+				amountNeededMap.put(ingredient, needed);
+				break;
+			}
+		}
+	}
+
+	public IntegerProperty amountNeededProperty(Ingredient i, int needed) {
+		setAmountNeeded(i.getId(), needed);
+		IntegerProperty need = new SimpleIntegerProperty(needed);
+		return need;
+
 	}
 
 	public Food getFood() {
-		return new Food(id, getName(), getDescription(), getImagePath(), getPrice(), getWeight(), amountNeeded);
+		Food f = null;
+		if (id == null) {
+			 f = new Food(getName(), getDescription(), getImagePath(), getPrice(), getWeight(), amountNeededMap);
+		} else {
+			 f = new Food(id, getName(), getDescription(), getImagePath(), getPrice(), getWeight(),
+					amountNeededMap);
+		}
+		return f;
 
 	}
 
