@@ -1,5 +1,7 @@
 package sk.upjs.paz1c.main;
 
+import sk.upjs.paz1c.biznis.CanteenManager;
+import sk.upjs.paz1c.biznis.DefaultCanteenManager;
 import sk.upjs.paz1c.biznis.OrderFoodOverview;
 import sk.upjs.paz1c.biznis.OverviewManager;
 import sk.upjs.paz1c.biznis.OverviewManagerImpl;
@@ -63,9 +65,10 @@ public class CreateOrderSceneController {
 	private OrderFxModel orderModel;
 	private FoodDao foodDao = DaoFactory.INSTANCE.getFoodDao();
 	private OrderDao orderDao = DaoFactory.INSTANCE.getOrderDao();
+	private CanteenManager canteenManager = new DefaultCanteenManager();
 	private Food selectedFood;
 	private Integer selectedPortions;
-	private OverviewManager manager = new OverviewManagerImpl();
+	private OverviewManager overviewManager = new OverviewManagerImpl();
 	private OrderFoodOverview selectedOverview;
 
 	public CreateOrderSceneController(Order selectedOrder) {
@@ -79,7 +82,11 @@ public class CreateOrderSceneController {
 	@FXML
 	void initialize() {
 		deleteButton.setDisable(true);
-		foodComboBox.setItems(FXCollections.observableArrayList(foodDao.getAll()));
+		if (orderModel.getId() == null)
+			foodComboBox.setItems(FXCollections.observableArrayList(foodDao.getAll()));
+		else 
+			foodComboBox.setItems(FXCollections.observableArrayList(foodDao.getAll()));
+		
 		foodComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Food>() {
 
 			@Override
@@ -134,7 +141,7 @@ public class CreateOrderSceneController {
 		totalSumCol.setCellValueFactory(new PropertyValueFactory<>("totalSum"));
 		portionsTableView.getColumns().add(totalSumCol);
 		
-		portionsTableView.setItems(FXCollections.observableArrayList(manager.getAll(orderModel.getId())));
+		portionsTableView.setItems(FXCollections.observableArrayList(overviewManager.getAll(orderModel.getId())));
 		portionsTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<OrderFoodOverview>() {
 
 			@Override
