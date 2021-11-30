@@ -19,6 +19,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -46,6 +48,9 @@ public class CreateOrderSceneController {
 
 	@FXML
 	private Button addButton;
+	
+    @FXML
+    private Button saveButton;
 
 	@FXML
 	private DatePicker dayDatePicker;
@@ -67,7 +72,7 @@ public class CreateOrderSceneController {
 	private OrderDao orderDao = DaoFactory.INSTANCE.getOrderDao();
 	private CanteenManager canteenManager = new DefaultCanteenManager();
 	private Food selectedFood;
-	private Integer selectedPortions;
+	private Integer selectedPortions = 1;
 	private OverviewManager overviewManager = new OverviewManagerImpl();
 	private OrderFoodOverview selectedOverview;
 
@@ -81,11 +86,16 @@ public class CreateOrderSceneController {
 
 	@FXML
 	void initialize() {
+		if (orderModel.isPrepared()) {
+			addButton.setDisable(true);
+			saveButton.setDisable(true);
+			
+		}
 		deleteButton.setDisable(true);
 		if (orderModel.getId() == null)
 			foodComboBox.setItems(FXCollections.observableArrayList(foodDao.getAll()));
 		else 
-			foodComboBox.setItems(FXCollections.observableArrayList(foodDao.getAll()));
+			foodComboBox.setItems(FXCollections.observableArrayList(canteenManager.filterFoodNotOnOrder(orderModel.getId())));
 		
 		foodComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Food>() {
 
@@ -96,7 +106,7 @@ public class CreateOrderSceneController {
 			}
 		});
 
-		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,
+		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,
 				Integer.MAX_VALUE, 0);
 		portionsSpinner.setValueFactory(valueFactory);
 		portionsSpinner.getValueFactory().valueProperty().addListener(new ChangeListener<Integer>() {
@@ -148,7 +158,8 @@ public class CreateOrderSceneController {
 			public void changed(ObservableValue<? extends OrderFoodOverview> observable, OrderFoodOverview oldValue,
 					OrderFoodOverview newValue) {
 				selectedOverview = newValue;
-				deleteButton.setDisable(false);
+				if (!orderModel.isPrepared())
+					deleteButton.setDisable(false);
 				
 			}
 		});
@@ -156,21 +167,27 @@ public class CreateOrderSceneController {
 
 	@FXML
 	void addFood(ActionEvent event) {
-		for (Food f : orderModel.getPortions().keySet()) {
-			if (f.getId().equals(selectedFood.getId())) {
-				orderModel.getPortions().put(f, selectedPortions);
-				OrderFoodOverview o = new OrderFoodOverview(f.getId(), f.getName(), orderModel.getPortions().get(f), f.getPrice());
-				portionsTableView.getItems().add(o);
-				
-				for (Food food : foodComboBox.getItems()) {
-					if (food.getId() == f.getId()) {
-						foodComboBox.getItems().remove(food);
-						break;
+		try {
+			for (Food f : orderModel.getPortions().keySet()) {
+				if (f.getId().equals(selectedFood.getId())) {
+					orderModel.getPortions().put(f, selectedPortions);
+					OrderFoodOverview o = new OrderFoodOverview(f.getId(), f.getName(), orderModel.getPortions().get(f), f.getPrice());
+					portionsTableView.getItems().add(o);
+					
+					for (Food food : foodComboBox.getItems()) {
+						if (food.getId() == f.getId()) {
+							foodComboBox.getItems().remove(food);
+							break;
+						}
 					}
+					
+					break;
 				}
-				
-				break;
 			}
+		} catch (NullPointerException e) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setContentText("Please select food and then hit add!");
+			alert.show();
 		}
 	}
 
@@ -186,6 +203,7 @@ public class CreateOrderSceneController {
 		portionsTableView.getItems().remove(selectedOverview);
 		selectedOverview = null;
 		deleteButton.setDisable(true);
+		portionsTableView.getSelectionModel().clearSelection();
 	}
 
 	@FXML

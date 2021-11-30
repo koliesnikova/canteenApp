@@ -17,18 +17,18 @@ public class DefaultCanteenManager implements CanteenManager {
 	@Override
 	public List<Food> filterFoodNotOnOrder(Long orderId) {
 		Order order = orderDao.getById(orderId);
-		List<Food> result = new ArrayList<>();
-		List<Food> allFoods = foodDao.getAll();
+		List<Food> result = foodDao.getAll();
+
 		for (Food f : order.getPortions().keySet()) {
-			boolean found = false;
-			for (Food foodFromAll : allFoods) {
+			int idx = -1;
+			for (Food foodFromAll : result) {
 				if (f.getId().equals(foodFromAll.getId())) {
-					found = true;
+					idx = result.indexOf(foodFromAll);
 					break;
 				}		
 			}
-			if (!found)
-				result.add(f);
+			if (idx != -1)
+				result.remove(idx);
 		}
 		return result;
 	}
