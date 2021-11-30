@@ -20,9 +20,11 @@ public class OrderFxModel {
 	private ObjectProperty<LocalDate> day = new SimpleObjectProperty<>();
 	private Map<Food, Integer> portions = new HashMap<>();
 	private FoodDao foodDao = DaoFactory.INSTANCE.getFoodDao();
+	private boolean prepared;
 	
 	public OrderFxModel(Order order) {
 		this.id = order.getId();
+		this.prepared = order.isPrepared();
 		setDay(order.getDay().toLocalDate());
 		for (Food f : foodDao.getAll()) {
 			portions.put(f, order.hasFoodOnList(f.getId()));
@@ -41,6 +43,14 @@ public class OrderFxModel {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public boolean isPrepared() {
+		return prepared;
+	}
+
+	public void setPrepared(boolean prepared) {
+		this.prepared = prepared;
 	}
 
 	public LocalDate getDay() {
@@ -68,7 +78,7 @@ public class OrderFxModel {
 	}
 	
 	public Order getOrderFromModel() {
-		Order o = new Order(id, LocalDateTime.of(getDay(), LocalTime.of(0, 0, 0)));
+		Order o = new Order(id, LocalDateTime.of(getDay(), LocalTime.of(0, 0, 0)), prepared, new HashMap<>());
 		for (Entry<Food, Integer> pair : portions.entrySet()) {
 			if (pair.getValue() > 0) {
 				o.getPortions().put(pair.getKey(), pair.getValue());
