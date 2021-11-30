@@ -32,17 +32,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 
 
-/*
- * 
- *  TO DO:
- *  ak sa len nejake jedlo ide upravovat aby v comboboxe neboli 
- *  tie jedla ktore uz su v tabulke zapisane 
- *  '-> najefektivnejsie asi tahat priamo z databazy len vhodne jedla
- * 
- */
-
-
-
 
 public class CreateOrderSceneController {
 
