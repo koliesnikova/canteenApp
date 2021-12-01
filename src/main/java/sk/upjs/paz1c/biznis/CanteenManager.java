@@ -7,6 +7,6 @@ import sk.upjs.paz1c.storage.Order;
 
 public interface CanteenManager {
 	
-	List<Food> filterFoodNotOnOrder(Long orderId);
+	List<Food> filterFoodNotInOrder(Long orderId);
 
 }

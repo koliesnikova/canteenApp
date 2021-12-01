@@ -1,6 +1,5 @@
 package sk.upjs.paz1c.biznis;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import sk.upjs.paz1c.storage.DaoFactory;
@@ -15,7 +14,7 @@ public class DefaultCanteenManager implements CanteenManager {
 	private OrderDao orderDao = DaoFactory.INSTANCE.getOrderDao();
 	
 	@Override
-	public List<Food> filterFoodNotOnOrder(Long orderId) {
+	public List<Food> filterFoodNotInOrder(Long orderId) {
 		Order order = orderDao.getById(orderId);
 		List<Food> result = foodDao.getAll();
 
