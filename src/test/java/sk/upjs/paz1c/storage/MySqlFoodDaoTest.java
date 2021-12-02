@@ -124,13 +124,16 @@ class MySqlFoodDaoTest {
 		ingrs.clear();
 		Ingredient savedIngr2 = ingredientDao.save(ingr2);
 		ingrs.put(savedIngr2, 15);
-		Food changedFood = new Food(savedFood.getId(), "changedFood", "changed food test", "image2", 8.00, 450, ingrs);
+		Food changeFood = new Food("changedFood", "changed food test", "image2", 8.00, 450, ingrs);
+		Food changedFood = foodDao.save(changeFood);
+		changedFood.setDescription("changing stuff");
+		changedFood.setPrice(18.0);
 		Food savedChangedFood = foodDao.save(changedFood);
 		assertEquals(changedFood, savedChangedFood);
 		assertEquals("changedFood", savedChangedFood.getName());
-		assertEquals("changed food test", savedChangedFood.getDescription());
+		assertEquals("changing stuff", savedChangedFood.getDescription());
 		assertEquals("image2", savedChangedFood.getImage_url());
-		assertEquals(8.00, savedChangedFood.getPrice());
+		assertEquals(18.0, savedChangedFood.getPrice());
 		assertEquals(ingrs.size(), savedChangedFood.getIngredients().size());
 		assertEquals(savedChangedFood.getId(), changedFood.getId());
 
@@ -161,6 +164,8 @@ class MySqlFoodDaoTest {
 				foodDao.save(null);
 			}
 		});
+		foodDao.delete(savedChangedFood.getId());
+		ingredientDao.delete(savedIngr2.getId());
 	}
 
 	@Test
@@ -239,7 +244,6 @@ class MySqlFoodDaoTest {
 		map.put(i, 6);
 		foodToDelete.setIngredients(map);
 		Food saved = foodDao.save(foodToDelete);
-		//foodDao.saveIngredientToFood(saved, i, 5);
 		Food savedToDelete = foodDao.delete(saved.getId());
 		assertEquals(saved.getId(), savedToDelete.getId());
 		assertThrows(EntityNotFoundException.class, new Executable() {
@@ -250,6 +254,7 @@ class MySqlFoodDaoTest {
 		});
 
 		idao.delete(i.getId());
+		
 		HashMap<Food, Integer> portions = new HashMap<Food, Integer>();
 		Food inOrder = new Food("inOrderException", "food in order test", "dd", 0.08, 100);
 		Food savedOrderFood = foodDao.save(inOrder);
@@ -271,7 +276,6 @@ class MySqlFoodDaoTest {
 		} catch (EntityUndeletableException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
