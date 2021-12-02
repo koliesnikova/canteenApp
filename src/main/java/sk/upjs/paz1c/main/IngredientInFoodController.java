@@ -45,13 +45,14 @@ public class IngredientInFoodController {
 				this.needed = allIngrs.get(ingr);
 			}
 		}
-		this.foodModel = foodModel;
+		this.foodModel = foodModel; //problem s food modelom??
 	}
 
 	@FXML
 	void initialize() {
 		ingredientNameLabel.setText(name);
 		standardAmountLabel.setText(amount);
+		
 		// https://o7planning.org/11185/javafx-spinner
 		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,
 				Integer.MAX_VALUE, 0);
@@ -64,12 +65,15 @@ public class IngredientInFoodController {
 		}
 
 		// https://stackoverflow.com/questions/35835939/spinnerinteger-bind-to-integerproperty
-		 amountNeededSpinner.getValueFactory().valueProperty().bindBidirectional(foodModel.amountNeededProperty(ingredient, needed).asObject());
+		// amountNeededSpinner.getValueFactory().valueProperty().bindBidirectional(foodModel.amountNeededProperty(ingredient, needed).asObject());
+		
 	}
 
 	@FXML
 	void saveChanges(ActionEvent event) {
-		// TODO implement save amount needed
+		// TODO fix save amount needed
+		needed = amountNeededSpinner.getValue();
+		System.out.println("saveChanges, amount changed to: " + needed);
 		foodModel.setAmountNeeded(ingredient.getId(), needed);
 		ingredientNameLabel.getScene().getWindow().hide();
 

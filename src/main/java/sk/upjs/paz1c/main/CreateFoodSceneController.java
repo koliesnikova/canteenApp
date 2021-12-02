@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 
@@ -88,7 +89,7 @@ public class CreateFoodSceneController {
 	@FXML
 	void save(ActionEvent event) {
 		Food f = foodFxModel.getFood();
-		System.out.println(f);
+		System.out.println("save " + f.getIngredients());
 		savedFood = foodDao.save(f);
 	}
 
@@ -151,7 +152,13 @@ public class CreateFoodSceneController {
 		submitButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				foodDao.save(foodFxModel.getFood());
+				savedFood = foodDao.save(foodFxModel.getFood());
+//				Set<Ingredient> map = foodFxModel.getAmountNeededMap().keySet();
+//				for (Ingredient ingredient2 : map) {
+//					System.out.println(ingredientDao.getById(ingredient2.getId()));
+//					foodDao.saveIngredientToFood(saved, ingredientDao.getById(ingredient2.getId()), foodFxModel.getAmountNeededMap().get(ingredient2));
+//				}
+				
 				nameTextField.getScene().getWindow().hide();
 				
 			}
@@ -215,7 +222,9 @@ public class CreateFoodSceneController {
 						break;
 					}
 				}
-				IngredientInFoodController controller = new IngredientInFoodController(selectedI,foodFxModel.getFood(), foodFxModel);
+				Food f1 = foodFxModel.getFood();
+				System.out.println("F1 " + f1+ f1.getIngredients());
+				IngredientInFoodController controller = new IngredientInFoodController(selectedI,f1, foodFxModel);
 				try {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("ingredientInFoodScene.fxml"));
 					loader.setController(controller);
@@ -231,7 +240,11 @@ public class CreateFoodSceneController {
 					e.printStackTrace();
 				}
 				//get amount needed...
-				//update ingredient view -color
+				//TODO update ingredient view -color
+				ingredientListView.setItems(FXCollections.observableArrayList(ingredientDao.getAllNames()));
+				Food f2 = foodFxModel.getFood();
+				System.out.println("F2 " + f2 + f2.getIngredients());
+				System.out.println("result after closing window " + f2.getIngredients());
 			}
 		});
 		
