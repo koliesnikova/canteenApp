@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sound.midi.Soundbank;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -167,7 +169,7 @@ class MySqlFoodDaoTest {
 		Ingredient i = new Ingredient("Test", 0.5, "5 g");
 		Ingredient savedIngr = ingredientDao.save(i);
 		int beforeInsert = savedFood.getIngredients().size();
-		foodDao.saveIngredientToFood(savedFood, savedIngr, 8);
+		savedFood = foodDao.saveIngredientToFood(savedFood, savedIngr, 8);
 
 		Map<Ingredient, Integer> all = savedFood.getIngredients();
 		assertEquals(beforeInsert + 1, all.size());
@@ -183,12 +185,13 @@ class MySqlFoodDaoTest {
 		});
 		
 		// UPDATE
-		all = foodDao.saveIngredientToFood(savedFood, savedIngr, 10);
+		Food newFood = foodDao.saveIngredientToFood(savedFood, savedIngr, 10);
+		all = newFood.getIngredients();
 		assertEquals(savedFood.getIngredients(), all);
 		assertTrue(all.containsKey(savedIngr));
 		assertEquals(all.get(savedIngr), 10);
 
-		foodDao.deleteIngredient(savedFood, savedIngr);
+		foodDao.deleteIngredient(newFood, savedIngr);
 		ingredientDao.delete(savedIngr.getId());
 	}
 
@@ -199,12 +202,12 @@ class MySqlFoodDaoTest {
 		IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
 		Ingredient savedIngr = ingredientDao.save(i);
 		Ingredient savedIngr2 = ingredientDao.save(i2);
-		foodDao.saveIngredientToFood(savedFood, savedIngr, 4);
-		foodDao.saveIngredientToFood(savedFood, savedIngr2, 3);
+		savedFood = foodDao.saveIngredientToFood(savedFood, savedIngr, 4);
+		savedFood = foodDao.saveIngredientToFood(savedFood, savedIngr2, 3);
 
 		int beforeCount = savedFood.getIngredients().size();
-		Food afterDelete = foodDao.deleteIngredient(savedFood, savedIngr);
-
+		Food afterDelete = foodDao.deleteIngredient(foodDao.getById(savedFood.getId()), savedIngr);
+		
 		assertEquals(beforeCount - 1, afterDelete.getIngredients().size());
 		assertFalse(afterDelete.getIngredients().containsKey(savedIngr));
 

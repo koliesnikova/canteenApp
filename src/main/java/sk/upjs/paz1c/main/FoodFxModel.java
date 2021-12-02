@@ -20,15 +20,18 @@ import sk.upjs.paz1c.storage.IngredientDao;
 public class FoodFxModel {
 
 	private Long id = null;
+
 	private StringProperty name = new SimpleStringProperty();
 	private DoubleProperty price = new SimpleDoubleProperty();
 	private IntegerProperty weight = new SimpleIntegerProperty();
 	private StringProperty imagePath = new SimpleStringProperty();
 	private StringProperty description = new SimpleStringProperty();
+
 	private List<String> ingredients = new ArrayList<String>();
 	private List<Ingredient> ingredientsInFood = new ArrayList<Ingredient>();
 
 	private Map<Ingredient, Integer> amountNeededMap = new HashMap<Ingredient, Integer>();
+
 	private IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
 
 	public FoodFxModel() {
@@ -45,10 +48,7 @@ public class FoodFxModel {
 		setIngredients(ingredientDao.getAllNames());
 		amountNeededMap = food.getIngredients();
 
-		Set<Ingredient> foodIngrs = amountNeededMap.keySet();
-		for (Ingredient ingredient : foodIngrs) {
-			ingredientsInFood.add(ingredient);
-		}
+		setIngredientsInFood(amountNeededMap.keySet());
 
 	}
 
@@ -128,6 +128,12 @@ public class FoodFxModel {
 		return ingredients;
 	}
 
+	public void setIngredientsInFood(Set<Ingredient> foodIngrs) {
+		for (Ingredient ingredient : foodIngrs) {
+			ingredientsInFood.add(ingredient);
+		}
+	}
+
 	public List<Ingredient> getIngredientsInFood() {
 		return ingredientsInFood;
 	}
@@ -137,30 +143,57 @@ public class FoodFxModel {
 	}
 
 	public void setAmountNeeded(Long id, int needed) {
-		Set<Ingredient> all = amountNeededMap.keySet();
+		List<Ingredient> all = ingredientDao.getAll();
 		for (Ingredient ingredient : all) {
 			if (ingredient.getId().equals(id)) {
-				amountNeededMap.put(ingredient, needed);
-				break;
+				Set<Ingredient> set = amountNeededMap.keySet();
+
+				Ingredient toRemove = null;
+				Ingredient toUpdate = null;
+
+				for (Ingredient ingredient2 : set) {
+					if (ingredient2.getId().equals(ingredient.getId())) {
+						if (needed == 0) {
+							toRemove = ingredient2;
+						} else {
+							toUpdate = ingredient2;
+						}
+					}
+				}
+
+				if (toRemove!=null) {
+					System.out.println("removing " + toRemove + " from " + amountNeededMap);
+					amountNeededMap.remove(toRemove);
+				}
+				else if(toUpdate!=null) {
+					System.out.println("updating " + toUpdate + " >>> " + amountNeededMap);
+					amountNeededMap.put(toUpdate, needed);
+				}else {
+					amountNeededMap.put(ingredient, needed);
+				}
+
+				System.out.println("after all: " + amountNeededMap);
+				System.out.println();
+				setIngredientsInFood(amountNeededMap.keySet());
 			}
 		}
 	}
 
-	public IntegerProperty amountNeededProperty(Ingredient i, int needed) {
-		setAmountNeeded(i.getId(), needed);
-		IntegerProperty need = new SimpleIntegerProperty(needed);
-		return need;
-
-	}
+//	public IntegerProperty amountNeededProperty(Ingredient i, int needed) {
+//		setAmountNeeded(i.getId(), needed);
+//		IntegerProperty need = new SimpleIntegerProperty(needed);
+//		return need;
+//
+//	}
 
 	public Food getFood() {
 		Food f = null;
 		if (id == null) {
-			 f = new Food(getName(), getDescription(), getImagePath(), getPrice(), getWeight(), amountNeededMap);
+			f = new Food(getName(), getDescription(), getImagePath(), getPrice(), getWeight(), amountNeededMap);
 		} else {
-			 f = new Food(id, getName(), getDescription(), getImagePath(), getPrice(), getWeight(),
-					amountNeededMap);
+			f = new Food(id, getName(), getDescription(), getImagePath(), getPrice(), getWeight(), amountNeededMap);
 		}
+		System.out.println("getFood " + f + f.getIngredients());
 		return f;
 
 	}

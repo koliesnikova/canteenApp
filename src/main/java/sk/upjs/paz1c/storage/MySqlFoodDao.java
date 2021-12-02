@@ -72,7 +72,7 @@ public class MySqlFoodDao implements FoodDao {
 	}
 
 	@Override
-	public Map<Ingredient, Integer> saveIngredientToFood(Food food, Ingredient ingredient, Integer amount)
+	public Food saveIngredientToFood(Food food, Ingredient ingredient, Integer amount)
 			throws EntityNotFoundException {
 		Map<Ingredient, Integer> map = food.getIngredients();
 				
@@ -82,17 +82,22 @@ public class MySqlFoodDao implements FoodDao {
 		String sql = "INSERT INTO food_ingredients (`food_id`,`ingredient_id`,`amount_needed`) VALUES (?, ? ,?)";
 		try {
 			int changedRows = jdbcTemplate.update(sql, food.getId(), ingredient.getId(), amount);
+			
 			if (changedRows == 1) {
 				Set<Ingredient> keys = map.keySet();
+				ArrayList<Ingredient> toReplace = new ArrayList<Ingredient>();
 				for (Ingredient ingredient2 : keys) {
 					if(ingredient2.getId().equals(ingredient.getId())) {
-						map.remove(ingredient2);
-						map.put(ingredient, amount);
+						toReplace.add(ingredient2);
 					}
+				}
+				for (Ingredient ingredient2 : toReplace) {
+					map.remove(ingredient2);
+					map.put(ingredient, amount);
 				}
 				map.put(ingredient, amount);
 				food.setIngredients(map);
-				return map;
+				return food;
 			}
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityNotFoundException("Food or ingredient is not in DB: operation failed.");
@@ -180,9 +185,9 @@ public class MySqlFoodDao implements FoodDao {
 					food.getDescription(), food.getImage_url(), food.getPrice(), food.getWeight(),
 					food.getIngredients());
 			Set<Ingredient> set = food.getIngredients().keySet();
-			for (Ingredient ingredient2 : set) {
-				saveIngredientToFood(newFood, ingredientDao.getById(ingredient2.getId()),
-						food.getIngredients().get(ingredient2));
+			for (Ingredient ingredient : set) {
+				saveIngredientToFood(newFood, ingredientDao.getById(ingredient.getId()),
+						food.getIngredients().get(ingredient));
 			}
 
 			return newFood;
