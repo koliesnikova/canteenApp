@@ -72,22 +72,33 @@ public class MySqlFoodDao implements FoodDao {
 	}
 
 	@Override
-	public Food saveIngredientToFood(Food food, Ingredient ingredient, Integer amount)
-			throws EntityNotFoundException {
+	public Food saveIngredientToFood(Food food, Ingredient ingredient, Integer amount) throws EntityNotFoundException {
 		Map<Ingredient, Integer> map = food.getIngredients();
-				
+
 		String sql1 = "DELETE FROM food_ingredients WHERE food_id = ? AND ingredient_id = ?";
 		jdbcTemplate.update(sql1, food.getId(), ingredient.getId());
-		
+
+		if (amount == 0) {
+			Set<Ingredient> ing = food.getIngredients().keySet();
+			Ingredient toDelete = null;
+			for (Ingredient ingr : ing) {
+				if (ingr.getId().equals(ingredient.getId())) {
+					toDelete = ingr;
+					break;
+				}
+			}
+			food.getIngredients().remove(toDelete);
+			return food;
+		}
 		String sql = "INSERT INTO food_ingredients (`food_id`,`ingredient_id`,`amount_needed`) VALUES (?, ? ,?)";
 		try {
 			int changedRows = jdbcTemplate.update(sql, food.getId(), ingredient.getId(), amount);
-			
+
 			if (changedRows == 1) {
 				Set<Ingredient> keys = map.keySet();
 				ArrayList<Ingredient> toReplace = new ArrayList<Ingredient>();
 				for (Ingredient ingredient2 : keys) {
-					if(ingredient2.getId().equals(ingredient.getId())) {
+					if (ingredient2.getId().equals(ingredient.getId())) {
 						toReplace.add(ingredient2);
 					}
 				}
@@ -102,6 +113,7 @@ public class MySqlFoodDao implements FoodDao {
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityNotFoundException("Food or ingredient is not in DB: operation failed.");
 		}
+
 		throw new EntityNotFoundException("Food or ingredient is not in DB: operation failed.");
 
 	}
@@ -184,27 +196,55 @@ public class MySqlFoodDao implements FoodDao {
 			Food newFood = new Food(insert.executeAndReturnKey(values).longValue(), food.getName(),
 					food.getDescription(), food.getImage_url(), food.getPrice(), food.getWeight(),
 					food.getIngredients());
+			List<Ingredient> setAll = ingredientDao.getAll();
 			Set<Ingredient> set = food.getIngredients().keySet();
-			for (Ingredient ingredient : set) {
-				saveIngredientToFood(newFood, ingredientDao.getById(ingredient.getId()),
-						food.getIngredients().get(ingredient));
+			for (Ingredient ingredient : setAll) {
+				boolean found = false;
+				Ingredient fromSet = null;
+				for (Ingredient ingredient2 : set) {
+					if (ingredient.getId().equals(ingredient2.getId())) {
+						found = true;
+						fromSet = ingredient2;
+						break;
+					}
+				}
+				if (!found) {
+					System.out.println("nuuull2 " + food.getIngredients() + ingredient);
+					saveIngredientToFood(newFood, ingredientDao.getById(ingredient.getId()), 0);
+				} else {
+					saveIngredientToFood(newFood, ingredientDao.getById(ingredient.getId()),
+							food.getIngredients().get(fromSet));
+				}
 			}
 
 			return newFood;
 		} else { // update
+			// TODO when to throw entity not found exception?
 			String sql = "UPDATE food SET name = ?, description = ?, image_url = ?, price = ?,weight = ? WHERE id = ?";
-			int changedCount = jdbcTemplate.update(sql, food.getName(), food.getDescription(), food.getImage_url(),
-					food.getPrice(), food.getWeight(), food.getId());
-			//if (changedCount == 1) {
-				Set<Ingredient> set = food.getIngredients().keySet();
-				for (Ingredient ingredient : set) {
-					saveIngredientToFood(getById(food.getId()), ingredientDao.getById(ingredient.getId()),
-							food.getIngredients().get(ingredient));
-				//}
-				//return food;
-			} //else {
-				//throw new EntityNotFoundException("Food with ID: " + food.getId() + " not found in DB!");
-			//}
+			jdbcTemplate.update(sql, food.getName(), food.getDescription(), food.getImage_url(), food.getPrice(),
+					food.getWeight(), food.getId());
+
+			List<Ingredient> setAll = ingredientDao.getAll();
+			Set<Ingredient> set = food.getIngredients().keySet();
+
+			for (Ingredient ingredient : setAll) {
+				boolean found = false;
+				Ingredient fromSet = null;
+				for (Ingredient ingredient2 : set) {
+					if (ingredient.getId().equals(ingredient2.getId())) {
+						found = true;
+						fromSet = ingredient2;
+						break;
+					}
+				}
+				if (!found) {
+					System.out.println("nuuull " + food.getIngredients() + ingredient);
+					saveIngredientToFood(food, ingredientDao.getById(ingredient.getId()), 0);
+				} else {
+					saveIngredientToFood(food, ingredientDao.getById(ingredient.getId()),
+							food.getIngredients().get(fromSet));
+				}
+			}
 		}
 		return food;
 	}
@@ -213,7 +253,11 @@ public class MySqlFoodDao implements FoodDao {
 	public Food delete(long idFood) throws EntityUndeletableException {
 		Food food = getById(idFood);
 		Set<Ingredient> ingrs = food.getIngredients().keySet();
+		ArrayList<Ingredient> toDelete = new ArrayList<Ingredient>();
 		for (Ingredient ingredient : ingrs) {
+			toDelete.add(ingredient);
+		}
+		for (Ingredient ingredient : toDelete) {
 			deleteIngredient(food, ingredient);
 		}
 
