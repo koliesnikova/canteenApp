@@ -84,7 +84,7 @@ public class CreateOrderSceneController {
 		if (orderModel.getId() == null)
 			foodComboBox.setItems(FXCollections.observableArrayList(foodDao.getAll()));
 		else 
-			foodComboBox.setItems(FXCollections.observableArrayList(canteenManager.filterFoodNotOnOrder(orderModel.getId())));
+			foodComboBox.setItems(FXCollections.observableArrayList(canteenManager.filterFoodNotInOrder(orderModel.getId())));
 		
 		foodComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Food>() {
 
