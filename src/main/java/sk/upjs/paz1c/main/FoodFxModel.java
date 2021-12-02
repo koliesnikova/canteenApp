@@ -172,7 +172,7 @@ public class FoodFxModel {
 					amountNeededMap.put(ingredient, needed);
 				}
 
-				System.out.println("after all: " + amountNeededMap);
+				System.out.println("after all: " + amountNeededMap + "ingrs " +amountNeededMap.keySet());
 				System.out.println();
 				setIngredientsInFood(amountNeededMap.keySet());
 			}
@@ -193,7 +193,6 @@ public class FoodFxModel {
 		} else {
 			f = new Food(id, getName(), getDescription(), getImagePath(), getPrice(), getWeight(), amountNeededMap);
 		}
-		System.out.println("getFood " + f + f.getIngredients());
 		return f;
 
 	}
