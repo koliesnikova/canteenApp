@@ -162,7 +162,7 @@ class MysqlIngredientDaoTest {
 		Food food = new Food("Test food");
 		FoodDao foodDao = DaoFactory.INSTANCE.getFoodDao();
 		Food savedFood = foodDao.save(food);
-		foodDao.saveIngredient(savedFood, savedIngr, 4);
+		foodDao.saveIngredientToFood(savedFood, savedIngr, 4);
 		
 		assertThrows(EntityUndeletableException.class, new Executable() {
 			@Override
