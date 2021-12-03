@@ -129,6 +129,7 @@ public class FoodFxModel {
 	}
 
 	public void setIngredientsInFood(Set<Ingredient> foodIngrs) {
+		ingredientsInFood.clear();
 		for (Ingredient ingredient : foodIngrs) {
 			ingredientsInFood.add(ingredient);
 		}
@@ -174,9 +175,11 @@ public class FoodFxModel {
 
 				System.out.println("after all: " + amountNeededMap + "ingrs " +amountNeededMap.keySet());
 				System.out.println();
-				setIngredientsInFood(amountNeededMap.keySet());
+				
 			}
 		}
+		setIngredientsInFood(amountNeededMap.keySet());
+		
 	}
 
 //	public IntegerProperty amountNeededProperty(Ingredient i, int needed) {

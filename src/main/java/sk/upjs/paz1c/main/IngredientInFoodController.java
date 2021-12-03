@@ -23,9 +23,6 @@ public class IngredientInFoodController {
 	@FXML
 	private Label standardAmountLabel;
 
-	//@FXML
-	//private Button saveButton;
-
 	@FXML
 	private Spinner<Integer> amountNeededSpinner;
 
@@ -45,7 +42,7 @@ public class IngredientInFoodController {
 				this.needed = allIngrs.get(ingr);
 			}
 		}
-		this.foodModel = foodModel; //problem s food modelom??
+		this.foodModel = foodModel;
 	}
 
 	@FXML
@@ -63,17 +60,13 @@ public class IngredientInFoodController {
 		} else {
 			amountNeededSpinner.getValueFactory().setValue(0);
 		}
-
-		// https://stackoverflow.com/questions/35835939/spinnerinteger-bind-to-integerproperty
-		// amountNeededSpinner.getValueFactory().valueProperty().bindBidirectional(foodModel.amountNeededProperty(ingredient, needed).asObject());
 		
 	}
 
 	@FXML
 	void saveChanges(ActionEvent event) {
-		// TODO fix save amount needed
 		needed = amountNeededSpinner.getValue();
-		System.out.println("saveChanges, amount changed to: " + needed);
+		System.out.println("ingredient amount changed to: " + needed);
 		foodModel.setAmountNeeded(ingredient.getId(), needed);
 		ingredientNameLabel.getScene().getWindow().hide();
 

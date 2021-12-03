@@ -89,10 +89,7 @@ public class CreateFoodSceneController {
 
 	@FXML
 	void save(ActionEvent event) {
-		Food f = foodFxModel.getFood();
-		System.out.println("save " + f.getIngredients());
-		actualFood = foodDao.save(f);
-		System.out.println("save2 " + actualFood.getIngredients());
+		actualFood = foodDao.save(foodFxModel.getFood());
 		nameTextField.getScene().getWindow().hide();
 	}
 
@@ -149,26 +146,8 @@ public class CreateFoodSceneController {
 					submitButton.setDisable(false);
 					weightTextField.setStyle("-fx-background-color: white");
 				}
-
 			}
 		});
-//		submitButton.setOnAction(new EventHandler<ActionEvent>() {
-//			@Override
-//			public void handle(ActionEvent event) {
-//				if(actualFood == null) {
-//					actualFood = foodFxModel.getFood();
-//				}
-//				actualFood = foodDao.save(actualFood);
-////				Set<Ingredient> map = foodFxModel.getAmountNeededMap().keySet();
-////				for (Ingredient ingredient2 : map) {
-////					System.out.println(ingredientDao.getById(ingredient2.getId()));
-////					foodDao.saveIngredientToFood(saved, ingredientDao.getById(ingredient2.getId()), foodFxModel.getAmountNeededMap().get(ingredient2));
-////				}
-//				
-//				nameTextField.getScene().getWindow().hide();
-//				
-//			}
-//		});
 		
 		setIngredientInFood();
 		
@@ -179,11 +158,15 @@ public class CreateFoodSceneController {
 				return new ListCell<String>() {
 					@Override
 					protected void updateItem(String item, boolean empty) {
-						if (item != null) {
-							super.updateItem(item, empty);
-							setText(item);
+						super.updateItem(item, empty);
+						if (empty || item == null) {
+					        setText(null);
+					        setGraphic(null);
+					    } else {
+					    	setText(item);
+							setIngredientInFood();
 							setTextFill(ingredientInFood.contains(item) ? Color.BLUE : Color.BLACK);
-						}
+					    }
 					}
 				};
 			}
@@ -230,12 +213,9 @@ public class CreateFoodSceneController {
 				}
 				
 				if(actualFood==null) {
-					System.out.println("actual food was null");
 					actualFood=foodFxModel.getFood();
-					System.out.println("new actual food is " + actualFood);	
 				}
 				
-				System.out.println("238 SF " + actualFood.getIngredients());
 				IngredientInFoodController controller = new IngredientInFoodController(selectedI,actualFood, foodFxModel);
 				try {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("ingredientInFoodScene.fxml"));
@@ -248,13 +228,11 @@ public class CreateFoodSceneController {
 					stage.initModality(Modality.APPLICATION_MODAL);
 					stage.setTitle("Amount of ingredient in food");
 					stage.showAndWait();
-					ingredientListView.setItems(FXCollections.observableArrayList(ingredientDao.getAllNames()));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				//get amount needed...
-				//TODO update ingredient view -color
-				
+				setIngredientInFood();
+				ingredientListView.refresh();
 				actualFood = foodFxModel.getFood();
 				System.out.println("result after closing window " + actualFood.getIngredients());
 				
@@ -283,6 +261,7 @@ public class CreateFoodSceneController {
 		}
 	}
 	void setIngredientInFood() {
+		ingredientInFood.clear();
 		List<Ingredient> inFood = foodFxModel.getIngredientsInFood();
 		for (Ingredient ingredient : inFood) {
 			ingredientInFood.add(ingredient.getName());

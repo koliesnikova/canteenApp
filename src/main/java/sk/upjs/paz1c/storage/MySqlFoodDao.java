@@ -209,7 +209,6 @@ public class MySqlFoodDao implements FoodDao {
 					}
 				}
 				if (!found) {
-					System.out.println("nuuull2 " + food.getIngredients() + ingredient);
 					saveIngredientToFood(newFood, ingredientDao.getById(ingredient.getId()), 0);
 				} else {
 					saveIngredientToFood(newFood, ingredientDao.getById(ingredient.getId()),
@@ -238,7 +237,6 @@ public class MySqlFoodDao implements FoodDao {
 					}
 				}
 				if (!found) {
-					System.out.println("nuuull " + food.getIngredients() + ingredient);
 					saveIngredientToFood(food, ingredientDao.getById(ingredient.getId()), 0);
 				} else {
 					saveIngredientToFood(food, ingredientDao.getById(ingredient.getId()),
