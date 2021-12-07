@@ -83,14 +83,19 @@ public class MySqlOrderDao implements OrderDao{
 	}
 
 	@Override
-	public Order getByDay(LocalDateTime day) throws EntityNotFoundException{
+	public List<Order> getByDay(LocalDateTime day) throws EntityNotFoundException{
 		List<Order> orders = getAll();
+		ArrayList<Order> result = new ArrayList<Order>();
 		for(Order o : orders) {
 			if (o.getDay().equals(day)) {
-				return o;
+				result.add(o);
 			}
 		}
-		throw new EntityNotFoundException("Order for day: " + day + " not found in DB!");
+		if(result.size()==0) {
+			throw new EntityNotFoundException("Order for day: " + day + " not found in DB!");
+		}
+		return result;
+		
 	}
 
 	@Override

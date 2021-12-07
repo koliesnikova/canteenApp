@@ -11,7 +11,7 @@ public interface OrderDao {
 	
 	Order getById(long idOrder) throws EntityNotFoundException;
 	
-	Order getByDay(LocalDateTime day) throws EntityNotFoundException;
+	List<Order> getByDay(LocalDateTime day) throws EntityNotFoundException;
 	
 	Order save(Order order) throws EntityNotFoundException;
 	
