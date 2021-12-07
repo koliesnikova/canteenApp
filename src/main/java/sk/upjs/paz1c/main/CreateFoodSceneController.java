@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.imageio.ImageIO;
 
@@ -14,7 +13,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -152,6 +150,7 @@ public class CreateFoodSceneController {
 		setIngredientInFood();
 		
 		//https://stackoverflow.com/questions/35249058/set-items-colors-in-listview-in-javafx
+		//https://www.tabnine.com/code/java/methods/javafx.scene.control.ListView/setCellFactory
 		ingredientListView.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
 			@Override
 			public ListCell<String> call(ListView<String> list) {
@@ -183,7 +182,6 @@ public class CreateFoodSceneController {
 		}); 
 		
 		imageTextField.textProperty().bindBidirectional(foodFxModel.imagePathProperty());
-		imageTextField.setEditable(false);
 		descriptionTextArea.textProperty().bindBidirectional(foodFxModel.descriptionProperty());
 
 		if (imageTextField.getText() != null) {

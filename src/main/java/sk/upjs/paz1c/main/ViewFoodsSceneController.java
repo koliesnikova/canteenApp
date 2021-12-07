@@ -113,7 +113,6 @@ public class ViewFoodsSceneController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// TODO take saved food and update listview
 		updateListView();
 	}
 
@@ -133,7 +132,6 @@ public class ViewFoodsSceneController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// TODO take edited food and update listview
 		updateListView();
 	}
 

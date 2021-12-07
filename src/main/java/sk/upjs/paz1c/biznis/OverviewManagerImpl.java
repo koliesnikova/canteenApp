@@ -26,5 +26,11 @@ public class OverviewManagerImpl implements OverviewManager {
 		
 		return result;
 	}
-
+	
+//	public List<ShoppingListItemOverview> getIngredientsToBuy(){
+//		List<Order> notPrepared = orderDao.getByPrepared(false);
+//		for (Order order : notPrepared) {
+//			
+//		}
+//	}
 }

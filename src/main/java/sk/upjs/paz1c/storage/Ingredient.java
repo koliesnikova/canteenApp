@@ -83,6 +83,7 @@ public class Ingredient {
 
 	@Override
 	public String toString() {
+		//TODO potom upravit vypis
 		return id + " " + name + " " + amount +" ";
 	}
 

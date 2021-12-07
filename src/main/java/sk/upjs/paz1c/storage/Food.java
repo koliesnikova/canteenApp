@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+
 public class Food {
 	private Long id;
 	private String name;
@@ -135,6 +138,7 @@ public class Food {
 
 	@Override
 	public String toString() {
+		//TODO potom upravit vypis
 		return id + " " + name + " " + price + " ";
 	}
 
