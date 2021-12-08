@@ -1,18 +1,23 @@
 package sk.upjs.paz1c.biznis;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import sk.upjs.paz1c.storage.DaoFactory;
 import sk.upjs.paz1c.storage.Food;
+import sk.upjs.paz1c.storage.IngredientDao;
 import sk.upjs.paz1c.storage.Order;
 import sk.upjs.paz1c.storage.OrderDao;
 
 public class OverviewManagerImpl implements OverviewManager {
 
-	private OrderDao orderDao = DaoFactory.INSTANCE.getOrderDao(); 
-	
+	private OrderDao orderDao = DaoFactory.INSTANCE.getOrderDao();
+	private IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
+
 	@Override
 	public List<OrderFoodOverview> getAll(Long orderId) {
 		if (orderId == null) {
@@ -21,16 +26,38 @@ public class OverviewManagerImpl implements OverviewManager {
 		List<OrderFoodOverview> result = new ArrayList<>();
 		Order byId = orderDao.getById(orderId);
 		for (Entry<Food, Integer> p : byId.getPortions().entrySet()) {
-			result.add(new OrderFoodOverview(p.getKey().getId(), p.getKey().getName(), p.getValue(), p.getKey().getPrice()));
+			result.add(new OrderFoodOverview(p.getKey().getId(), p.getKey().getName(), p.getValue(),
+					p.getKey().getPrice()));
 		}
-		
+
 		return result;
 	}
-	
-//	public List<ShoppingListItemOverview> getIngredientsToBuy(){
-//		List<Order> notPrepared = orderDao.getByPrepared(false);
-//		for (Order order : notPrepared) {
-//			
-//		}
-//	}
+
+	public Map<Long, Integer> getIngredientsToBuy(LocalDateTime date) {
+		Map<Long, Integer> result = new HashMap<Long, Integer>();
+		List<Order> ordersForDay = orderDao.getByDay(date);
+
+		for (Order order : ordersForDay) {
+			if (!order.isPrepared()) {
+				Map<Food, Integer> foodsOrdered = order.getPortions();
+				for (Food food : foodsOrdered.keySet()) {
+					Map<Long, Integer> ingredientsInFoodId = food.getIngredientsById();
+					for (Long ingredientId : ingredientsInFoodId.keySet()) {
+						int available = ingredientDao.getById(ingredientId).getAmountAvailiable();
+						int needed = ingredientsInFoodId.get(ingredientId) * foodsOrdered.get(food);
+						if (available >= needed) {
+							ingredientsInFoodId.put(ingredientId, available - needed);
+						} else {
+							if (result.containsKey(ingredientId)) {
+								result.put(ingredientId, result.get(ingredientId) + Math.abs(available - needed));
+							}
+							result.put(ingredientId, Math.abs(available - needed));
+						}
+					}
+				}
+			}
+		}
+
+		return result;
+	}
 }

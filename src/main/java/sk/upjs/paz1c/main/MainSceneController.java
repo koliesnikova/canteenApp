@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sk.upjs.paz1c.biznis.DefaultCanteenManager;
 import sk.upjs.paz1c.storage.DaoFactory;
 import sk.upjs.paz1c.storage.OrderDao;
 
@@ -147,12 +148,12 @@ public class MainSceneController {
 					stage.setTitle("Shopping list");
 					stage.initModality(Modality.APPLICATION_MODAL);
 					stage.showAndWait();
+					//int toBuy = controller.getNumOfToBuy();
+					//numOfToBuyLabel.setText("There are "+toBuy + " items on your shopping list.");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 	    	});
-	    	
-	    	//TODO vyhrat sa s Lables - pocet poloziek v nakupnom zozname
 	    	updateLabels();
 	    }
 	    
@@ -176,6 +177,12 @@ public class MainSceneController {
 	    	String text = "You have " + notPreparedOrders;
 	    	text += notPreparedOrders == 1 ? " order to prepare." : " orders to prepare.";
 	    	numOfOrdersLabel.setText(text);
+	    	
+	    	DefaultCanteenManager manager = new DefaultCanteenManager();
+	    	int toBuy = manager.getNumberOfToBuy();
+	    	String text2 = "There are " + toBuy + " items on your shopping list.";
+	    	numOfToBuyLabel.setText(text2);
+	    	
 	    }
 	    
 	    

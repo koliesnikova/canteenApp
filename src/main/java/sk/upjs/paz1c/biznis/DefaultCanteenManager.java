@@ -1,5 +1,6 @@
 package sk.upjs.paz1c.biznis;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,23 +40,53 @@ public class DefaultCanteenManager implements CanteenManager {
 		return result;
 	}
 
-	public List<ShoppingListItemOverview> updateShoppingList(Order order) {
+	public List<ShoppingListItemOverview> getItemsForShoppingList(LocalDateTime date) {
+		// TODO
+		OverviewManagerImpl manager = new OverviewManagerImpl();
+		Map<Long, Integer> ingrsToBuy = manager.getIngredientsToBuy(date);
+
 		ArrayList<ShoppingListItemOverview> result = new ArrayList<ShoppingListItemOverview>();
-		Map<Food, Integer> foodsOrdered = order.getPortions();
-		for (Food food : foodsOrdered.keySet()) {
-			Map<Long, Integer> ingredientsInFoodId = food.getIngredientsById();
-			for (Long ingredientId : ingredientsInFoodId.keySet()) {
-				int available = ingredientDao.getById(ingredientId).getAmountAvailiable();
-				int needed = ingredientsInFoodId.get(ingredientId) * foodsOrdered.get(food);
-				if (available >= needed) {
-					ingredientsInFoodId.put(ingredientId, available - needed);
-				} else {
-					result.add(new ShoppingListItemOverview(ingredientDao.getById(ingredientId),
-							Math.abs(available - needed)));
-				}
-			}
+
+		for (Long ingredientId : ingrsToBuy.keySet()) {
+			result.add(new ShoppingListItemOverview(ingredientDao.getById(ingredientId), ingrsToBuy.get(ingredientId)));
 		}
 		return result;
+	}
+
+	public List<ShoppingListItemOverview> getItemsForShoppingList(List<Order> orders) {
+		// TODO
+		ArrayList<ShoppingListItemOverview> result = new ArrayList<ShoppingListItemOverview>();
+		Map<Long, Integer> ingrsToBuy = new HashMap<Long, Integer>();
+		OverviewManagerImpl manager = new OverviewManagerImpl();
+		List<LocalDateTime> dates = new ArrayList<LocalDateTime>();
+		for (Order order : orders) {
+			dates.add(order.getDay());
+		}
+		for (LocalDateTime dateTime : dates) {
+			Map<Long, Integer> ingrs = manager.getIngredientsToBuy(dateTime);
+			for (Long idIngr : ingrs.keySet()) {
+				if (ingrsToBuy.containsKey(idIngr)) {
+					ingrsToBuy.put(idIngr, ingrsToBuy.get(idIngr) + ingrs.get(idIngr));
+				} else
+					ingrsToBuy.put(idIngr, ingrs.get(idIngr));
+			}
+		}
+		for (Long idIngr : ingrsToBuy.keySet()) {
+			result.add(new ShoppingListItemOverview(ingredientDao.getById(idIngr), ingrsToBuy.get(idIngr)));
+		}
+
+		return result;
+	}
+
+	public int getNumberOfToBuy() {
+		// returns correct size, the map ingrsToBuy does not contain true values to buy
+		OverviewManagerImpl manager = new OverviewManagerImpl();
+		Map<Long, Integer> ingrsToBuy = new HashMap<Long, Integer>();
+		List<Order> allOrders = orderDao.getAll();
+		for (Order order : allOrders) {
+			ingrsToBuy.putAll(manager.getIngredientsToBuy(order.getDay()));
+		}
+		return ingrsToBuy.size();
 	}
 
 }

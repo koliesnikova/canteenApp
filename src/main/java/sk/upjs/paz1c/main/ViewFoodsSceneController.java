@@ -1,7 +1,6 @@
 package sk.upjs.paz1c.main;
 
 import java.io.IOException;
-import java.lang.ModuleLayer.Controller;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +24,6 @@ import sk.upjs.paz1c.storage.DaoFactory;
 import sk.upjs.paz1c.storage.EntityUndeletableException;
 import sk.upjs.paz1c.storage.Food;
 import sk.upjs.paz1c.storage.FoodDao;
-import sk.upjs.paz1c.storage.Ingredient;
-import sk.upjs.paz1c.storage.IngredientDao;
 
 public class ViewFoodsSceneController {
 

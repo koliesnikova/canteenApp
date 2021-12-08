@@ -184,7 +184,7 @@ class MySqlOrderDaoTest {
 	@Test
 	void testInsertFoods() {
 		List<Food> foods = foodDao.getAll();
-		Map<Food, Integer> portions = new HashMap();
+		Map<Food, Integer> portions = new HashMap<Food, Integer>();
 		for (Food f : foods) {
 			portions.put(f, (int)(Math.random() * 100));
 		}

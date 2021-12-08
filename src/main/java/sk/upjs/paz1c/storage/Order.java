@@ -80,7 +80,7 @@ public class Order {
 	@Override
 	public String toString() {
 		//TODO potom upravit vypis
-		return id + " " + day + " portions: " + portions.toString();
+		return id + " " + day + ", portions: " + portions.toString();
 	}
 
 	@Override

@@ -15,8 +15,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
 import sk.upjs.paz1c.biznis.DefaultCanteenManager;
 import sk.upjs.paz1c.biznis.ShoppingListItemOverview;
@@ -45,45 +43,49 @@ public class ShoppingListSceneController {
 
 	@FXML
 	void initialize() {
-
-		// TODO
 		datePicker.setConverter(new StringConverter<LocalDate>() {
-			
 			private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-M-d");
-			
+
 			@Override
 			public String toString(LocalDate object) {
-				if(object == null)
-		            return "";
-		        return dateTimeFormatter.format(object);
+				if (object == null)
+					return "";
+				return dateTimeFormatter.format(object);
 			}
-			
+
 			@Override
 			public LocalDate fromString(String string) {
-				if(string == null || string.trim().isEmpty())
-		            return null;
-		        
-		        return LocalDate.parse(string,dateTimeFormatter);
+				if (string == null || string.trim().isEmpty())
+					return null;
+				return LocalDate.parse(string, dateTimeFormatter);
 			}
 		});
-		
+
 		datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-			LocalDateTime ldt = LocalDateTime.of(newValue, LocalTime.of(0, 0, 0));
-			toBuyTable.setItems(FXCollections.observableArrayList(defaultManager.updateShoppingList(orderDao.getByDay(ldt))));
-		});
-		
-		ingredientCol.setCellValueFactory(new PropertyValueFactory<>("ingredient"));
-		//toBuyTable.getColumns().add(ingredientCol);
-		
-		amountCol.setCellValueFactory(new PropertyValueFactory<>("toBuy"));
-		//toBuyTable.getColumns().add(amountCol);
-		if(datePicker.getValue() == null) {
-			List<Order> notPreparedOrds = orderDao.getByPrepared(false);
-			for (Order order : notPreparedOrds) {
-				toBuyTable.setItems(FXCollections.observableArrayList(defaultManager.updateShoppingList(order)));
+			if (newValue == null) {
+				toBuyTable.setItems(FXCollections
+						.observableArrayList(defaultManager.getItemsForShoppingList(orderDao.getByPrepared(false))));
+			} else {
+				LocalDateTime ldt = LocalDateTime.of(newValue, LocalTime.of(0, 0, 0));
+				if (orderDao.getByDay(ldt) != null) {
+					toBuyTable.getItems().clear();
+					toBuyTable.setItems(FXCollections.observableArrayList(defaultManager.getItemsForShoppingList(ldt)));
+				} else {
+					// TODO alert - no orders for the day
+					System.out.println("no orders for that day");
+				}
 			}
+		});
+
+		ingredientCol.setCellValueFactory(new PropertyValueFactory<>("ingredient"));
+		amountCol.setCellValueFactory(new PropertyValueFactory<>("toBuy"));
+
+		if (datePicker.getValue() == null) {
+			// show items for each day
+			toBuyTable.setItems(FXCollections
+					.observableArrayList(defaultManager.getItemsForShoppingList(orderDao.getByPrepared(false))));
+
 		}
-		
 
 	}
 
