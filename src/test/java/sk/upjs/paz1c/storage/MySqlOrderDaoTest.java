@@ -98,13 +98,13 @@ class MySqlOrderDaoTest {
 	
 	@Test
 	void testGetByDay() {
-		Order o = orderDao.getByDay(savedOrder.getDay());
-		assertTrue(o.equals(savedOrder));
+		List<Order> o = orderDao.getByDay(savedOrder.getDay());
+		assertTrue(o.get(0).equals(savedOrder));
 		
 		assertThrows(EntityNotFoundException.class, new Executable() {
 			@Override
 			public void execute() throws Throwable {
-				orderDao.getById(-1L);
+				orderDao.getByDay(LocalDateTime.of(1999, 12, 12, 0, 0));
 			}
 		});
 		
