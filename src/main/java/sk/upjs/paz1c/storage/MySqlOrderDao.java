@@ -25,7 +25,7 @@ public class MySqlOrderDao implements OrderDao{
 
 	@Override
 	public List<Order> getAll() {
-		String sql = "SELECT id, day, ingredients_prepared, food_id, portions FROM `order` AS o LEFT JOIN daily_orders AS dayo ON  o.id = dayo.order_id";
+		String sql = "SELECT id, `day`, ingredients_prepared, food_id, portions FROM `order` AS o LEFT JOIN daily_orders AS dayo ON  o.id = dayo.order_id order by `day`";
 		
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Order>>() {
 

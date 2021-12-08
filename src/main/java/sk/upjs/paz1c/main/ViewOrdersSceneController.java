@@ -28,6 +28,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import sk.upjs.paz1c.storage.DaoFactory;
+import sk.upjs.paz1c.storage.EntityNotFoundException;
 import sk.upjs.paz1c.storage.EntityUndeletableException;
 import sk.upjs.paz1c.storage.Ingredient;
 import sk.upjs.paz1c.storage.Order;
@@ -50,11 +51,16 @@ public class ViewOrdersSceneController {
 	@FXML
 	private Button deleteButton;
 
+	@FXML
+	private Button prepareButton;
+
 	private OrderDao orderDao = DaoFactory.INSTANCE.getOrderDao();
 	private Order selectedOrder;
 
 	@FXML
 	void initialize() {
+		deleteButton.setDisable(true);
+		prepareButton.setDisable(true);
 		notPreparedCheckBox.setSelected(true);
 		dayDatePicker.setDisable(true);
 		updateListView();
@@ -63,9 +69,9 @@ public class ViewOrdersSceneController {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				updateListView();
-				if (newValue && notPreparedCheckBox.isSelected()) 
+				if (newValue && notPreparedCheckBox.isSelected())
 					dayDatePicker.setDisable(false);
-				else 
+				else
 					dayDatePicker.setDisable(true);
 
 			}
@@ -89,8 +95,13 @@ public class ViewOrdersSceneController {
 			public void changed(ObservableValue<? extends Order> observable, Order oldValue, Order newValue) {
 				if (newValue == null) {
 					deleteButton.setDisable(true);
+					prepareButton.setDisable(true);
 				} else {
 					deleteButton.setDisable(false);
+					if (!newValue.isPrepared())
+						prepareButton.setDisable(false);
+					else
+						prepareButton.setDisable(true);
 				}
 				selectedOrder = newValue;
 			}
@@ -102,33 +113,37 @@ public class ViewOrdersSceneController {
 				openSaveOrderWindow(controller);
 			}
 		});
-		
+
 		// https://stackoverflow.com/questions/20383773/set-date-picker-time-format/21498568
 		dayDatePicker.setConverter(new StringConverter<LocalDate>() {
-			
+
 			private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-M-d");
-			
+
 			@Override
 			public String toString(LocalDate object) {
-				if(object == null)
-		            return "";
-		        return dateTimeFormatter.format(object);
+				if (object == null)
+					return "";
+				return dateTimeFormatter.format(object);
 			}
-			
+
 			@Override
 			public LocalDate fromString(String string) {
-				if(string == null || string.trim().isEmpty())
-		            return null;
-		        
-		        return LocalDate.parse(string,dateTimeFormatter);
+				if (string == null || string.trim().isEmpty())
+					return null;
+
+				return LocalDate.parse(string, dateTimeFormatter);
 			}
 		});
-		
+
 		dayDatePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-			LocalDateTime ldt = LocalDateTime.of(newValue, LocalTime.of(0, 0, 0));
-			orderListView.setItems(FXCollections.observableArrayList(orderDao.getByDay(ldt)));
+			try {
+				LocalDateTime ldt = LocalDateTime.of(newValue, LocalTime.of(0, 0, 0));
+				orderListView.setItems(FXCollections.observableArrayList(orderDao.getByDay(ldt)));
+			} catch (EntityNotFoundException e) {
+				orderListView.setItems(FXCollections.observableArrayList());
+			}
 		});
-		
+
 	}
 
 	@FXML
@@ -165,7 +180,8 @@ public class ViewOrdersSceneController {
 	void deleteOrder(ActionEvent event) {
 		try {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setContentText("Do you really want to delete order for date: " + selectedOrder.getDay().toLocalDate());
+			alert.setContentText(
+					"Do you really want to delete order for date: " + selectedOrder.getDay().toLocalDate());
 			Optional<ButtonType> buttonType = alert.showAndWait();
 			if (buttonType.get() == ButtonType.OK) {
 				orderDao.delete(selectedOrder.getId());
@@ -175,6 +191,15 @@ public class ViewOrdersSceneController {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setContentText("Selected order cannot be deleted, it has some food on it's list!");
 			alert.show();
+		}
+	}
+
+	@FXML
+	void prepareSelectedOrder(ActionEvent event) {
+		if (!selectedOrder.isPrepared()) {
+			selectedOrder.setPrepared(true);
+			orderDao.save(selectedOrder);
+			updateListView();
 		}
 	}
 
