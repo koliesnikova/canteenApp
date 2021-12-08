@@ -92,7 +92,7 @@ public class MySqlOrderDao implements OrderDao{
 			}
 		}
 		if(result.size()==0) {
-			throw new EntityNotFoundException("Order for day: " + day + " not found in DB!");
+			//throw new EntityNotFoundException("Order for day: " + day + " not found in DB!");
 		}
 		return result;
 		

@@ -14,7 +14,7 @@
       </Label>
       <Label layoutX="50.0" layoutY="71.0" text="Date: " />
       <DatePicker fx:id="datePicker" layoutX="105.0" layoutY="66.0" prefHeight="31.0" prefWidth="166.0" />
-      <TableView fx:id="toBuyTable" layoutX="50.0" layoutY="120.0" prefHeight="200.0" prefWidth="516.0">
+      <TableView fx:id="toBuyTable" layoutX="50.0" layoutY="120.0" prefHeight="200.0" prefWidth="516.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="34.0">
         <columns>
           <TableColumn fx:id="ingredientCol" prefWidth="367.0" text="Ingredient" />
           <TableColumn fx:id="amountCol" minWidth="0.0" prefWidth="147.0" text="Amount to buy" />
@@ -28,5 +28,6 @@
             <Tooltip text="Right click on ingredient you had already bought. You can set the ingredient as bought and it will not appear on this shopping list anymore." wrapText="true" />
          </tooltip>
       </Label>
+      <Button fx:id="boughtButton" layoutX="411.0" layoutY="343.0" mnemonicParsing="false" onAction="#setAsBought" text="Ingredient is bought" AnchorPane.rightAnchor="34.0" />
    </children>
 </AnchorPane>

@@ -231,9 +231,7 @@ public class CreateFoodSceneController {
 				}
 				setIngredientInFood();
 				ingredientListView.refresh();
-				actualFood = foodFxModel.getFood();
-				System.out.println("result after closing window " + actualFood.getIngredients());
-				
+				actualFood = foodFxModel.getFood();				
 			}
 		});
 		
