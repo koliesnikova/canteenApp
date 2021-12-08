@@ -79,8 +79,8 @@ public class Order {
 
 	@Override
 	public String toString() {
-		//TODO potom upravit vypis
-		return id + " " + day + ", portions: " + portions.toString();
+		String pre = prepared ? "" : ", prepared";
+		return "Order for day " + day.toLocalDate() + ", portions: " + portions.size() + pre;
 	}
 
 	@Override
