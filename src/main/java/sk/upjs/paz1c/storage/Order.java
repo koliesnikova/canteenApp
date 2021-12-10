@@ -79,7 +79,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		String pre = prepared ? "" : ", prepared";
+		String pre = prepared ? ", prepared" : "";
 		return "Order for day " + day.toLocalDate() + ", portions: " + portions.size() + pre;
 	}
 

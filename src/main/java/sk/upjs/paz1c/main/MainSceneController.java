@@ -136,6 +136,7 @@ public class MainSceneController {
 					e.printStackTrace();
 				}
 	    	});
+	    	
 	    	shoppingListButton.setOnAction(event -> {
 	    		try {
 					ShoppingListSceneController controller = new ShoppingListSceneController();
