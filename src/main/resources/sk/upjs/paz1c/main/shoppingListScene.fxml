@@ -12,8 +12,8 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="50.0" layoutY="71.0" text="Date: " />
-      <DatePicker fx:id="datePicker" layoutX="105.0" layoutY="66.0" prefHeight="31.0" prefWidth="166.0" />
+      <Label layoutX="50.0" layoutY="82.0" text="Date: " />
+      <DatePicker fx:id="datePicker" layoutX="105.0" layoutY="76.0" prefHeight="31.0" prefWidth="166.0" />
       <TableView fx:id="toBuyTable" layoutX="50.0" layoutY="120.0" prefHeight="200.0" prefWidth="516.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="34.0">
         <columns>
           <TableColumn fx:id="ingredientCol" prefWidth="367.0" text="Ingredient" />
@@ -29,5 +29,11 @@
          </tooltip>
       </Label>
       <Button fx:id="boughtButton" layoutX="411.0" layoutY="343.0" mnemonicParsing="false" onAction="#setAsBought" text="Ingredient is bought" AnchorPane.bottomAnchor="26.0" AnchorPane.rightAnchor="34.0" />
+      <Label layoutX="489.0" layoutY="26.0" prefHeight="91.0" prefWidth="83.0" text="🛒" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="26.0">
+         <font>
+            <Font size="52.0" />
+         </font>
+      </Label>
+      <Button fx:id="showAllButton" layoutX="325.0" layoutY="343.0" mnemonicParsing="false" onAction="#showAllIngredients" text="Show all" />
    </children>
 </AnchorPane>

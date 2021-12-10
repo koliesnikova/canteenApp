@@ -12,11 +12,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
+
 import sk.upjs.paz1c.biznis.DefaultCanteenManager;
 import sk.upjs.paz1c.biznis.ShoppingListItemOverview;
 import sk.upjs.paz1c.storage.DaoFactory;
@@ -40,6 +42,9 @@ public class ShoppingListSceneController {
 
 	@FXML
 	private Button boughtButton;
+	
+	@FXML
+	private Button showAllButton;
 
 	private DefaultCanteenManager defaultManager = new DefaultCanteenManager();
 	private OrderDao orderDao = DaoFactory.INSTANCE.getOrderDao();
@@ -80,8 +85,11 @@ public class ShoppingListSceneController {
 		amountCol.setCellValueFactory(new PropertyValueFactory<>("toBuy"));
 
 		if (datePicker.getValue() == null) {
+			showAllButton.setDisable(true);
 			toBuyTable.setItems(FXCollections.observableArrayList(defaultManager.getAllToBuy()));
 		}
+		//https://stackoverflow.com/questions/24765549/remove-the-default-no-content-in-table-text-for-empty-javafx-table
+		toBuyTable.setPlaceholder(new Label("All orders for selected day have been prepared. :-)"));
 		toBuyTable.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<ShoppingListItemOverview>() {
 					@Override
@@ -115,11 +123,18 @@ public class ShoppingListSceneController {
 
 	}
 
+	@FXML
+	void showAllIngredients(){
+		datePicker.setValue(null);
+		
+	}
 	void updateTable(LocalDateTime date) {
 		if (date == LocalDateTime.MAX) {
+			showAllButton.setDisable(true);
 			toBuyTable.setItems(FXCollections.observableArrayList(defaultManager.getAllToBuy()));
 		} else {
 			if (orderDao.getByDay(date) != null && orderDao.getByDay(date).size() > 0) {
+				showAllButton.setDisable(false);
 				toBuyTable.getItems().clear();
 				toBuyTable.setItems(FXCollections.observableArrayList(defaultManager.getItemsForShoppingList(date)));
 			} else {
