@@ -25,9 +25,9 @@
       </TableView>
       <Label layoutX="48.0" layoutY="348.0" text="?">
          <tooltip>
-            <Tooltip text="Right click on ingredient you had already bought. You can set the ingredient as bought and it will not appear on this shopping list anymore." wrapText="true" />
+            <Tooltip text="You can set the ingredient as bought and it will not appear on this shopping list anymore. Ingredient's amount available will be changed automatically." wrapText="true" />
          </tooltip>
       </Label>
-      <Button fx:id="boughtButton" layoutX="411.0" layoutY="343.0" mnemonicParsing="false" onAction="#setAsBought" text="Ingredient is bought" AnchorPane.rightAnchor="34.0" />
+      <Button fx:id="boughtButton" layoutX="411.0" layoutY="343.0" mnemonicParsing="false" onAction="#setAsBought" text="Ingredient is bought" AnchorPane.bottomAnchor="26.0" AnchorPane.rightAnchor="34.0" />
    </children>
 </AnchorPane>

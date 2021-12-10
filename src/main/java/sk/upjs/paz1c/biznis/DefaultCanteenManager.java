@@ -62,6 +62,8 @@ public class DefaultCanteenManager implements CanteenManager {
 		for (Order order : orders) {
 			dates.add(order.getDay());
 		}
+		Map<Long, Integer> allIngrs = new HashMap<Long, Integer>();
+
 		for (LocalDateTime dateTime : dates) {
 			Map<Long, Integer> ingrs = manager.getIngredientsToBuy(dateTime);
 			for (Long idIngr : ingrs.keySet()) {
@@ -74,19 +76,60 @@ public class DefaultCanteenManager implements CanteenManager {
 		for (Long idIngr : ingrsToBuy.keySet()) {
 			result.add(new ShoppingListItemOverview(ingredientDao.getById(idIngr), ingrsToBuy.get(idIngr)));
 		}
-
+		System.out.println("default> " + result);
+		System.out.println();
 		return result;
 	}
 
 	public int getNumberOfToBuy() {
-		// returns correct size, the map ingrsToBuy does not contain true values to buy
-		OverviewManagerImpl manager = new OverviewManagerImpl();
-		Map<Long, Integer> ingrsToBuy = new HashMap<Long, Integer>();
-		List<Order> allOrders = orderDao.getAll();
-		for (Order order : allOrders) {
-			ingrsToBuy.putAll(manager.getIngredientsToBuy(order.getDay()));
+		return getAllToBuy().size();
+	}
+
+	public List<ShoppingListItemOverview> getAllToBuy() {
+//TODO more efficient code
+
+		ArrayList<ShoppingListItemOverview> result = new ArrayList<ShoppingListItemOverview>();
+		List<Order> orders = orderDao.getByPrepared(false);
+		Map<Long, Integer> usedIngredients = new HashMap<Long, Integer>();
+
+		for (Order order : orders) {
+			Map<Food, Integer> portions = order.getPortions();
+			for (Food food : portions.keySet()) {
+				Map<Long, Integer> foodIngredients = food.getIngredientsById();
+				for (Long ingredientID : foodIngredients.keySet()) {
+					int available = 0;
+					int needed = foodIngredients.get(ingredientID) * portions.get(food);
+					if (usedIngredients.containsKey(ingredientID)) {
+						int usedAmount = usedIngredients.get(ingredientID);
+						available = ingredientDao.getById(ingredientID).getAmountAvailiable() - usedAmount;
+						if(available<0) {
+							available = 0;
+						}
+						usedIngredients.put(ingredientID, usedAmount + needed);
+					} else {
+						available = ingredientDao.getById(ingredientID).getAmountAvailiable();
+						usedIngredients.put(ingredientID, needed);
+					}
+					
+					int toBuy = (available - needed >= 0) ? 0 : (Math.abs(available - needed));
+
+					ShoppingListItemOverview newItem = new ShoppingListItemOverview(ingredientDao.getById(ingredientID),
+							toBuy);
+					for (ShoppingListItemOverview item : result) {
+						if (item.getIngredient().getId().equals(ingredientID)) {
+							System.out.println("old value: " + item.getToBuy());
+							newItem.setToBuy(item.getToBuy() + newItem.getToBuy());
+							result.remove(item);
+							break;
+						}
+					}
+					System.out.println("new value: " + newItem.getToBuy());
+					result.add(newItem);
+				}
+			}
 		}
-		return ingrsToBuy.size();
+		System.out.println("result " + result);
+		return result;
 	}
 
 }

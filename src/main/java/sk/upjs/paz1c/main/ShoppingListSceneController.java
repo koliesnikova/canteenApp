@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javafx.beans.value.ChangeListener;
@@ -25,6 +27,7 @@ import sk.upjs.paz1c.biznis.ShoppingListItemOverview;
 import sk.upjs.paz1c.storage.DaoFactory;
 import sk.upjs.paz1c.storage.Ingredient;
 import sk.upjs.paz1c.storage.IngredientDao;
+import sk.upjs.paz1c.storage.Order;
 import sk.upjs.paz1c.storage.OrderDao;
 
 public class ShoppingListSceneController {
@@ -72,12 +75,12 @@ public class ShoppingListSceneController {
 
 		datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue == null) {
-				toBuyTable.setItems(FXCollections
-						.observableArrayList(defaultManager.getItemsForShoppingList(orderDao.getByPrepared(false))));
+				toBuyTable.setItems(FXCollections.observableArrayList(defaultManager.getAllToBuy()));
 			} else {
 				LocalDateTime ldt = LocalDateTime.of(newValue, LocalTime.of(0, 0, 0));
 				if (orderDao.getByDay(ldt) != null && orderDao.getByDay(ldt).size() > 0) {
 					toBuyTable.getItems().clear();
+					System.out.println("by date: " + defaultManager.getItemsForShoppingList(ldt));
 					toBuyTable.setItems(FXCollections.observableArrayList(defaultManager.getItemsForShoppingList(ldt)));
 				} else {
 					Alert alert = new Alert(AlertType.INFORMATION);
@@ -94,10 +97,7 @@ public class ShoppingListSceneController {
 		amountCol.setCellValueFactory(new PropertyValueFactory<>("toBuy"));
 
 		if (datePicker.getValue() == null) {
-			// show items for each day
-			toBuyTable.setItems(FXCollections
-					.observableArrayList(defaultManager.getItemsForShoppingList(orderDao.getByPrepared(false))));
-
+			toBuyTable.setItems(FXCollections.observableArrayList(defaultManager.getAllToBuy()));
 		}
 		toBuyTable.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<ShoppingListItemOverview>() {
@@ -125,5 +125,4 @@ public class ShoppingListSceneController {
 
 		// TODO update table
 	}
-
 }
