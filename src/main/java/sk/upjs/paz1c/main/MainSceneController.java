@@ -132,6 +132,7 @@ public class MainSceneController {
 					stage.initModality(Modality.APPLICATION_MODAL);
 					stage.setTitle("Create order");
 					stage.showAndWait();
+					updateLabels();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -149,8 +150,7 @@ public class MainSceneController {
 					stage.setTitle("Shopping list");
 					stage.initModality(Modality.APPLICATION_MODAL);
 					stage.showAndWait();
-					//int toBuy = controller.getNumOfToBuy();
-					//numOfToBuyLabel.setText("There are "+toBuy + " items on your shopping list.");
+					updateLabels();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

@@ -4,9 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -14,7 +11,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -22,12 +18,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 import sk.upjs.paz1c.biznis.DefaultCanteenManager;
-import sk.upjs.paz1c.biznis.OrderFoodOverview;
 import sk.upjs.paz1c.biznis.ShoppingListItemOverview;
 import sk.upjs.paz1c.storage.DaoFactory;
 import sk.upjs.paz1c.storage.Ingredient;
 import sk.upjs.paz1c.storage.IngredientDao;
-import sk.upjs.paz1c.storage.Order;
 import sk.upjs.paz1c.storage.OrderDao;
 
 public class ShoppingListSceneController {
@@ -75,21 +69,10 @@ public class ShoppingListSceneController {
 
 		datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue == null) {
-				toBuyTable.setItems(FXCollections.observableArrayList(defaultManager.getAllToBuy()));
+				updateTable(LocalDateTime.MAX);
 			} else {
 				LocalDateTime ldt = LocalDateTime.of(newValue, LocalTime.of(0, 0, 0));
-				if (orderDao.getByDay(ldt) != null && orderDao.getByDay(ldt).size() > 0) {
-					toBuyTable.getItems().clear();
-					System.out.println("by date: " + defaultManager.getItemsForShoppingList(ldt));
-					toBuyTable.setItems(FXCollections.observableArrayList(defaultManager.getItemsForShoppingList(ldt)));
-				} else {
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setHeaderText("There are no orders.");
-					alert.setContentText("For selected date (" + datePicker.getValue().getDayOfMonth() + "-"
-							+ datePicker.getValue().getMonthValue() + "-" + datePicker.getValue().getYear()
-							+ ") are registered no orders. Try another date. ");
-					alert.show();
-				}
+				updateTable(ldt);
 			}
 		});
 
@@ -123,6 +106,29 @@ public class ShoppingListSceneController {
 		alert.setContentText(selected.getIngredient().getName()
 				+ " was removed from your shopping list and and it's amount avilable was refilled.");
 
-		// TODO update table
+		if (datePicker.getValue() == null) {
+			updateTable(LocalDateTime.MAX);
+		}else {
+			LocalDateTime ldt = LocalDateTime.of(datePicker.getValue(), LocalTime.of(0, 0, 0));
+			updateTable(ldt);
+		}
+
+	}
+
+	void updateTable(LocalDateTime date) {
+		if (date == LocalDateTime.MAX) {
+			toBuyTable.setItems(FXCollections.observableArrayList(defaultManager.getAllToBuy()));
+		} else {
+			if (orderDao.getByDay(date) != null && orderDao.getByDay(date).size() > 0) {
+				toBuyTable.getItems().clear();
+				toBuyTable.setItems(FXCollections.observableArrayList(defaultManager.getItemsForShoppingList(date)));
+			} else {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setHeaderText("There are no orders.");
+				alert.setContentText("For selected date (" + date.getDayOfMonth() + "-" + date.getMonthValue() + "-"
+						+ date.getYear() + ") are registered no orders. Try another date. ");
+				alert.show();
+			}
+		}
 	}
 }

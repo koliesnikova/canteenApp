@@ -30,7 +30,6 @@ import javafx.util.StringConverter;
 import sk.upjs.paz1c.storage.DaoFactory;
 import sk.upjs.paz1c.storage.EntityNotFoundException;
 import sk.upjs.paz1c.storage.EntityUndeletableException;
-import sk.upjs.paz1c.storage.Ingredient;
 import sk.upjs.paz1c.storage.Order;
 import sk.upjs.paz1c.storage.OrderDao;
 

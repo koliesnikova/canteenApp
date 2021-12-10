@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 
 import sk.upjs.paz1c.storage.DaoFactory;
 import sk.upjs.paz1c.storage.Food;
-import sk.upjs.paz1c.storage.Ingredient;
 import sk.upjs.paz1c.storage.IngredientDao;
 import sk.upjs.paz1c.storage.Order;
 import sk.upjs.paz1c.storage.OrderDao;
@@ -66,7 +65,6 @@ public class OverviewManagerImpl implements OverviewManager {
 				}
 			}
 		}
-		System.out.println("manager " + result);
 		return result;
 	}
 }
