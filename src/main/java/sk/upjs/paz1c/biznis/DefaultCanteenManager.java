@@ -9,6 +9,7 @@ import java.util.Map;
 import sk.upjs.paz1c.storage.DaoFactory;
 import sk.upjs.paz1c.storage.Food;
 import sk.upjs.paz1c.storage.FoodDao;
+import sk.upjs.paz1c.storage.Ingredient;
 import sk.upjs.paz1c.storage.IngredientDao;
 import sk.upjs.paz1c.storage.Order;
 import sk.upjs.paz1c.storage.OrderDao;
@@ -101,6 +102,33 @@ public class DefaultCanteenManager implements CanteenManager {
 			}
 		}
 		return result;
+	}
+	
+	
+	public boolean checkOrderIngredientsAvailable(Order order) {
+		// for every food in order chceck every ingredient, if amount available if sufficient
+		for (Food f : order.getPortions().keySet()) {
+			int foodCount = order.getPortions().get(f);
+			for (Ingredient i : f.getIngredients().keySet()) {
+				int ingredientCount = f.getIngredients().get(i);
+				Ingredient fromDB = ingredientDao.getById(i.getId());
+				if (fromDB.getAmountAvailiable() < foodCount * ingredientCount)
+					return false;
+			}
+		}
+		return true;
+	}
+	
+	public void prepareIngredientsForOrder(Order order) {
+		for (Food f : order.getPortions().keySet()) {
+			int foodCount = order.getPortions().get(f);
+			for (Ingredient i : f.getIngredients().keySet()) {
+				int ingredientCount = f.getIngredients().get(i);
+				Ingredient fromDB = ingredientDao.getById(i.getId());
+				fromDB.setAmountAvailiable(fromDB.getAmountAvailiable() - (foodCount * ingredientCount));
+				ingredientDao.save(fromDB);
+			}
+		}
 	}
 
 }
