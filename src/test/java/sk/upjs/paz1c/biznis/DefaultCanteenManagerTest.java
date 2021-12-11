@@ -76,7 +76,7 @@ class DefaultCanteenManagerTest {
 		Food newFood = foodDao.save(new Food("TestCanteenManagerFood3"));
 		int addedNewFood = canteenManager.filterFoodNotInOrder(savedOrder.getId()).size();
 		assertEquals(count, addedNewFood);
-		
+		System.out.println(canteenManager.filterFoodNotInOrder(savedOrder.getId()));
 		for (Food f : savedOrder.getPortions().keySet()) {
 			boolean inAll = false;
 			for (Food allFood : canteenManager.filterFoodNotInOrder(savedOrder.getId())) {
