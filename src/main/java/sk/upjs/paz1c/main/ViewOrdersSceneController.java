@@ -26,6 +26,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
 import sk.upjs.paz1c.biznis.CanteenManager;
 import sk.upjs.paz1c.biznis.DefaultCanteenManager;
@@ -150,7 +151,10 @@ public class ViewOrdersSceneController {
 
 	@FXML
 	void closeWindow(ActionEvent event) {
-		dayDatePicker.getScene().getWindow().hide();
+		// https://stackoverflow.com/questions/29710492/how-can-i-fire-internal-close-request
+		// because after closing window we want to update count of orders and window is not application modal
+		Stage stage = (Stage) dayDatePicker.getScene().getWindow();
+		stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
 	}
 
 	private void openSaveOrderWindow(CreateOrderSceneController controller) {
