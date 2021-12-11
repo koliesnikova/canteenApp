@@ -27,6 +27,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import sk.upjs.paz1c.biznis.CanteenManager;
+import sk.upjs.paz1c.biznis.DefaultCanteenManager;
 import sk.upjs.paz1c.storage.DaoFactory;
 import sk.upjs.paz1c.storage.EntityNotFoundException;
 import sk.upjs.paz1c.storage.EntityUndeletableException;
@@ -54,6 +56,7 @@ public class ViewOrdersSceneController {
 	private Button prepareButton;
 
 	private OrderDao orderDao = DaoFactory.INSTANCE.getOrderDao();
+	private CanteenManager canteenManager = new DefaultCanteenManager();
 	private Order selectedOrder;
 
 	@FXML
@@ -195,10 +198,16 @@ public class ViewOrdersSceneController {
 
 	@FXML
 	void prepareSelectedOrder(ActionEvent event) {
-		if (!selectedOrder.isPrepared()) {
+		boolean enoughIngrs = canteenManager.checkOrderIngredientsAvailable(selectedOrder);
+		if (!selectedOrder.isPrepared() && enoughIngrs) {
 			selectedOrder.setPrepared(true);
 			orderDao.save(selectedOrder);
+			canteenManager.prepareIngredientsForOrder(selectedOrder);
 			updateListView();
+		} else if (!enoughIngrs) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setContentText("You don't have enough Ingredients for this order.");
+			alert.show();
 		}
 	}
 
