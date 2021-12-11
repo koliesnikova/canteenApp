@@ -31,15 +31,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 
-
-
 public class CreateOrderSceneController {
 
 	@FXML
 	private Button addButton;
-	
-    @FXML
-    private Button saveButton;
+
+	@FXML
+	private Button saveButton;
 
 	@FXML
 	private DatePicker dayDatePicker;
@@ -78,14 +76,15 @@ public class CreateOrderSceneController {
 		if (orderModel.isPrepared()) {
 			addButton.setDisable(true);
 			saveButton.setDisable(true);
-			
+
 		}
 		deleteButton.setDisable(true);
 		if (orderModel.getId() == null)
 			foodComboBox.setItems(FXCollections.observableArrayList(foodDao.getAll()));
-		else 
-			foodComboBox.setItems(FXCollections.observableArrayList(canteenManager.filterFoodNotInOrder(orderModel.getId())));
-		
+		else
+			foodComboBox.setItems(
+					FXCollections.observableArrayList(canteenManager.filterFoodNotInOrder(orderModel.getId())));
+
 		foodComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Food>() {
 
 			@Override
@@ -125,34 +124,35 @@ public class CreateOrderSceneController {
 				return LocalDate.parse(string, dateTimeFormatter);
 			}
 		});
-		
+
 		dayDatePicker.valueProperty().bindBidirectional(orderModel.dayProperty());
 
 		TableColumn<OrderFoodOverview, String> nameCol = new TableColumn<OrderFoodOverview, String>("Food name");
 		nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
 		portionsTableView.getColumns().add(nameCol);
-		
+
 		TableColumn<OrderFoodOverview, Integer> countCol = new TableColumn<OrderFoodOverview, Integer>("Portions");
 		countCol.setCellValueFactory(new PropertyValueFactory<>("count"));
 		portionsTableView.getColumns().add(countCol);
-		
+
 		TableColumn<OrderFoodOverview, Double> totalSumCol = new TableColumn<OrderFoodOverview, Double>("Total price");
 		totalSumCol.setCellValueFactory(new PropertyValueFactory<>("totalSum"));
 		portionsTableView.getColumns().add(totalSumCol);
-		
-		portionsTableView.setItems(FXCollections.observableArrayList(overviewManager.getAll(orderModel.getId())));
-		portionsTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<OrderFoodOverview>() {
 
-			@Override
-			public void changed(ObservableValue<? extends OrderFoodOverview> observable, OrderFoodOverview oldValue,
-					OrderFoodOverview newValue) {
-				selectedOverview = newValue;
-				if (!orderModel.isPrepared())
-					deleteButton.setDisable(false);
-				
-			}
-		});
-	}//inicialize
+		portionsTableView.setItems(FXCollections.observableArrayList(overviewManager.getAll(orderModel.getId())));
+		portionsTableView.getSelectionModel().selectedItemProperty()
+				.addListener(new ChangeListener<OrderFoodOverview>() {
+
+					@Override
+					public void changed(ObservableValue<? extends OrderFoodOverview> observable,
+							OrderFoodOverview oldValue, OrderFoodOverview newValue) {
+						selectedOverview = newValue;
+						if (!orderModel.isPrepared())
+							deleteButton.setDisable(false);
+
+					}
+				});
+	}// inicialize
 
 	@FXML
 	void addFood(ActionEvent event) {
@@ -160,16 +160,17 @@ public class CreateOrderSceneController {
 			for (Food f : orderModel.getPortions().keySet()) {
 				if (f.getId().equals(selectedFood.getId())) {
 					orderModel.getPortions().put(f, selectedPortions);
-					OrderFoodOverview o = new OrderFoodOverview(f.getId(), f.getName(), orderModel.getPortions().get(f), f.getPrice());
+					OrderFoodOverview o = new OrderFoodOverview(f.getId(), f.getName(), orderModel.getPortions().get(f),
+							f.getPrice());
 					portionsTableView.getItems().add(o);
-					
+
 					for (Food food : foodComboBox.getItems()) {
 						if (food.getId() == f.getId()) {
 							foodComboBox.getItems().remove(food);
 							break;
 						}
 					}
-					
+
 					break;
 				}
 			}
@@ -197,9 +198,15 @@ public class CreateOrderSceneController {
 
 	@FXML
 	void saveChanges(ActionEvent event) {
-		Order savedOrder = orderModel.getOrderFromModel();
-		orderDao.save(savedOrder);
-		foodComboBox.getScene().getWindow().hide();
+		if (orderModel.getDay() != null) {
+			Order savedOrder = orderModel.getOrderFromModel();
+			orderDao.save(savedOrder);
+			foodComboBox.getScene().getWindow().hide();
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setContentText("You have to choose date for order before saving!");
+			alert.show();
+		}
 	}
 
 }
