@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,9 +67,11 @@ class DefaultCanteenManagerTest {
 	@Test
 	void filterFoodNotInOrderTest() throws EntityUndeletableException {
 		int count = canteenManager.filterFoodNotInOrder(savedOrder.getId()).size();
+		System.out.println(canteenManager.filterFoodNotInOrder(savedOrder.getId()));
 		savedOrder.getPortions().put(savedFood2, 1);
 		orderDao.insertFoods(savedOrder);
 		int movedFoodToOrder = canteenManager.filterFoodNotInOrder(savedOrder.getId()).size();
+		System.out.println(canteenManager.filterFoodNotInOrder(savedOrder.getId()));
 		assertEquals(count - 1, movedFoodToOrder);
 		Food newFood = foodDao.save(new Food("TestCanteenManagerFood3"));
 		int addedNewFood = canteenManager.filterFoodNotInOrder(savedOrder.getId()).size();
@@ -95,19 +98,30 @@ class DefaultCanteenManagerTest {
 	@Test
 	void getAllToBuyTest() {
 	List<ShoppingListItemOverview> all = canteenManager.getAllToBuy();
-	int count = all.size();
+	List<Order> orders = orderDao.getByPrepared(false);
 	boolean found = false;
+	ShoppingListItemOverview savedIngrAsShoppingItem = null;
 	for(ShoppingListItemOverview item : all) {
 		if(item.getIngredient().getId().equals(savedIngredient.getId())) {
 			found = true;
 			int portionsOfFood = savedOrder.getPortions().get(savedFood1);
 			int amoutNeeded = savedFood1.getIngredientsById().get(savedIngredient.getId())*portionsOfFood - savedIngredient.getAmountAvailiable();
 			assertEquals(2, amoutNeeded);
+			savedIngrAsShoppingItem = item;
 		}
 	}
-	assertTrue(found);
-	assertEquals(1, count);
 	
+	assertTrue(found);
+
+	int toBuy = -1 * savedIngredient.getAmountAvailiable();
+	for (Order order : orders) {
+		for(Food food : order.getPortions().keySet()) {
+			if(food.getIngredientsById().containsKey(savedIngredient.getId())) {
+				toBuy = toBuy + food.getIngredientsById().get(savedIngredient.getId()) * order.getPortions().get(food);
+			}
+		}
+	}
+	assertEquals(toBuy, all.get(all.indexOf(savedIngrAsShoppingItem)).getToBuy());
 	}
 
 
@@ -115,8 +129,27 @@ class DefaultCanteenManagerTest {
 	void getItemsForShoppingList() {
 		LocalDateTime date = savedOrder.getDay();
 		List<ShoppingListItemOverview> items = canteenManager.getItemsForShoppingList(date);
-		assertEquals(1, items.size());
-		//TODO test
+		List<Order> allOrders = orderDao.getAll();
+		List<Long> expectedItems = new ArrayList<Long>();
+		boolean found = false;
+		for (Order order : allOrders) {
+			if(order.getDay().equals(savedOrder.getDay())) {
+				Set<Food> foods = order.getPortions().keySet();
+				for (Food f: foods) {
+					Set<Long> ingrs = f.getIngredientsById().keySet();
+					for (Long ingr1 : ingrs) {
+						if(!expectedItems.contains(ingr1)) {
+							expectedItems.add(ingr1);
+						}
+					}	
+				}
+				if(order.getId().equals(savedOrder.getId())) {
+					found = true;
+				}
+			}
+		}
+		assertEquals(expectedItems.size(), items.size());
+		assertTrue(found);
 	}
 
 	@Test
