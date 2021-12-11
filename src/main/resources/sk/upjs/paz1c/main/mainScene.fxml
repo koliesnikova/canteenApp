@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.geometry.*?>
@@ -16,25 +17,57 @@
             <Font name="System Bold" size="26.0" />
          </font>
       </Label>
-      <VBox layoutX="44.0" layoutY="87.0" prefHeight="158.0" prefWidth="135.0" spacing="20.0">
-         <children>
-            <Button fx:id="viewOrdersButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="155.0" text="View orders" />
-            <Button fx:id="viewFoodsButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="153.0" text="View foods" />
-            <Button fx:id="viewIngredientsButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="143.0" text="View ingredients" />
-         </children>
-      </VBox>
-      <Button fx:id="shoppingListButton" layoutX="559.0" layoutY="132.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="49.0" text="🛒" AnchorPane.rightAnchor="42.0">
-         <font>
-            <Font size="19.0" />
-         </font></Button>
-      <VBox layoutX="44.0" layoutY="252.0" prefHeight="158.0" prefWidth="135.0" spacing="20.0">
-         <children>
-            <Button fx:id="createOrderButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="162.0" text="Create order" />
-            <Button fx:id="createFoodButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="160.0" text="Create food" />
-            <Button fx:id="createIngredientButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="156.0" text="Create ingredient" />
-         </children>
-      </VBox>
+      <Button fx:id="shoppingListButton" contentDisplay="TOP" layoutX="83.0" layoutY="33.0" mnemonicParsing="false" prefHeight="101.0" prefWidth="103.0" style="-fx-background-color: 0;" text="Shopping list" textAlignment="CENTER" wrapText="true" AnchorPane.rightAnchor="463.0">
+         <graphic>
+            <ImageView fitHeight="32.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../icons/shopping-cart.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
       <Label fx:id="numOfOrdersLabel" layoutX="410.0" layoutY="73.0" text="You have 0 orders to prepare." AnchorPane.rightAnchor="42.0" />
       <Label fx:id="numOfToBuyLabel" layoutX="346.0" layoutY="100.0" text="There are 0 items on your shopping list." AnchorPane.rightAnchor="42.0" />
+      <GridPane layoutX="45.0" layoutY="158.0" prefHeight="254.0" prefWidth="551.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="160.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="viewOrdersButton" contentDisplay="TOP" mnemonicParsing="false" prefHeight="90.0" prefWidth="103.0" style="-fx-background-color: 0;" text="View orders" textAlignment="CENTER" wrapText="true">
+               <graphic>
+                  <ImageView fitHeight="68.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../icons/check-list.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <effect>
+                  <ColorAdjust hue="0.05" />
+               </effect>
+            </Button>
+            <Button fx:id="viewFoodsButton" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="101.0" prefWidth="103.0" style="-fx-background-color: 0;" text="View foods" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
+               <graphic>
+                  <ImageView fitHeight="66.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../icons/chicken-leg.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="viewIngredientsButton" contentDisplay="TOP" mnemonicParsing="false" prefHeight="31.0" prefWidth="143.0" style="-fx-background-color: 0;" text="View ingredients" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2">
+               <graphic>
+                  <ImageView fitHeight="71.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Button>
+            <Button fx:id="createOrderButton" contentDisplay="TOP" mnemonicParsing="false" prefHeight="31.0" prefWidth="162.0" style="-fx-background-color: 0;" text="Create order" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1" />
+            <Button fx:id="createFoodButton" contentDisplay="TOP" mnemonicParsing="false" prefHeight="31.0" prefWidth="160.0" style="-fx-background-color: 0;" text="Create food" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="createIngredientButton" contentDisplay="TOP" mnemonicParsing="false" prefHeight="31.0" prefWidth="156.0" style="-fx-background-color: 0;" text="Create ingredient" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
    </children>
 </AnchorPane>
