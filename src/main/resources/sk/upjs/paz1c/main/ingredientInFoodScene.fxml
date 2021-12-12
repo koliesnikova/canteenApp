@@ -1,24 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="231.0" prefWidth="424.0" styleClass="bodybg" stylesheets="@background.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="231.0" prefWidth="424.0" styleClass="bodybg" stylesheets="@background.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="ingredientNameLabel" alignment="TOP_CENTER" layoutX="142.0" layoutY="29.0" text="Ingredient name" textAlignment="CENTER" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="141.0" AnchorPane.topAnchor="30.0">
+      <Label fx:id="ingredientNameLabel" alignment="TOP_CENTER" layoutX="124.0" layoutY="34.0" prefHeight="25.0" prefWidth="159.0" text="Ingredient name" textAlignment="CENTER" AnchorPane.leftAnchor="124.0" AnchorPane.rightAnchor="141.0" AnchorPane.topAnchor="34.0">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="Serif Regular" size="22.0" />
          </font></Label>
-      <Label layoutX="38.0" layoutY="78.0" text="Standard amount:" />
-      <Label layoutX="38.0" layoutY="116.0" text="Amount in food:">
+      <Label layoutX="48.0" layoutY="84.0" prefHeight="31.0" prefWidth="119.0" text="Standard amount:" AnchorPane.leftAnchor="48.0" AnchorPane.rightAnchor="257.0" AnchorPane.topAnchor="84.0">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label layoutX="53.0" layoutY="127.0" text="Amount in food:" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="262.0" AnchorPane.topAnchor="127.0">
          <tooltip>
             <Tooltip text="Amount can only be integer number. It represents how many times the standard amount is needed." />
-         </tooltip></Label>
-      <TextField fx:id="amountNeededTextField" layoutX="158.0" layoutY="111.0" prefHeight="31.0" prefWidth="45.0" />
-      <Label fx:id="standardAmountLabel" layoutX="163.0" layoutY="78.0" text="overwrite" />
-      <Button fx:id="saveButton" layoutX="319.0" layoutY="171.0" mnemonicParsing="false" onAction="#saveChanges" text="Save" />
-       <Spinner fx:id="amountNeededSpinner" editable="true" layoutX="158.0" layoutY="111.0" prefHeight="31.0" prefWidth="71.0" />
+         </tooltip>
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label fx:id="standardAmountLabel" layoutX="173.0" layoutY="89.0" text="overwrite" AnchorPane.leftAnchor="173.0" AnchorPane.rightAnchor="189.0" AnchorPane.topAnchor="89.0">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Button fx:id="saveButton" layoutX="318.0" layoutY="172.0" mnemonicParsing="false" onAction="#saveChanges" text="Save" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="318.0" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="172.0">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+       <Spinner fx:id="amountNeededSpinner" editable="true" layoutX="169.0" layoutY="122.0" prefHeight="31.0" prefWidth="71.0" AnchorPane.leftAnchor="169.0" AnchorPane.rightAnchor="184.0" AnchorPane.topAnchor="122.0" />
    </children>
 </AnchorPane>

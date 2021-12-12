@@ -15,9 +15,6 @@ import sk.upjs.paz1c.storage.Ingredient;
 public class IngredientInFoodController {
 
 	@FXML
-	private TextField amountNeededTextField; //delete
-
-	@FXML
 	private Label ingredientNameLabel;
 
 	@FXML

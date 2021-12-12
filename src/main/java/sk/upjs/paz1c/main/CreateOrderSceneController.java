@@ -138,6 +138,10 @@ public class CreateOrderSceneController {
 		TableColumn<OrderFoodOverview, Double> totalSumCol = new TableColumn<OrderFoodOverview, Double>("Total price");
 		totalSumCol.setCellValueFactory(new PropertyValueFactory<>("totalSum"));
 		portionsTableView.getColumns().add(totalSumCol);
+		
+		nameCol.prefWidthProperty().bind(portionsTableView.widthProperty().multiply(0.5));
+		countCol.prefWidthProperty().bind(portionsTableView.widthProperty().multiply(0.25));
+		totalSumCol.prefWidthProperty().bind(portionsTableView.widthProperty().multiply(0.25));
 
 		portionsTableView.setItems(FXCollections.observableArrayList(overviewManager.getAll(orderModel.getId())));
 		portionsTableView.getSelectionModel().selectedItemProperty()

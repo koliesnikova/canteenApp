@@ -83,6 +83,9 @@ public class ShoppingListSceneController {
 
 		ingredientCol.setCellValueFactory(new PropertyValueFactory<>("ingredient"));
 		amountCol.setCellValueFactory(new PropertyValueFactory<>("toBuy"));
+		
+		ingredientCol.prefWidthProperty().bind(toBuyTable.widthProperty().multiply(0.6));
+		amountCol.prefWidthProperty().bind(toBuyTable.widthProperty().multiply(0.4));
 
 		if (datePicker.getValue() == null) {
 			showAllButton.setDisable(true);

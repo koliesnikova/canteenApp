@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="bodybg" stylesheets="@background.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="bodybg" stylesheets="@background.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text layoutX="247.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" AnchorPane.leftAnchor="247.0" AnchorPane.rightAnchor="247.7587890625" AnchorPane.topAnchor="44.259765625">
          <font>
@@ -31,7 +27,7 @@
             <Font size="15.0" />
          </font></Label>
       <ComboBox fx:id="foodComboBox" layoutX="385.0" layoutY="141.0" prefHeight="31.0" prefWidth="196.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="141.0" />
-      <Spinner fx:id="portionsSpinner" layoutX="451.0" layoutY="185.0" prefHeight="31.0" prefWidth="80.0" /> 
+      <Spinner fx:id="portionsSpinner" layoutX="451.0" layoutY="185.0" prefHeight="31.0" prefWidth="80.0" AnchorPane.rightAnchor="69.0" AnchorPane.topAnchor="185.0" /> 
       <Button fx:id="addButton" layoutX="540.0" layoutY="185.0" mnemonicParsing="false" onAction="#addFood" text="Add" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="185.0">
          <font>
             <Font size="15.0" />
@@ -58,9 +54,9 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Label alignment="TOP_CENTER" layoutX="255.0" layoutY="32.0" text="Save order" AnchorPane.leftAnchor="254.0" AnchorPane.rightAnchor="254.0" AnchorPane.topAnchor="32.0">
+      <Label alignment="TOP_CENTER" layoutX="240.0" layoutY="30.0" prefHeight="29.0" prefWidth="120.0" text="Save order" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="30.0">
          <font>
-            <Font name="Serif Regular" size="21.0" />
+            <Font name="Serif Regular" size="25.0" />
          </font>
       </Label>
    </children>
