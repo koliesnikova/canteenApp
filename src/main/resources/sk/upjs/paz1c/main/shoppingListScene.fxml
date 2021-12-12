@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -7,33 +8,33 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="bodybg" stylesheets="@background.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="244.0" layoutY="30.0" text="Shopping list">
+      <Label alignment="TOP_CENTER" layoutX="249.0" layoutY="25.0" prefHeight="23.0" prefWidth="118.0" text="Shopping list" AnchorPane.leftAnchor="249.0" AnchorPane.rightAnchor="233.0" AnchorPane.topAnchor="25.0">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="Serif Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="50.0" layoutY="82.0" text="Date: " />
-      <DatePicker fx:id="datePicker" layoutX="105.0" layoutY="76.0" prefHeight="31.0" prefWidth="166.0" />
-      <TableView fx:id="toBuyTable" layoutX="50.0" layoutY="120.0" prefHeight="200.0" prefWidth="516.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="34.0">
+      <Label layoutX="50.0" layoutY="82.0" text="Date: " AnchorPane.leftAnchor="40.0" />
+      <DatePicker fx:id="datePicker" layoutX="86.0" layoutY="76.0" prefHeight="31.0" prefWidth="166.0" AnchorPane.leftAnchor="85.0" />
+      <TableView fx:id="toBuyTable" layoutX="50.0" layoutY="120.0" prefHeight="200.0" prefWidth="516.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="130.0">
         <columns>
-          <TableColumn fx:id="ingredientCol" prefWidth="367.0" text="Ingredient" />
-          <TableColumn fx:id="amountCol" minWidth="0.0" prefWidth="147.0" text="Amount to buy" />
+          <TableColumn fx:id="ingredientCol" editable="false" minWidth="-Infinity" prefWidth="362.0" text="Ingredient" />
+          <TableColumn fx:id="amountCol" editable="false" minWidth="-Infinity" prefWidth="156.0" text="Amount to buy" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Label layoutX="48.0" layoutY="348.0" text="?">
+      <Label layoutX="48.0" layoutY="348.0" text="?" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="48.0">
          <tooltip>
             <Tooltip text="You can set the ingredient as bought and it will not appear on this shopping list anymore. Ingredient's amount available will be changed automatically." wrapText="true" />
          </tooltip>
       </Label>
       <Button fx:id="boughtButton" layoutX="411.0" layoutY="343.0" mnemonicParsing="false" onAction="#setAsBought" text="Ingredient is bought" AnchorPane.bottomAnchor="26.0" AnchorPane.rightAnchor="34.0" />
-      <Label layoutX="489.0" layoutY="26.0" prefHeight="91.0" prefWidth="83.0" text="🛒" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="26.0">
-         <font>
-            <Font size="52.0" />
-         </font>
-      </Label>
-      <Button fx:id="showAllButton" layoutX="325.0" layoutY="343.0" mnemonicParsing="false" onAction="#showAllIngredients" text="Show all" />
+      <Button fx:id="showAllButton" layoutX="325.0" layoutY="343.0" mnemonicParsing="false" onAction="#showAllIngredients" text="Show all" AnchorPane.bottomAnchor="26.0" AnchorPane.rightAnchor="200.0" />
+      <ImageView fitHeight="57.0" fitWidth="55.0" layoutX="505.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="46.0">
+         <image>
+            <Image url="@../../../../icons/shopping-cart.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

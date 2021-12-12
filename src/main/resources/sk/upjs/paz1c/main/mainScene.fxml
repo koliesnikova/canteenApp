@@ -19,9 +19,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="649.0" styleClass="bodybg" stylesheets="@background.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label alignment="TOP_CENTER" layoutX="190.0" layoutY="32.0" text="CANTEEN APP" AnchorPane.topAnchor="32.0">
+      <Label alignment="TOP_CENTER" layoutX="178.0" layoutY="38.0" prefHeight="45.0" prefWidth="294.0" text="CANTEEN APP" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="178.0" AnchorPane.rightAnchor="177.0" AnchorPane.topAnchor="38.0">
          <font>
-            <Font name="Sylfaen" size="40.0" />
+            <Font name="Serif Regular" size="40.0" />
          </font>
       </Label>
       <GridPane layoutX="45.0" layoutY="113.0" prefHeight="322.0" prefWidth="561.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="113.0">
