@@ -9,13 +9,35 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import sk.upjs.paz1c.biznis.DefaultCanteenManager;
 import sk.upjs.paz1c.storage.DaoFactory;
 import sk.upjs.paz1c.storage.OrderDao;
 
 public class MainSceneController {
+	   @FXML
+	    private Tooltip ingredientToolTip;
+
+	    @FXML
+	    private Tooltip shopToolTip;
+
+	    @FXML
+	    private Tooltip order2ToolTip;
+
+	    @FXML
+	    private Tooltip food2ToolTip;
+
+	    @FXML
+	    private Tooltip ingredient2ToolTip;
+
+	    @FXML
+	    private Tooltip orderToolTip;
+
+	    @FXML
+	    private Tooltip foodToolTip;
 
 	    @FXML
 	    private Button viewFoodsButton;
@@ -42,6 +64,15 @@ public class MainSceneController {
 
 	    @FXML
 	    void initialize() {
+	    	//https://stackoverflow.com/questions/26854301/how-to-control-the-javafx-tooltips-delay
+	    	foodToolTip.setShowDelay(Duration.millis(2));
+	    	food2ToolTip.setShowDelay(Duration.millis(2));
+	    	ingredientToolTip.setShowDelay(Duration.millis(2));
+	    	ingredient2ToolTip.setShowDelay(Duration.millis(2));
+	    	orderToolTip.setShowDelay(Duration.millis(2));
+	    	order2ToolTip.setShowDelay(Duration.millis(2));
+	    	shopToolTip.setShowDelay(Duration.millis(2));
+	    	
 	    	viewFoodsButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.ColorAdjust?>
@@ -11,14 +17,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="649.0" styleClass="bodybg" stylesheets="@background.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="649.0" styleClass="bodybg" stylesheets="@background.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label alignment="TOP_CENTER" layoutX="197.0" layoutY="18.0" text="CANTEEN APP" AnchorPane.topAnchor="18.0">
+      <Label alignment="TOP_CENTER" layoutX="190.0" layoutY="32.0" text="CANTEEN APP" AnchorPane.topAnchor="32.0">
          <font>
-            <Font name="Franklin Gothic Heavy Italic" size="40.0" />
+            <Font name="Sylfaen" size="40.0" />
          </font>
       </Label>
-      <GridPane layoutX="45.0" layoutY="65.0" prefHeight="370.0" prefWidth="561.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="65.0">
+      <GridPane layoutX="45.0" layoutY="113.0" prefHeight="322.0" prefWidth="561.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="113.0">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -41,6 +47,9 @@
                <effect>
                   <ColorAdjust hue="0.05" />
                </effect>
+               <tooltip>
+                  <Tooltip fx:id="orderToolTip" text="Orders" />
+               </tooltip>
             </Button>
             <Button fx:id="viewFoodsButton" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="101.0" prefWidth="103.0" style="-fx-background-color: transparent;" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
                <graphic>
@@ -50,6 +59,9 @@
                      </image>
                   </ImageView>
                </graphic>
+               <tooltip>
+                  <Tooltip fx:id="foodToolTip" text="Foods" />
+               </tooltip>
             </Button>
             <Button fx:id="viewIngredientsButton" contentDisplay="TOP" mnemonicParsing="false" prefHeight="31.0" prefWidth="143.0" style="-fx-background-color: transparent;" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2">
                <graphic>
@@ -58,6 +70,9 @@
                         <Image url="@../../../../icons/ingredients.png" />
                      </image></ImageView>
                </graphic>
+               <tooltip>
+                  <Tooltip fx:id="ingredientToolTip" text="Ingredients" />
+               </tooltip>
             </Button>
             <Button fx:id="createOrderButton" contentDisplay="TOP" mnemonicParsing="false" prefHeight="90.0" prefWidth="76.0" style="-fx-background-color: transparent;" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1">
                <graphic>
@@ -66,7 +81,10 @@
                         <Image url="@../../../../icons/add_order.png" />
                      </image>
                   </ImageView>
-               </graphic></Button>
+               </graphic>
+               <tooltip>
+                  <Tooltip fx:id="order2ToolTip" text="New order" />
+               </tooltip></Button>
             <Button fx:id="createFoodButton" contentDisplay="TOP" mnemonicParsing="false" prefHeight="64.0" prefWidth="40.0" style="-fx-background-color: transparent;" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <graphic>
                   <ImageView fitHeight="72.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
@@ -74,7 +92,10 @@
                         <Image url="@../../../../icons/add_food.png" />
                      </image>
                   </ImageView>
-               </graphic></Button>
+               </graphic>
+               <tooltip>
+                  <Tooltip fx:id="food2ToolTip" text="New food" />
+               </tooltip></Button>
             <Button fx:id="createIngredientButton" contentDisplay="TOP" mnemonicParsing="false" prefHeight="110.0" prefWidth="111.0" style="-fx-background-color: transparent;" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <graphic>
                   <ImageView fitHeight="81.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
@@ -82,7 +103,10 @@
                         <Image url="@../../../../icons/add_ingredient.png" />
                      </image>
                   </ImageView>
-               </graphic></Button>
+               </graphic>
+               <tooltip>
+                  <Tooltip fx:id="ingredient2ToolTip" text="New ingredient" />
+               </tooltip></Button>
             <Button fx:id="shoppingListButton" contentDisplay="TOP" mnemonicParsing="false" prefHeight="67.0" prefWidth="34.0" style="-fx-background-color: transparent;" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <graphic>
                   <ImageView fitHeight="53.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
@@ -91,6 +115,9 @@
                      </image>
                   </ImageView>
                </graphic>
+               <tooltip>
+                  <Tooltip fx:id="shopToolTip" text="Shopping list" />
+               </tooltip>
             </Button>
          </children>
       </GridPane>
