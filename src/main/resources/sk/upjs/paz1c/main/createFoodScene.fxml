@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="640.0" styleClass="bodybg" stylesheets="@background.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane layoutX="53.0" layoutY="108.0" prefHeight="76.0" prefWidth="152.0" AnchorPane.leftAnchor="50.0">
+      <GridPane layoutX="53.0" layoutY="108.0" prefHeight="76.0" prefWidth="152.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="108.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="61.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="137.0" minWidth="10.0" prefWidth="45.0" />
@@ -28,25 +28,25 @@
             <Label text=" €" GridPane.columnIndex="2" />
          </children>
       </GridPane>
-      <Label layoutX="53.0" layoutY="79.0" text="Name: " AnchorPane.leftAnchor="50.0" />
-      <TextField fx:id="nameTextField" layoutX="112.0" layoutY="73.0" prefHeight="31.0" prefWidth="138.0" AnchorPane.leftAnchor="110.0" />
-      <ImageView fx:id="imageView" fitHeight="67.0" fitWidth="123.0" layoutX="259.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" />
-      <TextArea fx:id="descriptionTextArea" layoutX="53.0" layoutY="236.0" prefHeight="133.0" prefWidth="326.0" promptText="Description" wrapText="true" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="236.0" />
+      <Label layoutX="53.0" layoutY="79.0" text="Name: " AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="79.0" />
+      <TextField fx:id="nameTextField" layoutX="112.0" layoutY="73.0" prefHeight="31.0" prefWidth="138.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="73.0" />
+      <ImageView fx:id="imageView" fitHeight="67.0" fitWidth="95.0" layoutX="279.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="279.0" />
+      <TextArea fx:id="descriptionTextArea" layoutX="53.0" layoutY="236.0" prefHeight="133.0" prefWidth="326.0" promptText="Description" wrapText="true" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="235.0" />
       <Button fx:id="submitButton" layoutX="431.0" layoutY="384.0" mnemonicParsing="false" onAction="#save" text="Save" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="160.0" />
-      <Label layoutX="53.0" layoutY="195.0" text="Image path:" AnchorPane.leftAnchor="50.0" />
-      <TextField fx:id="imageTextField" layoutX="135.0" layoutY="192.0" prefHeight="31.0" prefWidth="144.0" AnchorPane.leftAnchor="135.0" />
-      <Text fx:id="titleLabel" layoutX="251.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Food" AnchorPane.topAnchor="13.5">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Text>
+      <Label layoutX="53.0" layoutY="195.0" text="Image path:" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="195.0" />
+      <TextField fx:id="imageTextField" layoutX="135.0" layoutY="192.0" prefHeight="31.0" prefWidth="144.0" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="192.0" />
       <Button fx:id="cancelButton" layoutX="497.0" layoutY="384.0" mnemonicParsing="false" onAction="#cancelChanges" text="Cancel changes" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="30.0" />
-      <Button fx:id="loadImageButton" layoutX="279.0" layoutY="192.0" mnemonicParsing="false" onAction="#loadImage" prefHeight="31.0" prefWidth="95.0" text="Find image" AnchorPane.leftAnchor="279.0" />
+      <Button fx:id="loadImageButton" layoutX="279.0" layoutY="192.0" mnemonicParsing="false" onAction="#loadImage" prefHeight="31.0" prefWidth="95.0" text="Find image" AnchorPane.leftAnchor="279.0" AnchorPane.topAnchor="192.0" />
       <ListView fx:id="ingredientListView" layoutX="420.0" layoutY="105.0" prefHeight="267.0" prefWidth="179.0" AnchorPane.bottomAnchor="70.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="105.0" />
-      <Label layoutX="483.0" layoutY="78.0" text="Ingredients" AnchorPane.topAnchor="78.0">
+      <Label layoutX="483.0" layoutY="78.0" text="Ingredients" AnchorPane.rightAnchor="82.0" AnchorPane.topAnchor="78.0">
          <tooltip>
             <Tooltip text="Double click to edit details. Ingredients in food are in blue color." />
          </tooltip>
+      </Label>
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="252.0" layoutY="28.0" text="Create New Food" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="239.0" AnchorPane.topAnchor="28.0">
+         <font>
+            <Font name="Serif Regular" size="21.0" />
+         </font>
       </Label>
    </children>
 </AnchorPane>
