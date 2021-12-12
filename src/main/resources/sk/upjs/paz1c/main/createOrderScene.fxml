@@ -26,18 +26,18 @@
             <Font size="15.0" />
          </font></Label>
       <DatePicker fx:id="dayDatePicker" layoutX="61.0" layoutY="83.0" prefHeight="31.0" prefWidth="150.0" AnchorPane.leftAnchor="61.0" AnchorPane.topAnchor="83.0" />
-      <Label layoutX="385.0" layoutY="114.0" text="Add food:" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="114.0">
+      <Label layoutX="385.0" layoutY="114.0" text="Add food:" AnchorPane.rightAnchor="149.0" AnchorPane.topAnchor="114.0">
          <font>
             <Font size="15.0" />
          </font></Label>
-      <ComboBox fx:id="foodComboBox" layoutX="385.0" layoutY="141.0" prefHeight="31.0" prefWidth="196.0" AnchorPane.leftAnchor="385.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="141.0" />
+      <ComboBox fx:id="foodComboBox" layoutX="385.0" layoutY="141.0" prefHeight="31.0" prefWidth="196.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="141.0" />
       <Spinner fx:id="portionsSpinner" layoutX="451.0" layoutY="185.0" prefHeight="31.0" prefWidth="80.0" /> 
       <Button fx:id="addButton" layoutX="540.0" layoutY="185.0" mnemonicParsing="false" onAction="#addFood" text="Add" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="185.0">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <TableView fx:id="portionsTableView" layoutX="22.0" layoutY="125.0" prefHeight="261.0" prefWidth="351.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="125.0" />
+      <TableView fx:id="portionsTableView" layoutX="22.0" layoutY="125.0" prefHeight="260.0" prefWidth="343.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="235.0" AnchorPane.topAnchor="125.0" />
       <Button fx:id="deleteButton" layoutX="467.0" layoutY="355.0" mnemonicParsing="false" onAction="#deleteFood" prefHeight="31.0" prefWidth="64.0" text="Delete" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="90.0">
          <font>
             <Font size="15.0" />
@@ -53,7 +53,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Label layoutX="389.0" layoutY="190.0" text="Portions:" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="190.0">
+      <Label layoutX="385.0" layoutY="190.0" text="Portions:" AnchorPane.rightAnchor="156.0" AnchorPane.topAnchor="190.0">
          <font>
             <Font size="15.0" />
          </font>

@@ -26,6 +26,7 @@ import sk.upjs.paz1c.storage.Food;
 import sk.upjs.paz1c.storage.FoodDao;
 
 public class ViewFoodsSceneController {
+	//TODO adjust all scenes' titles
 
 	@FXML
 	private CheckBox inOrdersCheckBox;
@@ -124,7 +125,7 @@ public class ViewFoodsSceneController {
 			stage.setScene(scene);
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setTitle("Edit food");
-
+			
 			stage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();

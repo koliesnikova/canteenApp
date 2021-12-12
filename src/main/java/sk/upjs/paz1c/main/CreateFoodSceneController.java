@@ -224,6 +224,7 @@ public class CreateFoodSceneController {
 					Stage stage = new Stage();
 					stage.setScene(scene);
 					stage.initModality(Modality.APPLICATION_MODAL);
+					stage.setResizable(false);
 					stage.setTitle("Amount of ingredient in food");
 					stage.showAndWait();
 				} catch (IOException e) {

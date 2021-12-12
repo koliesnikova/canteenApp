@@ -119,6 +119,7 @@ public class CreateIngredientSceneController {
 		items.add("kg");
 		items.add("L");
 		items.add("ks");
+		items.add("g");
 		standardAmountComboBox.setItems(FXCollections.observableArrayList(items));
 		if (ingredientModel.getUnit() != null)
 			standardAmountComboBox.getSelectionModel().select(items.indexOf(ingredientModel.getUnit()));

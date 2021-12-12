@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
-
 public class Food {
 	private Long id;
 	private String name;
@@ -138,23 +135,22 @@ public class Food {
 
 	@Override
 	public String toString() {
-		//TODO potom upravit vypis
-		return id + " " + name + " " + price + " ";
+		return name + ": " + price + " €, weight: " + weight + "g" ;
 	}
 
-//	@Override
-//	public int hashCode() {
-//		final int prime = 31;
-//		int result = 1;
-//		result = prime * result + ((description == null) ? 0 : description.hashCode());
-//		result = prime * result + ((id == null) ? 0 : id.hashCode());
-//		result = prime * result + ((image_url == null) ? 0 : image_url.hashCode());
-//		result = prime * result + ((ingredients == null) ? 0 : ingredients.hashCode());
-//		result = prime * result + ((name == null) ? 0 : name.hashCode());
-//		result = prime * result + ((price == null) ? 0 : price.hashCode());
-//		result = prime * result + ((weight == null) ? 0 : weight.hashCode());
-//		return result;
-//	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((image_url == null) ? 0 : image_url.hashCode());
+		result = prime * result + ((ingredients == null) ? 0 : ingredients.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((weight == null) ? 0 : weight.hashCode());
+		return result;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
