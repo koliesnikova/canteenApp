@@ -1,9 +1,15 @@
 package sk.upjs.paz1c.main;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.nio.channels.FileChannel.MapMode;
 import java.util.List;
 import java.util.Optional;
 
+import javax.imageio.ImageIO;
+
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,7 +22,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -26,7 +35,7 @@ import sk.upjs.paz1c.storage.Food;
 import sk.upjs.paz1c.storage.FoodDao;
 
 public class ViewFoodsSceneController {
-	//TODO adjust all scenes' titles
+	// TODO adjust all scenes' titles
 
 	@FXML
 	private CheckBox inOrdersCheckBox;
@@ -54,7 +63,35 @@ public class ViewFoodsSceneController {
 				updateListView();
 			}
 		});
-		
+		foodListView.setFixedCellSize(30.0);
+		foodListView.setCellFactory(param -> new ListCell<Food>() {
+			private ImageView imageView = new ImageView();
+
+			@Override
+			public void updateItem(Food food, boolean empty) {
+				super.updateItem(food, empty);
+				if (empty) {
+					setText(null);
+					setGraphic(null);
+				} else {
+					imageView.setPreserveRatio(true);
+					imageView.setFitHeight(foodListView.getFixedCellSize());
+					if (food.getImage_url() != null && food.getImage_url() != "") {
+						//TODO fix path
+						System.out.println(food.getImage_url());
+						String path = food.getImage_url().replaceAll("\\\\", "/");
+						System.out.println(path);
+						//imageView.setImage(new Image(path));
+						
+					}else {
+						imageView.setImage(new Image("icons/fast-food.png"));
+					}
+					setGraphic(imageView);
+					setText(food.toString());
+				}
+			}
+		});
+
 		foodListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Food>() {
 			@Override
 			public void changed(ObservableValue<? extends Food> observable, Food oldValue, Food newValue) {
@@ -97,7 +134,7 @@ public class ViewFoodsSceneController {
 	void openCreateFood(ActionEvent event) {
 		CreateFoodSceneController controller = new CreateFoodSceneController();
 		try {
-			
+
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("createFoodScene.fxml"));
 			loader.setController(controller);
 
@@ -125,7 +162,7 @@ public class ViewFoodsSceneController {
 			stage.setScene(scene);
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setTitle("Edit food");
-			
+
 			stage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();
