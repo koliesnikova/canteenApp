@@ -63,7 +63,6 @@ public class IngredientInFoodController {
 	@FXML
 	void saveChanges(ActionEvent event) {
 		needed = amountNeededSpinner.getValue();
-		System.out.println("ingredient amount changed to: " + needed);
 		foodModel.setAmountNeeded(ingredient.getId(), needed);
 		ingredientNameLabel.getScene().getWindow().hide();
 

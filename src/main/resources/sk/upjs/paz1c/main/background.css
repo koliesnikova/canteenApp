@@ -2,3 +2,57 @@
 	-fx-background-image:url('Backgrd.png');
 	-fx-background-size: cover;
 }
+
+.buttonSave {
+	-fx-background-color: white;
+	-fx-background-radius: 5;
+}
+  
+.buttonSave:hover {
+	-fx-background-color: #4caf4f7c;
+}
+
+.buttonDelete {
+	-fx-background-color: white;
+	-fx-background-radius: 5;
+	
+}
+  
+.buttonDelete:hover {
+	-fx-background-color: #f4433686;
+}
+
+.buttonCancel {
+	-fx-background-color: white;
+	-fx-background-radius: 5;
+}
+  
+.buttonCancel:hover {
+	-fx-background-color: #5555557e;
+}
+
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected:not(.ingredients) {
+    -fx-background-color: rgb(160,160,160);
+    -fx-text-fill: white; 
+}
+.list-cell:not(.ingredients) {
+	-fx-text-fill: black;
+}
+.list-cell:odd:not(.ingredients) { 
+	-fx-background-color: rgb(245,245,245);
+}
+.list-cell:even:not(.ingredients) { 
+	-fx-background-color: rgb(211,211,211);
+}
+.list-cell:filled:hover:not(.ingredients) { 
+    -fx-background-color: rgb(192,192,192);
+    -fx-text-fill: rgb(0, 0, 0);
+}
+
+.list-view {
+	-fx-background-radius: 5;
+	-fx-border-radius: 5;
+	-fx-border-color: rgb(211,211,211);
+	-fx-border-width: 2px;
+}

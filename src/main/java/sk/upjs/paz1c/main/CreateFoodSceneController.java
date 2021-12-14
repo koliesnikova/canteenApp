@@ -171,7 +171,12 @@ public class CreateFoodSceneController {
 					    } else {
 					    	setText(item);
 							setIngredientInFood();
-							setTextFill(ingredientInFood.contains(item) ? Color.BLUE : Color.BLACK);
+							//setTextFill(ingredientInFood.contains(item) ? Color.BLUE : Color.BLACK);
+							setTextFill(Color.BLACK);
+							if (ingredientInFood.contains(item))
+								this.setStyle("-fx-background-color: rgb(211,211,211);");
+							else
+								this.setStyle("-fx-background-color: rgb(255,255,255);");
 					    }
 					}
 				};
