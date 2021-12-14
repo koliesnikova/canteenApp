@@ -87,8 +87,14 @@ public class CreateFoodSceneController {
 
 	@FXML
 	void save(ActionEvent event) {
+		if(foodFxModel.getName()!=null && (!foodFxModel.getName().isBlank())) {
 		actualFood = foodDao.save(foodFxModel.getFood());
 		nameTextField.getScene().getWindow().hide();
+		}else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setContentText("You can't save food without naming it!");
+			alert.show();
+		}
 	}
 
 	@FXML
@@ -124,6 +130,7 @@ public class CreateFoodSceneController {
 
 			}
 		});
+		
 		weightTextField.textProperty().bindBidirectional(foodFxModel.weightProperty(), new NumberStringConverter() {
 			@Override
 			public Number fromString(String value) {
@@ -253,10 +260,10 @@ public class CreateFoodSceneController {
 			Image image = SwingFXUtils.toFXImage(bufferedImage, null);
 			imageView.setImage(image);
 		} catch (IOException ex) {
-
 			ex.printStackTrace();
 		}
 	}
+	
 	void setIngredientInFood() {
 		ingredientInFood.clear();
 		List<Ingredient> inFood = foodFxModel.getIngredientsInFood();

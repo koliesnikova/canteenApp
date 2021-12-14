@@ -12,11 +12,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.util.converter.NumberStringConverter;
 
 public class CreateIngredientSceneController {
@@ -34,14 +36,13 @@ public class CreateIngredientSceneController {
 
 	@FXML
 	private TextField standardAmountTextField;
-	
-    @FXML
-    private Button saveButton;
-	
+
+	@FXML
+	private Button saveButton;
+
 	private IngredientFxModel ingredientModel;
 	private IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
 
-	
 	public CreateIngredientSceneController(Ingredient ingredient) {
 		ingredientModel = new IngredientFxModel(ingredient);
 	}
@@ -49,7 +50,6 @@ public class CreateIngredientSceneController {
 	public CreateIngredientSceneController() {
 		ingredientModel = new IngredientFxModel();
 	}
-	
 
 	@FXML
 	void initialize() {
@@ -64,8 +64,8 @@ public class CreateIngredientSceneController {
 				}
 			}
 		});
-		
-		//https://stackoverflow.com/questions/51032498/get-change-amount-with-listener-and-doubleproperty
+
+		// https://stackoverflow.com/questions/51032498/get-change-amount-with-listener-and-doubleproperty
 		ingredientModel.priceProperty().addListener(new ChangeListener<Number>() {
 
 			@Override
@@ -75,12 +75,12 @@ public class CreateIngredientSceneController {
 					priceTextField.setStyle("-fx-background-color: lightcoral");
 				} else {
 					saveButton.setDisable(false);
-					priceTextField.setStyle("-fx-background-color: white");					
+					priceTextField.setStyle("-fx-background-color: white");
 				}
-				
+
 			}
 		});
-		
+
 		standardAmountTextField.textProperty().bindBidirectional(ingredientModel.amountProperty());
 		setItemsStandardAmountToComboBox();
 		standardAmountComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -91,14 +91,14 @@ public class CreateIngredientSceneController {
 				ingredientModel.setUnit(newValue);
 			}
 		});
-		
-		//https://o7planning.org/11185/javafx-spinner
-		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, 0);
+
+		// https://o7planning.org/11185/javafx-spinner
+		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,
+				Integer.MAX_VALUE, 0);
 		amountAvailableSpinner.setValueFactory(valueFactory);
 		// https://stackoverflow.com/questions/35835939/spinnerinteger-bind-to-integerproperty
-		amountAvailableSpinner.getValueFactory().valueProperty().bindBidirectional(ingredientModel.amountAvailableProperty().asObject());
-		
-		
+		amountAvailableSpinner.getValueFactory().valueProperty()
+				.bindBidirectional(ingredientModel.amountAvailableProperty().asObject());
 
 	}
 
@@ -109,11 +109,17 @@ public class CreateIngredientSceneController {
 
 	@FXML
 	void saveChanges(ActionEvent event) {
-		Ingredient ingredient = ingredientModel.getIngredient();
-		ingredientDao.save(ingredient);
-		nameTextField.getScene().getWindow().hide();
+		if (ingredientModel.getName() == null || ingredientModel.getName().isBlank()) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setContentText("You can't save an ingredient without naming it!");
+			alert.show();
+		} else {
+			Ingredient ingredient = ingredientModel.getIngredient();
+			ingredientDao.save(ingredient);
+			nameTextField.getScene().getWindow().hide();
+		}
 	}
-	
+
 	private void setItemsStandardAmountToComboBox() {
 		List<String> items = new ArrayList<>();
 		items.add("kg");

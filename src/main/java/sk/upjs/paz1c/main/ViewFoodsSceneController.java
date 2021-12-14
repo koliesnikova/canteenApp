@@ -77,11 +77,8 @@ public class ViewFoodsSceneController {
 					imageView.setPreserveRatio(true);
 					imageView.setFitHeight(foodListView.getFixedCellSize());
 					if (food.getImage_url() != null && food.getImage_url() != "") {
-						//TODO fix path
-						System.out.println(food.getImage_url());
 						String path = food.getImage_url().replaceAll("\\\\", "/");
-						System.out.println(path);
-						//imageView.setImage(new Image(path));
+						imageView.setImage(new Image(path));
 						
 					}else {
 						imageView.setImage(new Image("icons/fast-food.png"));
