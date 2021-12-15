@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
@@ -30,6 +31,9 @@ public class CreateIngredientSceneController {
 
 	@FXML
 	private TextField priceTextField;
+	
+	@FXML
+	private Label titleLabel;
 
 	@FXML
 	private ComboBox<String> standardAmountComboBox;
@@ -53,6 +57,9 @@ public class CreateIngredientSceneController {
 
 	@FXML
 	void initialize() {
+		if(ingredientModel.getId()!=null) {
+			titleLabel.setText("Edit Ingredient");
+		}
 		nameTextField.textProperty().bindBidirectional(ingredientModel.nameProperty());
 		priceTextField.textProperty().bindBidirectional(ingredientModel.priceProperty(), new NumberStringConverter() {
 			@Override

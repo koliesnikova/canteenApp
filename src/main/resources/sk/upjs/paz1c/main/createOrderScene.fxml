@@ -54,7 +54,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Label alignment="TOP_CENTER" layoutX="240.0" layoutY="30.0" prefHeight="29.0" prefWidth="120.0" text="Save order" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="30.0">
+      <Label fx:id="titleLabel" alignment="TOP_CENTER" layoutX="240.0" layoutY="30.0" prefHeight="29.0" prefWidth="120.0" text="New Order" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="30.0">
          <font>
             <Font name="Serif Regular" size="25.0" />
          </font>

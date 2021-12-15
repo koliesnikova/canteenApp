@@ -46,7 +46,7 @@ public class CreateFoodSceneController {
 	private Button cancelButton;
 
 	@FXML
-	private Text titleLabel;
+	private Label titleLabel;
 
 	@FXML
 	private TextField nameTextField;
@@ -87,10 +87,10 @@ public class CreateFoodSceneController {
 
 	@FXML
 	void save(ActionEvent event) {
-		if(foodFxModel.getName()!=null && (!foodFxModel.getName().isBlank())) {
-		actualFood = foodDao.save(foodFxModel.getFood());
-		nameTextField.getScene().getWindow().hide();
-		}else {
+		if (foodFxModel.getName() != null && (!foodFxModel.getName().isBlank())) {
+			actualFood = foodDao.save(foodFxModel.getFood());
+			nameTextField.getScene().getWindow().hide();
+		} else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setContentText("You can't save food without naming it!");
 			alert.show();
@@ -104,6 +104,8 @@ public class CreateFoodSceneController {
 
 	@FXML
 	void initialize() {
+		if (actualFood != null)
+			titleLabel.setText("Edit Food");
 		nameTextField.textProperty().bindBidirectional(foodFxModel.nameProperty());
 		priceTextField.textProperty().bindBidirectional(foodFxModel.priceProperty(), new NumberStringConverter() {
 			@Override
@@ -130,7 +132,7 @@ public class CreateFoodSceneController {
 
 			}
 		});
-		
+
 		weightTextField.textProperty().bindBidirectional(foodFxModel.weightProperty(), new NumberStringConverter() {
 			@Override
 			public Number fromString(String value) {
@@ -153,11 +155,11 @@ public class CreateFoodSceneController {
 				}
 			}
 		});
-		
+
 		setIngredientInFood();
-		
-		//https://stackoverflow.com/questions/35249058/set-items-colors-in-listview-in-javafx
-		//https://www.tabnine.com/code/java/methods/javafx.scene.control.ListView/setCellFactory
+
+		// https://stackoverflow.com/questions/35249058/set-items-colors-in-listview-in-javafx
+		// https://www.tabnine.com/code/java/methods/javafx.scene.control.ListView/setCellFactory
 		ingredientListView.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
 			@Override
 			public ListCell<String> call(ListView<String> list) {
@@ -166,19 +168,35 @@ public class CreateFoodSceneController {
 					protected void updateItem(String item, boolean empty) {
 						super.updateItem(item, empty);
 						if (empty || item == null) {
-					        setText(null);
-					        setGraphic(null);
-					        setStyle(null);
-					    } else {
-					    	setText(item);
+							setText(null);
+							setGraphic(null);
+							setStyle(null);
+						} else {
+							setText(item);
 							setIngredientInFood();
-							//setTextFill(ingredientInFood.contains(item) ? Color.BLUE : Color.BLACK);
+							// setTextFill(ingredientInFood.contains(item) ? Color.BLUE : Color.BLACK);
 							setTextFill(Color.BLACK);
-							if (ingredientInFood.contains(item))
-								this.setStyle("-fx-background-color: rgb(211,211,211);");
+							if (ingredientInFood.contains(item)) {
+								// light grey
+								// this.setStyle("-fx-background-color: rgb(211,211,211);");
+								// apple green
+								// this.setStyle("-fx-background-color: rgb(181, 247, 49);");
+								// orange
+								// this.setStyle("-fx-background-color: rgb(255, 153, 51 );");
+								// beige
+								// this.setStyle("-fx-background-color: rgb(242, 242, 208);");
+								// lighter orange 255, 197, 108
+								// this.setStyle("-fx-background-color: rgb(255, 197, 108);");
+								// light blue
+								this.setStyle("-fx-background-color: rgb(1, 145, 200);");
+								// navy blue
+								// this.setStyle("-fx-background-color: rgb(0, 91, 154 );");
+								setTextFill(Color.WHITE);
+							}
+
 							else
 								this.setStyle("-fx-background-color: rgb(255,255,255);");
-					    }
+						}
 					}
 				};
 			}
@@ -190,10 +208,10 @@ public class CreateFoodSceneController {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				selectedIngredient = newValue;
-				
+
 			}
-		}); 
-		
+		});
+
 		imageTextField.textProperty().bindBidirectional(foodFxModel.imagePathProperty());
 		descriptionTextArea.textProperty().bindBidirectional(foodFxModel.descriptionProperty());
 
@@ -211,23 +229,24 @@ public class CreateFoodSceneController {
 				e.printStackTrace();
 			}
 		}
-		
+
 		ingredientListView.setOnMouseClicked(event -> {
 			if (event.getClickCount() == 2) {
 				List<Ingredient> ingrs = ingredientDao.getAll();
 				Ingredient selectedI = null;
 				for (Ingredient ingredient : ingrs) {
-					if(selectedIngredient.equals(ingredient.getName())) {
+					if (selectedIngredient.equals(ingredient.getName())) {
 						selectedI = ingredient;
 						break;
 					}
 				}
-				
-				if(actualFood==null) {
-					actualFood=foodFxModel.getFood();
+
+				if (actualFood == null) {
+					actualFood = foodFxModel.getFood();
 				}
-				
-				IngredientInFoodController controller = new IngredientInFoodController(selectedI,actualFood, foodFxModel);
+
+				IngredientInFoodController controller = new IngredientInFoodController(selectedI, actualFood,
+						foodFxModel);
 				try {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("ingredientInFoodScene.fxml"));
 					loader.setController(controller);
@@ -245,10 +264,9 @@ public class CreateFoodSceneController {
 				}
 				setIngredientInFood();
 				ingredientListView.refresh();
-				actualFood = foodFxModel.getFood();				
+				actualFood = foodFxModel.getFood();
 			}
 		});
-		
 
 	}
 
@@ -269,7 +287,7 @@ public class CreateFoodSceneController {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	void setIngredientInFood() {
 		ingredientInFood.clear();
 		List<Ingredient> inFood = foodFxModel.getIngredientsInFood();
@@ -277,6 +295,5 @@ public class CreateFoodSceneController {
 			ingredientInFood.add(ingredient.getName());
 		}
 	}
-	
 
 }

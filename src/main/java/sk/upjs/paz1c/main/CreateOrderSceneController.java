@@ -24,6 +24,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
@@ -38,6 +39,9 @@ public class CreateOrderSceneController {
 
 	@FXML
 	private Button saveButton;
+
+	@FXML
+	private Label titleLabel;
 
 	@FXML
 	private DatePicker dayDatePicker;
@@ -81,10 +85,11 @@ public class CreateOrderSceneController {
 		deleteButton.setDisable(true);
 		if (orderModel.getId() == null)
 			foodComboBox.setItems(FXCollections.observableArrayList(foodDao.getAll()));
-		else
+		else {
+			titleLabel.setText("Edit Order");
 			foodComboBox.setItems(
 					FXCollections.observableArrayList(canteenManager.filterFoodNotInOrder(orderModel.getId())));
-
+		}
 		foodComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Food>() {
 
 			@Override
@@ -138,7 +143,7 @@ public class CreateOrderSceneController {
 		TableColumn<OrderFoodOverview, Double> totalSumCol = new TableColumn<OrderFoodOverview, Double>("Total price");
 		totalSumCol.setCellValueFactory(new PropertyValueFactory<>("totalSum"));
 		portionsTableView.getColumns().add(totalSumCol);
-		
+
 		nameCol.prefWidthProperty().bind(portionsTableView.widthProperty().multiply(0.5));
 		countCol.prefWidthProperty().bind(portionsTableView.widthProperty().multiply(0.25));
 		totalSumCol.prefWidthProperty().bind(portionsTableView.widthProperty().multiply(0.25));
