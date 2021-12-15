@@ -186,7 +186,8 @@ public class MainSceneController {
 				Parent parent = loader.load();
 				Scene scene = new Scene(parent);
 				Stage stage = new Stage();
-				stage.setOnCloseRequest(e -> updateCounts());
+				if (title.equals("Orders"))
+					stage.setOnCloseRequest(e -> updateCounts());
 				stage.setScene(scene);
 				stage.setTitle(title);
 				stage.show();

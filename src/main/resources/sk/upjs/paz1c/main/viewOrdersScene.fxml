@@ -16,7 +16,7 @@
             <Font size="15.0" />
          </font></Label>
       <DatePicker fx:id="dayDatePicker" layoutX="83.0" layoutY="29.0" prefHeight="31.0" prefWidth="132.0" AnchorPane.leftAnchor="83.0" AnchorPane.topAnchor="29.0" />
-      <ListView fx:id="orderListView" layoutX="32.0" layoutY="73.0" prefHeight="243.0" prefWidth="537.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="70.0" />
+      <ListView fx:id="orderListView" layoutX="32.0" layoutY="73.0" prefHeight="243.0" prefWidth="537.0" styleClass="listik" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="70.0" />
       <CheckBox fx:id="preparedCheckBox" layoutX="39.0" layoutY="354.0" mnemonicParsing="false" text="Prepared" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="39.0">
          <font>
             <Font size="15.0" />
