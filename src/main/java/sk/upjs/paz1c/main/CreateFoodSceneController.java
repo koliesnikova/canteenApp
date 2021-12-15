@@ -168,6 +168,7 @@ public class CreateFoodSceneController {
 						if (empty || item == null) {
 					        setText(null);
 					        setGraphic(null);
+					        setStyle(null);
 					    } else {
 					    	setText(item);
 							setIngredientInFood();
