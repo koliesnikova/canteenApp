@@ -1,7 +1,6 @@
 package sk.upjs.paz1c.storage;
 
 import java.util.List;
-import java.util.Map;
 
 public interface FoodDao {
 	List<Food> getAll();

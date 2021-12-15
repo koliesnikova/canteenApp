@@ -1,15 +1,9 @@
 package sk.upjs.paz1c.main;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.nio.channels.FileChannel.MapMode;
 import java.util.List;
 import java.util.Optional;
 
-import javax.imageio.ImageIO;
-
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -35,7 +29,6 @@ import sk.upjs.paz1c.storage.Food;
 import sk.upjs.paz1c.storage.FoodDao;
 
 public class ViewFoodsSceneController {
-	// TODO adjust all scenes' titles
 
 	@FXML
 	private CheckBox inOrdersCheckBox;

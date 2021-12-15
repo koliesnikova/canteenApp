@@ -22,7 +22,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -177,23 +176,8 @@ public class CreateFoodSceneController {
 							// setTextFill(ingredientInFood.contains(item) ? Color.BLUE : Color.BLACK);
 							setTextFill(Color.BLACK);
 							if (ingredientInFood.contains(item)) {
-								// light grey
-								// this.setStyle("-fx-background-color: rgb(211,211,211);");
-								// apple green
-								// this.setStyle("-fx-background-color: rgb(181, 247, 49);");
-								// orange
-								// this.setStyle("-fx-background-color: rgb(255, 153, 51 );");
-								// beige
-								// this.setStyle("-fx-background-color: rgb(242, 242, 208);");
-								// lighter orange 255, 197, 108
-								// this.setStyle("-fx-background-color: rgb(255, 197, 108);");
-								// light blue
-								this.setStyle("-fx-background-color: rgb(1, 145, 200);");
-								// navy blue
-								// this.setStyle("-fx-background-color: rgb(0, 91, 154 );");
-								setTextFill(Color.WHITE);
+								 this.setStyle("-fx-background-color: rgb(255, 197, 108);");
 							}
-
 							else
 								this.setStyle("-fx-background-color: rgb(255,255,255);");
 						}

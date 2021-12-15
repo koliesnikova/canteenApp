@@ -163,18 +163,13 @@ public class FoodFxModel {
 				}
 
 				if (toRemove!=null) {
-					System.out.println("removing " + toRemove + " from " + amountNeededMap);
 					amountNeededMap.remove(toRemove);
 				}
 				else if(toUpdate!=null) {
-					System.out.println("updating " + toUpdate + " >>> " + amountNeededMap);
 					amountNeededMap.put(toUpdate, needed);
 				}else {
 					amountNeededMap.put(ingredient, needed);
 				}
-
-				System.out.println("after all: " + amountNeededMap + "ingrs " +amountNeededMap.keySet());
-				System.out.println();
 				
 			}
 		}
