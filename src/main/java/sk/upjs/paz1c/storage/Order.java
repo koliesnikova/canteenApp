@@ -80,7 +80,11 @@ public class Order {
 	@Override
 	public String toString() {
 		String pre = prepared ? ", prepared" : "";
-		return "Order for day " + day.toLocalDate() + ", portions: " + portions.size() + pre;
+		int por = 0;
+		for (Food f : portions.keySet()) {
+			por += portions.get(f);
+		}
+		return "Order for day " + day.toLocalDate() + ", portions: " + por + pre;
 	}
 
 	@Override

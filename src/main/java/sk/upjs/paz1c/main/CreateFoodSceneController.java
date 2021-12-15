@@ -173,13 +173,21 @@ public class CreateFoodSceneController {
 						} else {
 							setText(item);
 							setIngredientInFood();
-							// setTextFill(ingredientInFood.contains(item) ? Color.BLUE : Color.BLACK);
-							setTextFill(Color.BLACK);
+							setTextFill(ingredientInFood.contains(item) ? Color.rgb(37, 62, 102) : Color.BLACK);
+							
+//							setTextFill(Color.BLACK);
 							if (ingredientInFood.contains(item)) {
-								 this.setStyle("-fx-background-color: rgb(255, 197, 108);");
+								 //this.setStyle("-fx-background-color: rgb(255, 197, 108);");
+								this.setStyle("-fx-border-color: rgb(37, 62, 102);"+
+										"-fx-border-width: 2px;"+
+										"-fx-border-radius: 5;");
 							}
-							else
-								this.setStyle("-fx-background-color: rgb(255,255,255);");
+							else {
+								//this.setStyle("-fx-background-color: rgb(255,255,255);");
+								this.setStyle("-fx-border-color: rgb(255, 255, 255);"+
+										"-fx-border-width: 2px;"+
+										"-fx-border-radius: 5;");
+							}
 						}
 					}
 				};

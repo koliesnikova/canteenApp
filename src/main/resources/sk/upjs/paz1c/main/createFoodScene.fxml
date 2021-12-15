@@ -85,7 +85,7 @@
          <font>
             <Font size="15.0" />
          </font></Button>
-      <ListView fx:id="ingredientListView" layoutX="420.0" layoutY="105.0" prefHeight="267.0" prefWidth="179.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="431.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="105.0" />
+      <ListView fx:id="ingredientListView" layoutX="420.0" layoutY="105.0" prefHeight="267.0" prefWidth="179.0" styleClass="ingredients" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="431.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="105.0" />
       <Label layoutX="483.0" layoutY="78.0" text="Ingredients:" AnchorPane.rightAnchor="82.0" AnchorPane.topAnchor="78.0">
          <tooltip>
             <Tooltip text="Double click to edit details. Ingredients in food are in blue color." />
