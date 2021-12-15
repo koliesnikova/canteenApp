@@ -64,6 +64,7 @@ public class ViewFoodsSceneController {
 			}
 		});
 		foodListView.setFixedCellSize(30.0);
+		//https://stackoverflow.com/questions/33592308/javafx-how-to-put-imageview-inside-listview
 		foodListView.setCellFactory(param -> new ListCell<Food>() {
 			private ImageView imageView = new ImageView();
 
