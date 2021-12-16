@@ -73,6 +73,8 @@ public class MainSceneController {
 	    	order2ToolTip.setShowDelay(Duration.millis(2));
 	    	shopToolTip.setShowDelay(Duration.millis(2));
 	    	
+	    	updateCounts();
+	    	
 	    	viewFoodsButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
@@ -154,8 +156,8 @@ public class MainSceneController {
 					stage.setScene(scene);
 					stage.initModality(Modality.APPLICATION_MODAL);
 					stage.setTitle("Create order");
+					stage.setOnCloseRequest(e -> updateCounts());
 					stage.showAndWait();
-					updateCounts();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -172,13 +174,14 @@ public class MainSceneController {
 					stage.setScene(scene);
 					stage.setTitle("Shopping list");
 					stage.initModality(Modality.APPLICATION_MODAL);
+					stage.setOnCloseRequest(e -> updateCounts());
 					stage.showAndWait();
-					updateCounts();
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 	    	});
-	    	updateCounts();
+	    	
 	    }
 	    
 	    private Stage openWindow(String title, FXMLLoader loader) {
