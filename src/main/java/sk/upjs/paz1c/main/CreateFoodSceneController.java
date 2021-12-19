@@ -276,7 +276,7 @@ public class CreateFoodSceneController {
 			Image image = SwingFXUtils.toFXImage(bufferedImage, null);
 			imageView.setImage(image);
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			//ex.printStackTrace();
 		}
 	}
 
