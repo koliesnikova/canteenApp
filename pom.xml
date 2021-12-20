@@ -6,7 +6,7 @@
 	<artifactId>CanteenApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>CanteenApp</name>
-	<description>Food ordering system for canteens.</description>
+	<description>Shopping list for canteens: ingredients needed to satisfy customers' food orders.</description>
 
 
 	<properties>
