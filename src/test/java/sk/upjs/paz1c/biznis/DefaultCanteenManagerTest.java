@@ -91,16 +91,6 @@ class DefaultCanteenManagerTest {
 		}
 		assertTrue(found);
 		
-		for (Food f : savedOrder.getPortions().keySet()) {
-			boolean inAll = false;
-			for (Food allFood : canteenManager.filterFoodNotInOrder(savedOrder.getId())) {
-				if (f.getId().equals(allFood.getId())) {
-					inAll = true;
-					break;
-				}
-			}
-			//assertFalse(inAll);
-		}
 		int foodsInOrder = orderDao.getById(savedOrder.getId()).getPortions().size();
 		int foodsNotInOrder = canteenManager.filterFoodNotInOrder(savedOrder.getId()).size();
 		int allFoods = foodDao.getAll().size();
