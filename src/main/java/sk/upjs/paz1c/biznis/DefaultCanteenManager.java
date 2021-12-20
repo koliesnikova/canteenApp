@@ -24,7 +24,6 @@ public class DefaultCanteenManager implements CanteenManager {
 	public List<Food> filterFoodNotInOrder(Long orderId) {
 		Order order = orderDao.getById(orderId);
 		List<Food> result = foodDao.getAll();
-
 		for (Food f : order.getPortions().keySet()) {
 			int idx = -1;
 			for (Food foodFromAll : result) {
@@ -96,17 +95,17 @@ public class DefaultCanteenManager implements CanteenManager {
 							break;
 						}
 					}
-					if(!onlyRemoveItem)
+					if (!onlyRemoveItem)
 						result.add(newItem);
 				}
 			}
 		}
 		return result;
 	}
-	
-	
+
 	public boolean checkOrderIngredientsAvailable(Order order) {
-		// for every food in order chceck every ingredient, if amount available if sufficient
+		// for every food in order check every ingredient, if amount available if
+		// sufficient
 		for (Food f : order.getPortions().keySet()) {
 			int foodCount = order.getPortions().get(f);
 			for (Ingredient i : f.getIngredients().keySet()) {
@@ -118,7 +117,7 @@ public class DefaultCanteenManager implements CanteenManager {
 		}
 		return true;
 	}
-	
+
 	public void prepareIngredientsForOrder(Order order) {
 		for (Food f : order.getPortions().keySet()) {
 			int foodCount = order.getPortions().get(f);

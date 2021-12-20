@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import sk.upjs.paz1c.storage.DaoFactory;
+import sk.upjs.paz1c.storage.EntityUndeletableException;
 import sk.upjs.paz1c.storage.Food;
 import sk.upjs.paz1c.storage.FoodDao;
 import sk.upjs.paz1c.storage.Order;
@@ -47,7 +48,7 @@ class OverviewManagerImplTest {
 	}
 
 	@Test
-	void testGetAll() {
+	void testGetAll() throws EntityUndeletableException {
 		int count = manager.getAll(savedOrder.getId()).size();
 		Food addedFood = foodDao.save(new Food("Prazenica"));
 		savedOrder.getPortions().put(addedFood, 1);
@@ -55,7 +56,7 @@ class OverviewManagerImplTest {
 		assertEquals(count + 1, manager.getAll(savedOrder.getId()).size());
 		savedOrder = orderDao.removeFood(savedOrder, addedFood);
 		assertEquals(count, manager.getAll(savedOrder.getId()).size());
-		
+		foodDao.delete(addedFood.getId());
 	}
 
 }
