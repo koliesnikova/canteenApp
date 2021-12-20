@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.sound.midi.Soundbank;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,6 +45,16 @@ class MySqlFoodDaoTest {
 		assertNotNull(foods);
 		assertTrue(foods.size() > 0);
 		assertTrue(foods.contains(savedFood));
+		
+		boolean found = false;
+		for (Food food : foods) {
+			if(food.getId().equals(savedFood.getId())) {
+				found = true;
+				assertEquals(savedFood, food);
+			}
+		}
+		assertTrue(found);
+		
 	}
 
 	@Test
@@ -110,7 +118,7 @@ class MySqlFoodDaoTest {
 		for (Food food : all) {
 			if (food.getId().equals(savedNewFood.getId())) {
 				found = true;
-				System.out.println(savedNewFood.getIngredients() + " --- "+ food.getIngredients());
+				//System.out.println(savedNewFood.getIngredients() + " --- "+ food.getIngredients());
 				assertEquals(savedNewFood.getIngredients().size(), food.getIngredients().size());
 				break;
 			}
@@ -171,8 +179,10 @@ class MySqlFoodDaoTest {
 	@Test
 	void testSaveIngredient() throws EntityUndeletableException {
 		// INSERT
-		Ingredient i = new Ingredient("Test", 0.5, "5 g");
+		Ingredient i = new Ingredient("Test of save", 0.5, "5 g");
+		Ingredient i2 = new Ingredient("Test of save 2", 0.6, "6 g");
 		Ingredient savedIngr = ingredientDao.save(i);
+		Ingredient savedIngr2 = ingredientDao.save(i2);
 		int beforeInsert = savedFood.getIngredients().size();
 		savedFood = foodDao.saveIngredientToFood(savedFood, savedIngr, 8);
 
@@ -180,6 +190,13 @@ class MySqlFoodDaoTest {
 		assertEquals(beforeInsert + 1, all.size());
 		assertTrue(all.containsKey(savedIngr));
 		assertTrue(all.containsValue(8));
+		
+		beforeInsert = savedFood.getIngredients().size();
+		savedFood = foodDao.saveIngredientToFood(savedFood, savedIngr2, 16);
+		all = savedFood.getIngredients();
+		assertEquals(beforeInsert + 1, all.size());
+		assertTrue(all.containsKey(savedIngr2));
+		assertTrue(all.containsValue(16));
 
 		Food food2 = new Food(5555, "name", "description", "image_url", 0.5, 3);
 		assertThrows(EntityNotFoundException.class, new Executable() {
@@ -197,7 +214,9 @@ class MySqlFoodDaoTest {
 		assertEquals(all.get(savedIngr), 10);
 
 		foodDao.deleteIngredient(newFood, savedIngr);
+		foodDao.deleteIngredient(newFood, savedIngr2);
 		ingredientDao.delete(savedIngr.getId());
+		ingredientDao.delete(savedIngr2.getId());
 	}
 
 	@Test
@@ -207,12 +226,16 @@ class MySqlFoodDaoTest {
 		IngredientDao ingredientDao = DaoFactory.INSTANCE.getIngredientDao();
 		Ingredient savedIngr = ingredientDao.save(i);
 		Ingredient savedIngr2 = ingredientDao.save(i2);
-		savedFood = foodDao.saveIngredientToFood(savedFood, savedIngr, 4);
-		savedFood = foodDao.saveIngredientToFood(savedFood, savedIngr2, 3);
-
-		int beforeCount = savedFood.getIngredients().size();
-		Food afterDelete = foodDao.deleteIngredient(foodDao.getById(savedFood.getId()), savedIngr);
 		
+		HashMap<Ingredient, Integer> ingrMap = new HashMap<Ingredient, Integer>();
+		ingrMap.put(savedIngr, 11);
+		ingrMap.put(savedIngr2, 20);
+		savedFood.setIngredients(ingrMap);
+		foodDao.save(savedFood);
+		
+		int beforeCount = savedFood.getIngredients().size();
+
+		Food afterDelete = foodDao.deleteIngredient(savedFood, savedIngr);
 		assertEquals(beforeCount - 1, afterDelete.getIngredients().size());
 		assertFalse(afterDelete.getIngredients().containsKey(savedIngr));
 

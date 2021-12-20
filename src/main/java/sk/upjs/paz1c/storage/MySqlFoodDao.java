@@ -25,8 +25,8 @@ public class MySqlFoodDao implements FoodDao {
 
 	@Override
 	public List<Food> getFoodsInOrders() {
-		String sql = "select * from food f LEFT JOIN food_ingredients fi on f.id = fi.food_id \r\n"
-				+ "where f.id in (select food_id from daily_orders where f.id = food_id)  ORDER BY f.id";
+		String sql = "SELECT * FROM food f LEFT JOIN food_ingredients fi on f.id = fi.food_id \r\n"
+				+ "WHERE f.id in (SELECT food_id FROM daily_orders WHERE f.id = food_id)  ORDER BY f.id";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Food>>() {
 			@Override
 			public List<Food> extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -92,18 +92,16 @@ public class MySqlFoodDao implements FoodDao {
 		try {
 			int changedRows = jdbcTemplate.update(sql, food.getId(), ingredient.getId(), amount);
 
-			if (changedRows == 1) {
+			if (changedRows == 1) {				
 				Set<Ingredient> keys = map.keySet();
-				ArrayList<Ingredient> toReplace = new ArrayList<Ingredient>();
+				Ingredient toReplace = null;
 				for (Ingredient ingredient2 : keys) {
 					if (ingredient2.getId().equals(ingredient.getId())) {
-						toReplace.add(ingredient2);
+						toReplace = ingredient2;
+						break;
 					}
 				}
-				for (Ingredient ingredient2 : toReplace) {
-					map.remove(ingredient2);
-					map.put(ingredient, amount);
-				}
+				map.remove(toReplace);
 				map.put(ingredient, amount);
 				food.setIngredients(map);
 				return food;
@@ -133,10 +131,11 @@ public class MySqlFoodDao implements FoodDao {
 	public List<Food> getAll() {
 		String sql = "SELECT id, name, description, price, image_url, weight, ingredient_id, amount_needed"
 				+ " FROM food f LEFT JOIN food_ingredients fi on f.id = fi.food_id ORDER BY f.id";
+		List<Food> result = new ArrayList<>();
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Food>>() {
 			@Override
 			public List<Food> extractData(ResultSet rs) throws SQLException, DataAccessException {
-				List<Food> result = new ArrayList<>();
+				
 				Food food = null;
 				while (rs.next()) {
 					Long id = rs.getLong("id");
@@ -148,7 +147,7 @@ public class MySqlFoodDao implements FoodDao {
 						Integer weight = rs.getInt("weight");
 						Long idIngredient = rs.getLong("ingredient_id");
 						Integer amount = rs.getInt("amount_needed");
-						if (idIngredient == 0 && amount == 0) {
+						if (idIngredient == 0 && amount == 0) { //it was not set
 							food = new Food(id, name, description, image_url, price, weight,
 									new HashMap<Ingredient, Integer>());
 							result.add(food);
@@ -159,7 +158,7 @@ public class MySqlFoodDao implements FoodDao {
 							food = new Food(id, name, description, image_url, price, weight, map);
 							result.add(food);
 						}
-					} else { // same food
+					} else { // same food						
 						result.remove(food);
 						Map<Ingredient, Integer> map = food.getIngredients();
 						Long idIngredient = rs.getLong("ingredient_id");
@@ -195,11 +194,11 @@ public class MySqlFoodDao implements FoodDao {
 					food.getDescription(), food.getImage_url(), food.getPrice(), food.getWeight(),
 					food.getIngredients());
 			List<Ingredient> setAll = ingredientDao.getAll();
-			Set<Ingredient> set = food.getIngredients().keySet();
+			Set<Ingredient> ingrsInFood = food.getIngredients().keySet();
 			for (Ingredient ingredient : setAll) {
 				boolean found = false;
 				Ingredient fromSet = null;
-				for (Ingredient ingredient2 : set) {
+				for (Ingredient ingredient2 : ingrsInFood) {
 					if (ingredient.getId().equals(ingredient2.getId())) {
 						found = true;
 						fromSet = ingredient2;
@@ -212,8 +211,8 @@ public class MySqlFoodDao implements FoodDao {
 					saveIngredientToFood(newFood, ingredientDao.getById(ingredient.getId()),
 							food.getIngredients().get(fromSet));
 				}
+				
 			}
-
 			return newFood;
 		} else { // update
 			// TODO when to throw entity not found exception?

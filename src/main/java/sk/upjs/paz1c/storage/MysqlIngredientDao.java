@@ -40,7 +40,6 @@ public class MysqlIngredientDao implements IngredientDao{
 				}
 				return result;
 			}
-			
 		});
 	}
 	
