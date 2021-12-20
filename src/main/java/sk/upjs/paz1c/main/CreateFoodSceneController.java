@@ -174,8 +174,6 @@ public class CreateFoodSceneController {
 							setText(item);
 							setIngredientInFood();
 							setTextFill(ingredientInFood.contains(item) ? Color.rgb(37, 62, 102) : Color.BLACK);
-							
-//							setTextFill(Color.BLACK);
 							if (ingredientInFood.contains(item)) {
 								 //this.setStyle("-fx-background-color: rgb(255, 197, 108);");
 								this.setStyle("-fx-border-color: rgb(37, 62, 102);"+
