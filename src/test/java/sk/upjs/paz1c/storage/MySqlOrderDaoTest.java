@@ -216,6 +216,14 @@ class MySqlOrderDaoTest {
 		int countOfFoods = newSaved.getPortions().size();
 		newSaved = orderDao.removeFood(newSaved, f2);
 		assertEquals(countOfFoods - 1, newSaved.getPortions().size());
+		newSaved = orderDao.removeFood(newSaved, f);
+		try {
+			foodDao.delete(f.getId());
+			foodDao.delete(f2.getId());
+		} catch (EntityUndeletableException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
